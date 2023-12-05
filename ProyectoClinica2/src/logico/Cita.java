@@ -4,15 +4,25 @@ import java.util.Date;
 
 public class Cita {
 
+	private String id;
 	private Persona proxPaciente;
 	private Doctor miDoctor;
 	private Date fchProgramada;
 
-	public Cita(Persona proxPaciente, Doctor miDoctor, Date fchProgramada) {
+	public Cita(String id, Persona proxPaciente, Doctor miDoctor, Date fchProgramada) {
 		super();
+		this.id = id;
 		this.proxPaciente = proxPaciente;
 		this.miDoctor = miDoctor;
 		this.fchProgramada = fchProgramada;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Persona getProxPaciente() {

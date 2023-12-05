@@ -30,6 +30,17 @@ public class Hospital {
 	public ArrayList<Persona> getMisPersonas() {
 		return misPersonas;
 	}
+	
+	public ArrayList<Doctor> getMisDoctores() {
+		ArrayList<Doctor> misDoctores = new ArrayList<>();
+			for (Persona aux : misDoctores) {
+				if(aux instanceof Doctor)
+				{
+					misDoctores.add((Doctor)aux);
+				}
+			}
+		return misDoctores;
+	}
 
 	public void setMisPersonas(ArrayList<Persona> misPersonas) {
 		this.misPersonas = misPersonas;
@@ -101,6 +112,15 @@ public class Hospital {
 				{
 					return (Paciente)aux;
 				}
+		}
+		return null;
+	}
+	
+	public Persona buscarPersonaByCedula(String cedula) {
+		for (Persona aux :misPersonas) {
+			if (aux instanceof Paciente && aux.getCedula().equalsIgnoreCase(cedula)) {
+				return aux;
+			}
 		}
 		return null;
 	}

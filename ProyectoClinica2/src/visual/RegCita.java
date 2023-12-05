@@ -8,10 +8,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JCalendar;
+
+import logico.Doctor;
+import logico.Hospital;
+import logico.Persona;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -26,6 +32,8 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegCita extends JDialog {
 
@@ -44,8 +52,11 @@ public class RegCita extends JDialog {
 	private JCalendar calendar;
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtTelefono;
+	private Persona miPersona = null;
+	private Doctor selected = null;
+	private static ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
+	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
 
-	
 	/**
 	 * Launch the application.
 	 */
@@ -64,6 +75,7 @@ public class RegCita extends JDialog {
 	 * @throws ParseException 
 	 */
 	public RegCita() throws ParseException {
+		
 		setTitle("Agendar una Cita");
 		Date fchActual = new Date();
 		Calendar fchActualMas30 = Calendar.getInstance();
@@ -135,6 +147,21 @@ public class RegCita extends JDialog {
 		try {
 			MaskFormatter formatterCedula = new MaskFormatter("###-#######-#");
 			txtCedula = new JFormattedTextField(formatterCedula);
+			txtCedula.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					if(txtCedula.getText().length() == 13) {
+						miPersona = Hospital.getInstance().buscarPersonaByCedula(txtCedula.getText());
+						if(miPersona!=null)
+						{
+							cargarPersona(miPersona);
+						}
+					}else {
+						borrarCampos();
+					}
+					
+				}
+			});
 			txtCedula.setBounds(68, 20, 187, 20);
 			panel_Pasciente.add(txtCedula);
 			
@@ -240,4 +267,26 @@ public class RegCita extends JDialog {
 			}
 		}
 	}
+	private void cargarPersona(Persona aux ){
+		txtNombre.setText(aux.getNombre());
+		txtTelefono.setText(aux.getTelefono());
+		txtDireccion.setText(aux.getDireccion());
+		
+		if(aux.esMasculino()) {
+			rbtnMasculino.setSelected(true);
+			rbtnMasculino.setSelected(false);
+			return;
+		}
+		rbtnMasculino.setSelected(false);
+		rbtnMasculino.setSelected(true);
+	}
+	private void borrarCampos()
+	{
+		txtNombre.setText("");
+		txtTelefono.setText("");
+		txtDireccion.setText("");
+		rbtnMasculino.setSelected(true);
+		rbtnFemenino.setSelected(false);
+	}
+	
 }

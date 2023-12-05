@@ -128,7 +128,7 @@ public class PrincipalVisual extends JFrame {
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Enfermedad");
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEnfermedad regEnfermedad = new RegEnfermedad();
+				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
 				regEnfermedad.setModal(true);
 				regEnfermedad.setVisible(true);
 			}

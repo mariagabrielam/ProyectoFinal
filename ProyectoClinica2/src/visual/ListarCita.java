@@ -170,7 +170,7 @@ public class ListarCita extends JDialog {
 		String[] doctores=null;
 		doctores[0] = "<Seleccione>";
 		int i=1;
-		for(Doctor aux:Hospital.getInstance().getMisDoctores()))
+		for(Doctor aux:Hospital.getInstance().getMisDoctores())
 		{
 			doctores[i] = aux.getNombre();
 			i++;

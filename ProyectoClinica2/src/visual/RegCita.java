@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JScrollPane;
@@ -32,6 +33,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
@@ -42,6 +44,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.Font;
 
 public class RegCita extends JDialog {
 
@@ -57,12 +60,13 @@ public class RegCita extends JDialog {
 	private JRadioButton rbtnFemenino;
 	private JSpinner spnHoraInicio;
 	private JSpinner spnHoraFin;
-	private JCalendar calendar;
+	private JCalendar calendario;
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtTelefono;
 	private Persona miPersona = null;
 	private Doctor selected = null;
 	private static ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
+	private static ArrayList<Cita> misCitas = Hospital.getInstance().getMisCitas();
 	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
 	private static DefaultTableModel model;
 	private static Object[] row;
@@ -89,12 +93,10 @@ public class RegCita extends JDialog {
 		setResizable(false);
 		setLocationRelativeTo(null); // Pantalla en el centro
 		setTitle("Cita No." + Hospital.getCodigoCita() );
-		Date fchActual = new Date();
-		Calendar fchActualMas30 = Calendar.getInstance();
-		fchActualMas30.setTime(fchActual);
-		fchActualMas30.add(Calendar.MINUTE, 30);
+		Calendar calenda = Calendar.getInstance();
+		Date fchActual = calenda.getTime();
 		
-		setBounds(100, 100, 559, 523);
+		setBounds(100, 100, 564, 523);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -191,14 +193,16 @@ public class RegCita extends JDialog {
 		contentPanel.add(panel_Fecha);
 		panel_Fecha.setLayout(null);
 		
-		calendar = new JCalendar();
-		calendar.addPropertyChangeListener(new PropertyChangeListener() {
+		calendario = new JCalendar();
+		calendario.getDayChooser().setWeekOfYearVisible(false);
+		calendario.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				cargarDoctoresDisponibles();
+				//cargarDoctoresDisponibles();
+				mostrarFecha();
 			}
 		});
-		calendar.setBounds(10, 28, 366, 219);
-		panel_Fecha.add(calendar);
+		calendario.setBounds(10, 28, 366, 219);
+		panel_Fecha.add(calendario);
 		
 		JPanel panel_Inicio = new JPanel();
 		panel_Inicio.setBorder(new TitledBorder(null, "Hora de Inicio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -209,7 +213,8 @@ public class RegCita extends JDialog {
 		spnHoraInicio = new JSpinner();
 		spnHoraInicio.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				cargarDoctoresDisponibles();
+				//cargarDoctoresDisponibles();
+				mostrarFecha();
 			}
 		});
 		spnHoraInicio.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
@@ -228,10 +233,11 @@ public class RegCita extends JDialog {
 		spnHoraFin = new JSpinner();
 		spnHoraFin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				cargarDoctoresDisponibles();
+				//cargarDoctoresDisponibles();
+				mostrarFecha();
 			}
 		});
-		spnHoraFin.setModel(new SpinnerDateModel(fchActualMas30.getTime(), null, null, Calendar.HOUR_OF_DAY));
+		spnHoraFin.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
 		JSpinner.DateEditor de_spnHoraFin = new JSpinner.DateEditor(spnHoraFin, "h:mm a");
 		spnHoraFin.setEditor(de_spnHoraFin);
 		
@@ -277,7 +283,7 @@ public class RegCita extends JDialog {
 							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
 							miPersona = new Paciente(NHC, txtCedula.getText(),txtNombre.getText(),txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
 						}
-						Date fchProgramada = determinarFecha(calendar.getDate() , (Date) spnHoraFin.getValue());
+						Date fchProgramada = determinarFecha(calendario.getDate() , (Date) spnHoraFin.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
 						//Hospital.getInstance().addCita(nuevaCita);
 					}
@@ -304,11 +310,18 @@ public class RegCita extends JDialog {
         if (fecha == null || hora == null) {
             return null;
         }
-        
-        long fechaEnMilis = fecha.getTime();
-        long horaEnMilis = hora.getTime();
+        Calendar calFecha = Calendar.getInstance();
+        calFecha.setTime(fecha);
 
-        return new Date(fechaEnMilis + horaEnMilis % (24 * 60 * 60 * 1000));
+        Calendar calHora = Calendar.getInstance();
+        calHora.setTime(hora);
+
+        // Configurar la hora de la fecha
+        calFecha.set(Calendar.HOUR_OF_DAY, calHora.get(Calendar.HOUR_OF_DAY));
+        calFecha.set(Calendar.MINUTE, calHora.get(Calendar.MINUTE));
+        calFecha.set(Calendar.SECOND, calHora.get(Calendar.SECOND));
+        calFecha.set(Calendar.MILLISECOND, calHora.get(Calendar.MILLISECOND));
+        return calFecha.getTime();
     }
 
 	private void cargarPersona(Persona aux ){
@@ -334,11 +347,14 @@ public class RegCita extends JDialog {
 	}
 	private ArrayList<Doctor> cargarDoctoresDisponibles() {
 		ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
-			for (Doctor aux : misDoctores) {
-				if(true) {
-					doctoresDisponibles.add(aux);
-				}
-			}
+		Calendar calFecha = Calendar.getInstance();
+		Calendar calHoraInicio = Calendar.getInstance();
+		Calendar calHoraFin = Calendar.getInstance();
+        calFecha.setTime(calendario.getDate());
+        calHoraInicio.setTime((Date) spnHoraInicio.getValue());
+        calHoraFin.setTime((Date) spnHoraFin.getValue());
+        
+			
 		return doctoresDisponibles;
 	}
 	private static void imprimirDoctores(ArrayList<Doctor> losDoctores)
@@ -366,4 +382,11 @@ public class RegCita extends JDialog {
 		}
 		return "Masculino";
 	}
+    private void mostrarFecha()
+    {
+    	Date fchProgramada = determinarFecha(calendario.getDate() , (Date) spnHoraInicio.getValue());
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+    	sdf.setTimeZone(TimeZone.getDefault());
+    	
+    }
 }

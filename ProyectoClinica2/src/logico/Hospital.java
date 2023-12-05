@@ -3,7 +3,7 @@ package logico;
 import java.util.ArrayList;
 
 public class Hospital {
-**
+
 	private ArrayList<Persona>misPersonas;
 	private ArrayList<HistorialClinico>misHistoriales;
 	private ArrayList<Enfermedad>misEnfermedades;
@@ -132,6 +132,22 @@ public class Hospital {
 		Hospital.codigoConsulta = codigoConsulta;
 	}
 
+	public ArrayList<Vivienda> getMisViviendas() {
+		return misViviendas;
+	}
+
+	public void setMisViviendas(ArrayList<Vivienda> misViviendas) {
+		this.misViviendas = misViviendas;
+	}
+
+	public ArrayList<Cita> getMisCitas() {
+		return misCitas;
+	}
+
+	public void setMisCitas(ArrayList<Cita> misCitas) {
+		this.misCitas = misCitas;
+	}
+
 	public Doctor buscarDoctorById(String id) {
 		for(Persona aux:misPersonas)
 		{
@@ -230,6 +246,14 @@ public class Hospital {
 	public Vacuna buscarVacunaByNombre(String string) {
 		for(Vacuna aux:misVacunas) {
 			if(aux.getNombre().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
+
+	public Cita buscarCitaById(String id) {
+		for(Cita aux:misCitas) {
+			if(aux.getId().equalsIgnoreCase(id))
 				return aux;
 		}
 		return null;

@@ -18,6 +18,15 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JCalendar;
 
+import logico.Cita;
+import logico.Doctor;
+import logico.Enfermedad;
+import logico.Hospital;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
+
 public class ListarCita extends JDialog {
 
 	/**
@@ -26,8 +35,13 @@ public class ListarCita extends JDialog {
 	private static final long serialVersionUID = 91411914069182076L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable tblAgenda;
-	private JComboBox<Object> comboBox;
+	private JComboBox<Object> cbxDoctor;
 	private JCalendar calendar;
+	private Cita selected = null;
+	private JButton btnOk;
+	private Doctor doctor = null;
+	private static DefaultTableModel model;
+	private static Object[] row;
 
 	/**
 	 * Launch the application.
@@ -46,8 +60,9 @@ public class ListarCita extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCita() {
+		loadCitas(doctor);
 		setTitle("Agenda de Citas");
-		setBounds(100, 100, 577, 406);
+		setBounds(100, 100, 676, 406);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -59,9 +74,19 @@ public class ListarCita extends JDialog {
 			contentPanel.add(panel_Doctor);
 			panel_Doctor.setLayout(null);
 			
-			comboBox = new JComboBox<Object>();
-			comboBox.setBounds(10, 26, 256, 27);
-			panel_Doctor.add(comboBox);
+			cbxDoctor = new JComboBox<Object>();
+			cbxDoctor.setModel(new DefaultComboBoxModel<Object>(loadDoctores()));
+			cbxDoctor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(cbxDoctor.getSelectedIndex()>0)
+						doctor = Hospital.getInstance().buscarDoctorById(cbxDoctor.getSelectedItem().toString());
+					else
+						doctor = null;
+					loadCitas(doctor);
+				}
+			});
+			cbxDoctor.setBounds(10, 26, 256, 27);
+			panel_Doctor.add(cbxDoctor);
 		}
 		
 		JPanel panel_Dia = new JPanel();
@@ -76,21 +101,33 @@ public class ListarCita extends JDialog {
 		
 		JPanel panel_Horas = new JPanel();
 		panel_Horas.setBorder(new TitledBorder(null, "Agenda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Horas.setBounds(296, 11, 255, 312);
+		panel_Horas.setBounds(296, 11, 350, 312);
 		contentPanel.add(panel_Horas);
 		panel_Horas.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 21, 235, 280);
+		scrollPane.setBounds(10, 21, 328, 280);
 		panel_Horas.add(scrollPane);
 		
 		tblAgenda = new JTable();
+		tblAgenda.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tblAgenda.getSelectedRow();
+				if(index>0)
+				{
+					selected = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
+					btnOk.setEnabled(true);
+				}
+				
+			}
+		});
 		tblAgenda.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Hora de Inicio", "Doctor", "Paciente"
+				"Código","Hora de Inicio", "Doctor", "Paciente"
 			}
 		) {
 			/**
@@ -110,10 +147,11 @@ public class ListarCita extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnOk = new JButton("Registrar Consulta");
+				btnOk.setEnabled(false);
+				btnOk.setActionCommand("OK");
+				buttonPane.add(btnOk);
+				getRootPane().setDefaultButton(btnOk);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -126,5 +164,47 @@ public class ListarCita extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private String[] loadDoctores() {
+		String[] doctores=null;
+		doctores[0] = "<Seleccione>";
+		int i=1;
+		for(Doctor aux:Hospital.getInstance().getMisDoctores()))
+		{
+			doctores[i] = aux.getNombre();
+			i++;
+		}
+		return doctores;
+	}
+
+	private void loadCitas(Doctor doctor) {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		if(doctor!= null)
+		{
+			for(Cita aux:Hospital.getInstance().getMisCitas())
+			{
+				if(aux.getMiDoctor().getId().equalsIgnoreCase(doctor.getId())) 
+				{
+					row[0] = aux.getId();
+					row[1] = aux.getFchProgramada().getTime();
+					row[2] = aux.getMiDoctor().getNombre();
+					row[3] = aux.getProxPaciente().getNombre();
+					model.addRow(row);
+				}
+			}
+		}
+		else 
+			for(Cita aux:Hospital.getInstance().getMisCitas())
+			{
+				row[0] = aux.getId();
+				row[1] = aux.getFchProgramada().getTime();
+				row[2] = aux.getMiDoctor().getNombre();
+				row[3] = aux.getProxPaciente().getNombre();
+				model.addRow(row);
+			}
+		
+		
 	}
 }

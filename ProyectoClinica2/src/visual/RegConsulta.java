@@ -296,6 +296,7 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				cbxEnfermedades = new JComboBox();
+				cbxEnfermedades.setModel(new DefaultComboBoxModel(loadEnfermedades()));
 				cbxEnfermedades.setBounds(110, 114, 116, 22);
 				panel.add(cbxEnfermedades);
 			}
@@ -370,6 +371,26 @@ public class RegConsulta extends JDialog {
 		txtNombre.setText(paciente.getNombre());
 		//txtPeso.setText(paciente.getPeso().toString());
 		//txtEstatura.setText(paciente.getEstatura().toString());
-		//cbxSangre.setSelectedIndex(anIndex);
+		cbxSangre.setSelectedIndex(sangreIndex(paciente));
+	}
+
+	private int sangreIndex(Paciente paciente) {
+		if(paciente.esSangreABPositivo())
+			return 1;
+		if(paciente.esSangreABNegativo())
+			return 2;
+		if(paciente.esSangreAPositivo())
+			return 3;
+		if(paciente.esSangreANegativo())
+			return 4;
+		if(paciente.esSangreBPositivo())
+			return 5;
+		if(paciente.esSangreBNegativo())
+			return 6;
+		if(paciente.esSangreOPositivo())
+			return 7;
+		if(paciente.esSangreONegativo())
+			return 8;
+		return (Integer) null;
 	}
 }

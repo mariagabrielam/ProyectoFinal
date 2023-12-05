@@ -28,10 +28,10 @@ public class PrincipalVisual extends JFrame {
 	 * 
 	 */
 	private JPanel contentPane;
-	private JMenuItem mnitMiHistorial;
 	private JMenuItem mnitHistorialPaciente;
 	private JMenu mnAdmin;
 	private JMenu mnCita;
+	private JMenuItem mnitHistorialClinica;
 
 	/**
 	 * Launch the application.
@@ -63,18 +63,18 @@ public class PrincipalVisual extends JFrame {
 		JMenu mnNewMenu_2 = new JMenu("Historial Cl\u00EDnico");
 		menuBar.add(mnNewMenu_2);
 		
-		mnitMiHistorial = new JMenuItem("Mi Historial");
-		mnitMiHistorial.addActionListener(new ActionListener() {
+		mnitHistorialPaciente = new JMenuItem("Historial Paciente");
+		mnNewMenu_2.add(mnitHistorialPaciente);
+		
+		mnitHistorialClinica = new JMenuItem("Historial Cl\u00EDnica");
+		mnNewMenu_2.add(mnitHistorialClinica);
+		mnitHistorialClinica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MostrarHistorial mostrarHistorial = new MostrarHistorial();
 				mostrarHistorial.setModal(true);
 				mostrarHistorial.setVisible(true);
 			}
 		});
-		mnNewMenu_2.add(mnitMiHistorial);
-		
-		mnitHistorialPaciente = new JMenuItem("Historial Paciente");
-		mnNewMenu_2.add(mnitHistorialPaciente);
 		
 		mnCita = new JMenu("Cita");
 		menuBar.add(mnCita);
@@ -142,16 +142,6 @@ public class PrincipalVisual extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Empleados");
 		mnAdmin.add(mntmNewMenuItem_1);
 		
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Historial Cl\u00EDnica");
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MostrarHistorial mostrarHistorial = new MostrarHistorial();
-				mostrarHistorial.setModal(true);
-				mostrarHistorial.setVisible(true);
-			}
-		});
-		mnAdmin.add(mntmNewMenuItem_5);
-		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");
 		mnAdmin.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
@@ -164,20 +154,13 @@ public class PrincipalVisual extends JFrame {
 	{
 		if(user.getPersona() instanceof Doctor) {
 			mnitHistorialPaciente.setVisible(true);
-			mnitMiHistorial.setVisible(false);
 			mnAdmin.setVisible(false);
-			mnCita.setVisible(true);
-		}
-		else if(user.getPersona() instanceof Paciente) {
-			mnitMiHistorial.setVisible(true);
-			mnAdmin.setVisible(false);
-			mnitHistorialPaciente.setVisible(false);
-			mnCita.setVisible(false);
+			mnitHistorialClinica.setVisible(false);
 		}
 		else {
 			mnCita.setVisible(false);
 			mnAdmin.setVisible(true);
-			mnitMiHistorial.setVisible(false);
+			mnitHistorialPaciente.setVisible(false);
 		}
 	}
 

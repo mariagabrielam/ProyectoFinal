@@ -119,7 +119,7 @@ public class CrearUsuario extends JDialog {
 			}
 		});
 		cbxTipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxTipo.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Admin", "Doctor", "Secretario"}));
+		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Admin", "Doctor", "Secretario"}));
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		

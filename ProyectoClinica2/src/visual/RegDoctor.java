@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegDoctor extends JDialog {
 
@@ -40,6 +42,7 @@ public class RegDoctor extends JDialog {
 	private JRadioButton rdbtnF;
 	private JRadioButton rdbtnM;
 	private JFormattedTextField txtTelefono;
+	private JButton okButton;
 
 	/**
 	 * Launch the application.
@@ -73,7 +76,8 @@ public class RegDoctor extends JDialog {
 		rdbtnF = new JRadioButton("F");
 		rdbtnF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			rdbtnM.setSelected(false);
+				rdbtnF.setSelected(true);
+				rdbtnM.setSelected(false);
 			}
 		});
 		rdbtnF.setBounds(273, 115, 40, 25);
@@ -103,6 +107,12 @@ public class RegDoctor extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
+			txtNombre.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					habilitarButton();
+				}
+			});
 			txtNombre.setBounds(73, 59, 116, 22);
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
@@ -119,6 +129,12 @@ public class RegDoctor extends JDialog {
 		}
 		{
 			txtDireccion = new JTextField();
+			txtDireccion.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					habilitarButton();
+				}
+			});
 			txtDireccion.setBounds(73, 89, 116, 22);
 			panel.add(txtDireccion);
 			txtDireccion.setColumns(10);
@@ -130,6 +146,11 @@ public class RegDoctor extends JDialog {
 		}
 		
 		cbxExeq = new JComboBox<Object>();
+		cbxExeq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				habilitarButton();
+			}
+		});
 		cbxExeq.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Cardiologo", "Podologo"}));
 		cbxExeq.setToolTipText("");
 		cbxExeq.setBounds(83, 118, 106, 22);
@@ -142,6 +163,7 @@ public class RegDoctor extends JDialog {
 		rdbtnM = new JRadioButton("M");
 		rdbtnM.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				rdbtnM.setSelected(true);
 				rdbtnF.setSelected(false);
 			}
 		});
@@ -152,11 +174,23 @@ public class RegDoctor extends JDialog {
 			try {
 				MaskFormatter formatter = new MaskFormatter("###-#######-#");
 			txtCedula = new JFormattedTextField(formatter);
+			txtCedula.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					habilitarButton();
+				}
+			});
 			txtCedula.setBounds(250, 27, 116, 20);
 			panel.add(txtCedula);
 			{
 				MaskFormatter formatterTelefono = new MaskFormatter("###-###-####");
 				txtTelefono = new JFormattedTextField(formatterTelefono);
+				txtTelefono.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						habilitarButton();
+					}
+				});
 				txtTelefono.setBounds(250, 60, 116, 20);
 				panel.add(txtTelefono);
 			}
@@ -170,7 +204,7 @@ public class RegDoctor extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registar");
+				okButton = new JButton("Registar");
 				okButton.setEnabled(false);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -205,5 +239,11 @@ public class RegDoctor extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private void habilitarButton() {
+		if(!txtNombre.getText().isEmpty()&&!txtCedula.getText().isEmpty()&&!txtTelefono.getText().isEmpty()&&!txtDireccion.getText().isEmpty()&&cbxExeq.getSelectedIndex()>0)
+			okButton.setEnabled(true);
+		
 	}
 }

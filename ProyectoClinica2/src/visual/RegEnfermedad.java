@@ -33,7 +33,7 @@ public class RegEnfermedad extends JDialog {
 	private JCheckBox chbxToz;
 	private JCheckBox chbxFiebre;
 	private JCheckBox chbxDolor;
-	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox chbx;
 	private JCheckBox checkBox;
 	private JCheckBox checkBox_1;
 	private JCheckBox chckbxNewCheckBox_1;
@@ -85,7 +85,7 @@ public class RegEnfermedad extends JDialog {
 		txtID.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setBounds(164, 36, 56, 16);
+		lblNewLabel_1.setBounds(166, 36, 56, 16);
 		panel.add(lblNewLabel_1);
 		
 		txtNombre = new JTextField();
@@ -95,12 +95,12 @@ public class RegEnfermedad extends JDialog {
 				habilitarBoton();
 			}
 		});
-		txtNombre.setBounds(212, 36, 116, 22);
+		txtNombre.setBounds(228, 33, 116, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Precauciones:");
-		lblNewLabel_3.setBounds(12, 180, 89, 16);
+		lblNewLabel_3.setBounds(12, 197, 89, 16);
 		panel.add(lblNewLabel_3);
 		
 		JPanel panel_1 = new JPanel();
@@ -119,9 +119,9 @@ public class RegEnfermedad extends JDialog {
 		chbxToz.setBounds(8, 19, 113, 25);
 		panel_1.add(chbxToz);
 		
-		chckbxNewCheckBox = new JCheckBox("New check box");
-		chckbxNewCheckBox.setBounds(8, 43, 113, 25);
-		panel_1.add(chckbxNewCheckBox);
+		chbx = new JCheckBox("New check box");
+		chbx.setBounds(8, 43, 113, 25);
+		panel_1.add(chbx);
 		
 		chckbxNewCheckBox_1 = new JCheckBox("New check box");
 		chckbxNewCheckBox_1.setBounds(8, 69, 113, 25);
@@ -164,16 +164,16 @@ public class RegEnfermedad extends JDialog {
 		panel_1.add(checkBox_3);
 		
 		txtPrecauciones = new JTextField();
-		txtPrecauciones.setBounds(96, 177, 300, 37);
+		txtPrecauciones.setBounds(96, 197, 300, 37);
 		panel.add(txtPrecauciones);
 		txtPrecauciones.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Procedimientos:");
-		lblNewLabel_2.setBounds(12, 227, 92, 16);
+		lblNewLabel_2.setBounds(9, 239, 92, 16);
 		panel.add(lblNewLabel_2);
 		
 		txtProcedimientos = new JTextField();
-		txtProcedimientos.setBounds(116, 223, 280, 46);
+		txtProcedimientos.setBounds(112, 239, 284, 61);
 		panel.add(txtProcedimientos);
 		txtProcedimientos.setColumns(10);
 		
@@ -209,7 +209,7 @@ public class RegEnfermedad extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

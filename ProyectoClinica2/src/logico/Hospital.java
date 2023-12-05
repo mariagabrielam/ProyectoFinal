@@ -9,6 +9,8 @@ public class Hospital {
 	private ArrayList<Enfermedad>misEnfermedades;
 	private static Hospital elHospital=null;
 	private ArrayList<Usuario> misUsuarios;
+	private ArrayList<Vacuna>misVacunas;
+	private ArrayList<Consulta>misConsultas;
 	private static int CodigoDoctor = 1;
 	private static int CodigoPaciente = 1;
 	
@@ -94,6 +96,22 @@ public class Hospital {
 		CodigoPaciente = codigoPaciente;
 	}
 
+	public ArrayList<Vacuna> getMisVacunas() {
+		return misVacunas;
+	}
+
+	public void setMisVacunas(ArrayList<Vacuna> misVacunas) {
+		this.misVacunas = misVacunas;
+	}
+
+	public ArrayList<Consulta> getMisConsultas() {
+		return misConsultas;
+	}
+
+	public void setMisConsultas(ArrayList<Consulta> misConsultas) {
+		this.misConsultas = misConsultas;
+	}
+
 	public Doctor buscarDoctorById(String id) {
 		for(Persona aux:misPersonas)
 		{
@@ -160,5 +178,25 @@ public class Hospital {
 				return aux;
 		}
 		return null;
+	}
+
+	public Enfermedad buscarEnfermedadByNombre(String string) {
+		for(Enfermedad aux:misEnfermedades) {
+			if(aux.getNombre().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
+	public Vacuna buscarVacunaByNombre(String string) {
+		for(Vacuna aux:misVacunas) {
+			if(aux.getNombre().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
+
+	public void addConsulta(Consulta aux) {
+		misConsultas.add(aux);
+		
 	}
 }

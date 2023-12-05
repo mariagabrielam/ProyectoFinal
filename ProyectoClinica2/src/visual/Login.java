@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.Hospital;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login extends JDialog {
 
@@ -33,6 +35,7 @@ public class Login extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUser;
 	private JPasswordField passwordField;
+	private JButton btnLogin;
 
 	/**
 	 * Launch the application.
@@ -116,12 +119,24 @@ public class Login extends JDialog {
 			}
 			{
 				txtUser = new JTextField();
+				txtUser.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						habilitarButton();
+					}
+				});
 				txtUser.setBounds(116, 44, 173, 22);
 				panel.add(txtUser);
 				txtUser.setColumns(10);
 			}
 			
 			passwordField = new JPasswordField();
+			passwordField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					habilitarButton();
+				}
+			});
 			passwordField.setEchoChar('*');
 			passwordField.setBounds(116, 91, 173, 22);
 			panel.add(passwordField);
@@ -131,7 +146,8 @@ public class Login extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnLogin = new JButton("Login");
+				btnLogin = new JButton("Login");
+				btnLogin.setEnabled(false);
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(Hospital.getInstance().verificarUsuario(txtUser.getText(),passwordField.getPassword().toString())) {
@@ -148,10 +164,20 @@ public class Login extends JDialog {
 				getRootPane().setDefaultButton(btnLogin);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private void habilitarButton() {
+		if(!txtUser.getText().isEmpty() && !passwordField.getPassword().toString().isEmpty())
+			btnLogin.setEnabled(true);
 	}
 }

@@ -18,6 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import logico.Consulta;
+import logico.Doctor;
+import logico.Enfermedad;
+import logico.Hospital;
+import logico.Paciente;
+import logico.Vacuna;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -47,16 +55,17 @@ public class RegConsulta extends JDialog {
 	private JRadioButton rbtnVerde;
 	private JComboBox<Object> cbxSangre;
 	private JSpinner spnFchConsulta;
-	private JButton btnCambiar;
-	private JTable tblVacunasDisponibles;
-	private JTable tblVacunasPaciente;
+	private JButton okButton;
+	private JTextArea txtDescripcion;
+	private JComboBox cbxVacuna;
+	private JComboBox cbxEnfermedades;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta();
+			RegConsulta dialog = new RegConsulta(null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -67,9 +76,9 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta() {
+	public RegConsulta(Doctor doctor, Paciente paciente, Date fecha) {
 		setTitle("Registrar Consulta");
-		setBounds(100, 100, 721, 535);
+		setBounds(100, 100, 456, 562);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -116,6 +125,7 @@ public class RegConsulta extends JDialog {
 			txtPeso = new JTextField();
 			txtPeso.addKeyListener(new KeyAdapter() {
 				public void keyReleased(KeyEvent e) {
+					habilitarButton();
 				}
 
 				public void keyTyped(KeyEvent e) {
@@ -149,13 +159,18 @@ public class RegConsulta extends JDialog {
 			txtEstatura.setColumns(10);
 			{
 				JLabel lblNewLabel_3 = new JLabel("Tipo de Sangre: ");
-				lblNewLabel_3.setBounds(12, 93, 87, 14);
+				lblNewLabel_3.setBounds(12, 93, 116, 14);
 				panel.add(lblNewLabel_3);
 			}
 			
 			cbxSangre = new JComboBox<Object>();
+			cbxSangre.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					habilitarButton();
+				}
+			});
 			cbxSangre.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"}));
-			cbxSangre.setBounds(109, 93, 127, 20);
+			cbxSangre.setBounds(120, 90, 127, 20);
 			panel.add(cbxSangre);
 		}
 		{
@@ -163,7 +178,7 @@ public class RegConsulta extends JDialog {
 			panel.setLayout(null);
 			panel.setBorder(
 					new TitledBorder(null, "Datos de la Consulta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(12, 154, 423, 290);
+			panel.setBounds(12, 146, 423, 321);
 			contentPanel.add(panel);
 			{
 				JLabel label = new JLabel("Fecha Realizada:");
@@ -177,12 +192,12 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				JLabel label = new JLabel("Prioridad Triaje:");
-				label.setBounds(29, 87, 116, 16);
+				label.setBounds(29, 143, 116, 16);
 				panel.add(label);
 			}
 			{
 				JLabel label = new JLabel("Descripci\u00F3n:");
-				label.setBounds(29, 114, 84, 16);
+				label.setBounds(29, 172, 84, 16);
 				panel.add(label);
 			}
 			{
@@ -194,109 +209,123 @@ public class RegConsulta extends JDialog {
 			{
 				spnFchConsulta = new JSpinner();
 				spnFchConsulta.setEnabled(false);
-				spnFchConsulta
-						.setModel(new SpinnerDateModel(new Date(1701403200000L), null, null, Calendar.DAY_OF_YEAR));
+				spnFchConsulta.setModel(new SpinnerDateModel(new Date(1701403200000L), null, null, Calendar.DAY_OF_YEAR));
 				spnFchConsulta.setBounds(129, 26, 127, 22);
 				panel.add(spnFchConsulta);
 			}
 			{
 				JLabel lblNewLabel = new JLabel("\u00BFFue importante la consulta?");
-				lblNewLabel.setBounds(29, 255, 175, 16);
+				lblNewLabel.setBounds(29, 282, 175, 16);
 				panel.add(lblNewLabel);
 			}
 			{
 				rbtnNo = new JRadioButton("no");
-				rbtnNo.setBounds(247, 251, 48, 25);
+				rbtnNo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						rbtnYes.setEnabled(false);
+						rbtnNo.setEnabled(true);
+					}
+				});
+				rbtnNo.setBounds(247, 278, 48, 25);
 				panel.add(rbtnNo);
 			}
 
 			rbtnYes = new JRadioButton("s\u00ED");
+			rbtnYes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rbtnYes.setEnabled(true);
+					rbtnNo.setEnabled(false);
+				}
+			});
 			rbtnYes.setSelected(true);
-			rbtnYes.setBounds(203, 251, 41, 25);
+			rbtnYes.setBounds(203, 278, 41, 25);
 			panel.add(rbtnYes);
 
 			rbtnRojo = new JRadioButton("Rojo");
 			rbtnRojo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					rbtnRojo.setEnabled(true);
 					rbtnAmarillo.setSelected(false);
 					rbtnVerde.setSelected(false);
 				}
 			});
-			rbtnRojo.setBounds(129, 84, 56, 23);
+			rbtnRojo.setBounds(129, 140, 56, 23);
 			panel.add(rbtnRojo);
 
 			rbtnAmarillo = new JRadioButton("Amarillo");
 			rbtnAmarillo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					rbtnAmarillo.setEnabled(true);
 					rbtnVerde.setSelected(false);
 					rbtnRojo.setSelected(false);
 				}
 			});
-			rbtnAmarillo.setBounds(203, 84, 84, 23);
+			rbtnAmarillo.setBounds(203, 140, 84, 23);
 			panel.add(rbtnAmarillo);
 
 			rbtnVerde = new JRadioButton("Verde");
 			rbtnVerde.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					rbtnVerde.setEnabled(true);
 					rbtnAmarillo.setSelected(false);
 					rbtnRojo.setSelected(false);
 				}
 			});
 			rbtnVerde.setSelected(true);
-			rbtnVerde.setBounds(291, 84, 70, 23);
+			rbtnVerde.setBounds(291, 140, 70, 23);
 			panel.add(rbtnVerde);
 
-			JTextArea txtDescripcion = new JTextArea();
-			txtDescripcion.setBounds(29, 141, 384, 103);
+			txtDescripcion = new JTextArea();
+			txtDescripcion.setBounds(29, 191, 384, 80);
 			panel.add(txtDescripcion);
+			{
+				JLabel lblNewLabel_4 = new JLabel("Vacuna:");
+				lblNewLabel_4.setBounds(29, 85, 56, 16);
+				panel.add(lblNewLabel_4);
+			}
+			{
+				cbxVacuna = new JComboBox();
+				cbxVacuna.setModel(new DefaultComboBoxModel(loadVacunas()));
+				cbxVacuna.setBounds(88, 82, 116, 22);
+				panel.add(cbxVacuna);
+			}
+			{
+				JLabel lblEnfermedad = new JLabel("Enfermedad:");
+				lblEnfermedad.setBounds(29, 117, 84, 16);
+				panel.add(lblEnfermedad);
+			}
+			{
+				cbxEnfermedades = new JComboBox();
+				cbxEnfermedades.setBounds(110, 114, 116, 22);
+				panel.add(cbxEnfermedades);
+			}
 		}
-		
-		JPanel panel_VacunasGlobales = new JPanel();
-		panel_VacunasGlobales.setBorder(new TitledBorder(null, "Vacunas Disponibles", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_VacunasGlobales.setBounds(445, 11, 250, 193);
-		contentPanel.add(panel_VacunasGlobales);
-		panel_VacunasGlobales.setLayout(null);
-		{
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setBounds(10, 22, 230, 160);
-			panel_VacunasGlobales.add(scrollPane);
-			
-			tblVacunasDisponibles = new JTable();
-			scrollPane.setViewportView(tblVacunasDisponibles);
-		}
-		
-		JPanel panel_VacunasLocales = new JPanel();
-		panel_VacunasLocales.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Vacunas a Suministrar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_VacunasLocales.setBounds(445, 251, 250, 193);
-		contentPanel.add(panel_VacunasLocales);
-		panel_VacunasLocales.setLayout(null);
-		{
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setBounds(10, 22, 230, 160);
-			panel_VacunasLocales.add(scrollPane);
-			
-			tblVacunasPaciente = new JTable();
-			scrollPane.setViewportView(tblVacunasPaciente);
-		}
-		
-		btnCambiar = new JButton("");
-		btnCambiar.setBounds(524, 215, 89, 23);
-		contentPanel.add(btnCambiar);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int prio = 1;
+						if(rbtnVerde.isEnabled())
+							prio = 3;
+						else if(rbtnAmarillo.isEnabled())
+							prio = 2;
+						Consulta consulta = new Consulta(doctor,txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
+						Hospital.getInstance().addConsulta(consulta);
+						if(rbtnYes.isEnabled())
+							paciente.getHistorial().getMisConsultas().add(consulta);
+					}
+				});
 				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -306,5 +335,41 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private Object[] loadVacunas() {
+		String[] vacunas=null;
+		vacunas[0] = "<Seleccione>";
+		int i=1;
+		for(Vacuna aux:Hospital.getInstance().getMisVacunas())
+		{
+			vacunas[i] = aux.getNombre();
+			i++;
+		}
+		return vacunas;
+	}
+	private Object[] loadEnfermedades() {
+		String[] enfermedades=null;
+		enfermedades[0] = "<Seleccione>";
+		int i=1;
+		for(Enfermedad aux:Hospital.getInstance().getMisEnfermedades())
+		{
+			enfermedades[i] = aux.getNombre();
+			i++;
+		}
+		return enfermedades;
+	}
+
+	private void habilitarButton() {
+		if(!txtPeso.getText().isEmpty()&&!txtEstatura.getText().isEmpty()&&!txtMotivo.getText().isEmpty() && cbxSangre.getSelectedIndex()>0)
+			okButton.setEnabled(true);
+		
+	}
+	private void load(Paciente paciente) {
+		txtNHC.setText(paciente.getNhc());
+		txtNombre.setText(paciente.getNombre());
+		//txtPeso.setText(paciente.getPeso().toString());
+		//txtEstatura.setText(paciente.getEstatura().toString());
+		//cbxSangre.setSelectedIndex(anIndex);
 	}
 }

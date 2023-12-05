@@ -29,6 +29,8 @@ import logico.Paciente;
 import logico.Persona;
 import logico.Usuario;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CrearUsuario extends JDialog {
 
@@ -90,11 +92,23 @@ public class CrearUsuario extends JDialog {
 		panel.add(label_1);
 		
 		txtUsername = new JTextField();
+		txtUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				habilitarButton();
+			}
+		});
 		txtUsername.setColumns(10);
 		txtUsername.setBounds(91, 29, 173, 22);
 		panel.add(txtUsername);
 		
 		txtPassword = new JTextField();
+		txtPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				habilitarButton();
+			}
+		});
 		txtPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!adminCreado)
@@ -116,10 +130,11 @@ public class CrearUsuario extends JDialog {
 					panPersona.setVisible(true);
 					loadPersonas();
 				}
+				habilitarButton();
 			}
 		});
 		cbxTipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxTipo.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Admin", "Doctor", "Secretario"}));
+		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Admin", "Doctor", "Secretario"}));
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		
@@ -144,6 +159,7 @@ public class CrearUsuario extends JDialog {
 					   else
 						   selected = Hospital.getInstance().buscarPacienteByNHC(tblPersona.getValueAt(index, 0).toString());
 				   }
+				   habilitarButton();
 			}
 		});
 		tblPersona.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -179,11 +195,21 @@ public class CrearUsuario extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
+	private void habilitarButton() {
+		if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty() && cbxTipo.getSelectedIndex()!=0 && selected!=null)
+			okButton.setEnabled(true);
+	}
+
 	private void crearAdmin()
 	{
 		txtUsername.setText("Admin");

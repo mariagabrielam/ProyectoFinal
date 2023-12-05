@@ -3,7 +3,7 @@ package logico;
 import java.util.ArrayList;
 
 public class Hospital {
-
+**
 	private ArrayList<Persona>misPersonas;
 	private ArrayList<HistorialClinico>misHistoriales;
 	private ArrayList<Enfermedad>misEnfermedades;

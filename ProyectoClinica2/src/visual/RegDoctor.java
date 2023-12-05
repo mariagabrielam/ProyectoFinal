@@ -34,12 +34,12 @@ public class RegDoctor extends JDialog {
 	private final JPanel panel = new JPanel();
 	private JTextField txtID;
 	private JTextField txtNombre;
-	private JTextField txtTelefono;
 	private JTextField txtDireccion;
 	private JComboBox<Object> cbxExeq;
 	private JFormattedTextField txtCedula;
 	private JRadioButton rdbtnF;
 	private JRadioButton rdbtnM;
+	private JFormattedTextField txtTelefono;
 
 	/**
 	 * Launch the application.
@@ -113,12 +113,6 @@ public class RegDoctor extends JDialog {
 			panel.add(lblNewLabel_3);
 		}
 		{
-			txtTelefono = new JTextField();
-			txtTelefono.setBounds(257, 58, 116, 22);
-			panel.add(txtTelefono);
-			txtTelefono.setColumns(10);
-		}
-		{
 			JLabel lblNewLabel_4 = new JLabel("Direcci\u00F3n:");
 			lblNewLabel_4.setBounds(12, 92, 65, 16);
 			panel.add(lblNewLabel_4);
@@ -160,6 +154,12 @@ public class RegDoctor extends JDialog {
 			txtCedula = new JFormattedTextField(formatter);
 			txtCedula.setBounds(250, 27, 116, 20);
 			panel.add(txtCedula);
+			{
+				MaskFormatter formatterTelefono = new MaskFormatter("###-###-####");
+				txtTelefono = new JFormattedTextField(formatterTelefono);
+				txtTelefono.setBounds(250, 60, 116, 20);
+				panel.add(txtTelefono);
+			}
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

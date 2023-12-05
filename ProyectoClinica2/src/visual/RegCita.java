@@ -34,6 +34,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegCita extends JDialog {
 
@@ -56,6 +58,8 @@ public class RegCita extends JDialog {
 	private Doctor selected = null;
 	private static ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
 	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
+	private static DefaultTableModel model;
+	private static Object[] row;
 
 	/**
 	 * Launch the application.
@@ -222,26 +226,19 @@ public class RegCita extends JDialog {
 		panel_Doctor.add(scrollPane);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
+		String[] header = { "Id", "Nombre" };
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(header);
 		tblDoctores = new JTable();
-		tblDoctores.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Nombre", "EXEQUATUR"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -1024742821047158370L;
-			boolean[] columnEditables = new boolean[] {
-				true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+		tblDoctores.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tblDoctores.getSelectedRow();
+				if(index>=0) {
+					selected = Hospital.getInstance().buscarDoctorById(tblDoctores.getValueAt(index, 0).toString());
+				}
 			}
 		});
-		tblDoctores.getColumnModel().getColumn(1).setResizable(false);
 		tblDoctores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tblDoctores);
 		{
@@ -266,6 +263,7 @@ public class RegCita extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		imprimirDoctores(doctoresDisponibles);
 	}
 	private void cargarPersona(Persona aux ){
 		txtNombre.setText(aux.getNombre());
@@ -288,5 +286,24 @@ public class RegCita extends JDialog {
 		rbtnMasculino.setSelected(true);
 		rbtnFemenino.setSelected(false);
 	}
-	
+	private ArrayList<Doctor> cargarDoctoresDisponibles() {
+		ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
+			for (Doctor aux : misDoctores) {
+				if(true) {
+					doctoresDisponibles.add(aux);
+				}
+			}
+		return doctoresDisponibles;
+	}
+	private static void imprimirDoctores(ArrayList<Doctor> losDoctores)
+	{
+		model.setRowCount(0);
+		row =new Object[model.getColumnCount()];
+		for (Doctor aux: losDoctores)
+		{
+			row[0] = aux.getId();
+			row[1] = aux.getNombre();
+			model.addRow(row);
+		}
+	}
 }

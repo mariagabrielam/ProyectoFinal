@@ -36,7 +36,6 @@ public class RegCita extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable tblDoctores;
 	private JTextField txtNombre;
-	private JTextField txtTelefono;
 	private JTextField txtDireccion;
 	private JRadioButton rbtnMasculino;
 	private JRadioButton rbtnFemenino;
@@ -44,6 +43,7 @@ public class RegCita extends JDialog {
 	private JSpinner spnHoraFin;
 	private JCalendar calendar;
 	private JFormattedTextField txtCedula;
+	private JFormattedTextField txtTelefono;
 
 	
 	/**
@@ -101,6 +101,7 @@ public class RegCita extends JDialog {
 		rbtnMasculino = new JRadioButton("M");
 		rbtnMasculino.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				rbtnMasculino.setSelected(true);
 				rbtnFemenino.setSelected(false);
 			}
 		});
@@ -111,6 +112,7 @@ public class RegCita extends JDialog {
 		rbtnFemenino = new JRadioButton("F");
 		rbtnFemenino.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				rbtnFemenino.setSelected(true);
 				rbtnMasculino.setSelected(false);
 			}
 		});
@@ -122,11 +124,6 @@ public class RegCita extends JDialog {
 		txtNombre.setBounds(68, 48, 187, 20);
 		panel_Pasciente.add(txtNombre);
 		
-		txtTelefono = new JTextField();
-		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(68, 73, 187, 20);
-		panel_Pasciente.add(txtTelefono);
-		
 		txtDireccion = new JTextField();
 		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(68, 98, 187, 20);
@@ -136,10 +133,15 @@ public class RegCita extends JDialog {
 		lblNewLabel_4.setBounds(10, 123, 47, 14);
 		panel_Pasciente.add(lblNewLabel_4);
 		try {
-			MaskFormatter formatter = new MaskFormatter("###-#######-#");
-			txtCedula = new JFormattedTextField(formatter);
+			MaskFormatter formatterCedula = new MaskFormatter("###-#######-#");
+			txtCedula = new JFormattedTextField(formatterCedula);
 			txtCedula.setBounds(68, 20, 187, 20);
 			panel_Pasciente.add(txtCedula);
+			
+			MaskFormatter formatterTelefono = new MaskFormatter("###-###-####");
+			txtTelefono = new JFormattedTextField(formatterTelefono);
+			txtTelefono.setBounds(68, 73, 187, 20);
+			panel_Pasciente.add(txtTelefono);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

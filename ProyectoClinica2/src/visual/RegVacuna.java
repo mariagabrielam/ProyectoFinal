@@ -110,7 +110,7 @@ public class RegVacuna extends JDialog {
 		panel_3.add(scrollPane_1, BorderLayout.CENTER);
 		
 		table_enfermedadesVacuna = new JTable();
-		String[] header= {"Nombre"};
+		String[] header = {"Nombre"};
 		
 		scrollPane_1.setViewportView(table_enfermedadesVacuna);
 		

@@ -2,12 +2,16 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,16 +29,6 @@ import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Vacuna;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTable;
 
 public class RegConsulta extends JDialog {
 
@@ -57,15 +51,15 @@ public class RegConsulta extends JDialog {
 	private JSpinner spnFchConsulta;
 	private JButton okButton;
 	private JTextArea txtDescripcion;
-	private JComboBox cbxVacuna;
-	private JComboBox cbxEnfermedades;
+	private JComboBox<Object> cbxVacuna;
+	private JComboBox<Object> cbxEnfermedades;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null,null);
+			RegConsulta dialog = new RegConsulta(null,null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -77,6 +71,7 @@ public class RegConsulta extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegConsulta(Doctor doctor, Paciente paciente, Date fecha) {
+		load(paciente);
 		setTitle("Registrar Consulta");
 		setBounds(100, 100, 456, 562);
 		getContentPane().setLayout(new BorderLayout());
@@ -284,8 +279,8 @@ public class RegConsulta extends JDialog {
 				panel.add(lblNewLabel_4);
 			}
 			{
-				cbxVacuna = new JComboBox();
-				cbxVacuna.setModel(new DefaultComboBoxModel(loadVacunas()));
+				cbxVacuna = new JComboBox<Object>();
+				cbxVacuna.setModel(new DefaultComboBoxModel<Object>(loadVacunas()));
 				cbxVacuna.setBounds(88, 82, 116, 22);
 				panel.add(cbxVacuna);
 			}
@@ -295,8 +290,8 @@ public class RegConsulta extends JDialog {
 				panel.add(lblEnfermedad);
 			}
 			{
-				cbxEnfermedades = new JComboBox();
-				cbxEnfermedades.setModel(new DefaultComboBoxModel(loadEnfermedades()));
+				cbxEnfermedades = new JComboBox<Object>();
+				cbxEnfermedades.setModel(new DefaultComboBoxModel<Object>(loadEnfermedades()));
 				cbxEnfermedades.setBounds(110, 114, 116, 22);
 				panel.add(cbxEnfermedades);
 			}
@@ -336,6 +331,7 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
 	}
 
 	private Object[] loadVacunas() {
@@ -369,8 +365,8 @@ public class RegConsulta extends JDialog {
 	private void load(Paciente paciente) {
 		txtNHC.setText(paciente.getNhc());
 		txtNombre.setText(paciente.getNombre());
-		//txtPeso.setText(paciente.getPeso().toString());
-		//txtEstatura.setText(paciente.getEstatura().toString());
+		txtPeso.setText(String.valueOf(paciente.getPeso()));
+		txtEstatura.setText(String.valueOf(paciente.getEstatura()));
 		cbxSangre.setSelectedIndex(sangreIndex(paciente));
 	}
 
@@ -391,6 +387,6 @@ public class RegConsulta extends JDialog {
 			return 7;
 		if(paciente.esSangreONegativo())
 			return 8;
-		return (Integer) null;
+		return 0;
 	}
 }

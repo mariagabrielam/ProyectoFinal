@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JCalendar;
 
+import logico.Cita;
 import logico.Doctor;
 import logico.Hospital;
+import logico.Paciente;
 import logico.Persona;
 
 import javax.swing.border.TitledBorder;
@@ -36,6 +38,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class RegCita extends JDialog {
 
@@ -60,7 +66,6 @@ public class RegCita extends JDialog {
 	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private JTextField txtId;
 
 	/**
 	 * Launch the application.
@@ -81,13 +86,15 @@ public class RegCita extends JDialog {
 	 */
 	public RegCita() throws ParseException {
 		
-		setTitle("Agendar una Cita");
+		setResizable(false);
+		setLocationRelativeTo(null); // Pantalla en el centro
+		setTitle("Cita No." + Hospital.getCodigoCita() );
 		Date fchActual = new Date();
 		Calendar fchActualMas30 = Calendar.getInstance();
 		fchActualMas30.setTime(fchActual);
 		fchActualMas30.add(Calendar.MINUTE, 30);
 		
-		setBounds(100, 100, 571, 523);
+		setBounds(100, 100, 559, 523);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -180,21 +187,31 @@ public class RegCita extends JDialog {
 		
 		JPanel panel_Fecha = new JPanel();
 		panel_Fecha.setBorder(new TitledBorder(null, "Fecha de la Cita", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Fecha.setBounds(10, 170, 535, 270);
+		panel_Fecha.setBounds(10, 182, 535, 258);
 		contentPanel.add(panel_Fecha);
 		panel_Fecha.setLayout(null);
 		
 		calendar = new JCalendar();
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				cargarDoctoresDisponibles();
+			}
+		});
 		calendar.setBounds(10, 28, 366, 219);
 		panel_Fecha.add(calendar);
 		
 		JPanel panel_Inicio = new JPanel();
 		panel_Inicio.setBorder(new TitledBorder(null, "Hora de Inicio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Inicio.setBounds(386, 58, 139, 93);
+		panel_Inicio.setBounds(386, 23, 139, 93);
 		panel_Fecha.add(panel_Inicio);
 		panel_Inicio.setLayout(null);
 		
 		spnHoraInicio = new JSpinner();
+		spnHoraInicio.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				cargarDoctoresDisponibles();
+			}
+		});
 		spnHoraInicio.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
 		JSpinner.DateEditor de_spnHoraInicio = new JSpinner.DateEditor(spnHoraInicio, "h:mm a");
 		spnHoraInicio.setEditor(de_spnHoraInicio);
@@ -204,30 +221,22 @@ public class RegCita extends JDialog {
 		
 		JPanel panel_Fin = new JPanel();
 		panel_Fin.setBorder(new TitledBorder(null, "Hora de Finalizaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Fin.setBounds(386, 152, 139, 93);
+		panel_Fin.setBounds(386, 140, 139, 93);
 		panel_Fecha.add(panel_Fin);
 		panel_Fin.setLayout(null);
 		
 		spnHoraFin = new JSpinner();
+		spnHoraFin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				cargarDoctoresDisponibles();
+			}
+		});
 		spnHoraFin.setModel(new SpinnerDateModel(fchActualMas30.getTime(), null, null, Calendar.HOUR_OF_DAY));
 		JSpinner.DateEditor de_spnHoraFin = new JSpinner.DateEditor(spnHoraFin, "h:mm a");
 		spnHoraFin.setEditor(de_spnHoraFin);
 		
 		spnHoraFin.setBounds(10, 42, 119, 20);
 		panel_Fin.add(spnHoraFin);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "C\u00F3digo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(388, 13, 135, 49);
-		panel_Fecha.add(panel);
-		panel.setLayout(null);
-		
-		txtId = new JTextField();
-		txtId.setEditable(false);
-		txtId.setBounds(12, 16, 116, 22);
-		panel.add(txtId);
-		txtId.setColumns(10);
-		txtId.setText("Cita-"+Hospital.getInstance().getCodigoCita());
 		
 		JPanel panel_Doctor = new JPanel();
 		panel_Doctor.setBorder(new TitledBorder(null, "Doctores Disponibles", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -261,6 +270,18 @@ public class RegCita extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(miPersona == null)
+						{
+							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
+							miPersona = new Paciente(NHC, txtCedula.getText(),txtNombre.getText(),txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
+						}
+						Date fchProgramada = determinarFecha(calendar.getDate() , (Date) spnHoraFin.getValue());
+						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
+						//Hospital.getInstance().addCita(nuevaCita);
+					}
+				});
 				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -279,6 +300,17 @@ public class RegCita extends JDialog {
 		}
 		imprimirDoctores(doctoresDisponibles);
 	}
+	private static Date determinarFecha(Date fecha, Date hora) {
+        if (fecha == null || hora == null) {
+            return null;
+        }
+        
+        long fechaEnMilis = fecha.getTime();
+        long horaEnMilis = hora.getTime();
+
+        return new Date(fechaEnMilis + horaEnMilis % (24 * 60 * 60 * 1000));
+    }
+
 	private void cargarPersona(Persona aux ){
 		txtNombre.setText(aux.getNombre());
 		txtTelefono.setText(aux.getTelefono());
@@ -319,5 +351,19 @@ public class RegCita extends JDialog {
 			row[1] = aux.getNombre();
 			model.addRow(row);
 		}
+	}
+    private String formatearNumero(String numero) {
+        while (numero.length() < 6) {
+            numero = "0" + numero;
+        }
+        // Formatear "###-##-##"
+        return numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
+    }
+    private String determimarSexo() {
+		if(rbtnFemenino.isSelected())
+		{
+			return "Femenino";
+		}
+		return "Masculino";
 	}
 }

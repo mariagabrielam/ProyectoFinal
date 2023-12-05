@@ -4,13 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class RegVacuna extends JDialog {
 
@@ -19,8 +22,10 @@ public class RegVacuna extends JDialog {
 	 */
 	private static final long serialVersionUID = 8460001246198462049L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtLote;
+	private JTextField txtNombre;
+	private JTable table_allEnfermedades;
+	private JTable table_enfermedadesVacuna;
 
 	/**
 	 * Launch the application.
@@ -40,7 +45,7 @@ public class RegVacuna extends JDialog {
 	 */
 	public RegVacuna() {
 		setTitle("Registrar Vacuna");
-		setBounds(100, 100, 533, 373);
+		setBounds(100, 100, 515, 467);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -48,95 +53,82 @@ public class RegVacuna extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 497, 279);
+		panel.setBounds(10, 11, 479, 121);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Lote:");
-		lblNewLabel.setBounds(21, 11, 46, 14);
+		lblNewLabel.setBounds(40, 32, 46, 14);
 		panel.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(66, 8, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtLote = new JTextField();
+		txtLote.setBounds(80, 29, 86, 20);
+		panel.add(txtLote);
+		txtLote.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setBounds(262, 11, 46, 14);
+		lblNewLabel_1.setBounds(24, 82, 46, 14);
 		panel.add(lblNewLabel_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(318, 8, 86, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setBounds(80, 79, 187, 20);
+		panel.add(txtNombre);
+		txtNombre.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Enfermedades:");
-		lblNewLabel_2.setBounds(21, 57, 80, 14);
+		JLabel lblNewLabel_2 = new JLabel("Cantidad de Vacuna:");
+		lblNewLabel_2.setBounds(272, 32, 122, 14);
 		panel.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Cantidad:");
-		lblNewLabel_3.setBounds(10, 218, 80, 31);
-		panel.add(lblNewLabel_3);
+		JSpinner spnCantVacuna = new JSpinner();
+		spnCantVacuna.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		spnCantVacuna.setBounds(389, 29, 68, 20);
+		panel.add(spnCantVacuna);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Hepatitis B");
-		chckbxNewCheckBox.setBounds(21, 78, 97, 23);
-		panel.add(chckbxNewCheckBox);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(10, 143, 479, 243);
+		contentPanel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Tuberculosis ");
-		chckbxNewCheckBox_1.setBounds(174, 78, 147, 23);
-		panel.add(chckbxNewCheckBox_1);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(19, 49, 167, 155);
+		panel_1.add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
 		
-		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Polio");
-		chckbxNewCheckBox_2.setBounds(174, 104, 97, 23);
-		panel.add(chckbxNewCheckBox_2);
+		JScrollPane scrollPane = new JScrollPane();
+		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
-		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("C\u00F3lera ");
-		chckbxNewCheckBox_3.setBounds(21, 130, 97, 23);
-		panel.add(chckbxNewCheckBox_3);
+		table_allEnfermedades = new JTable();
+		scrollPane.setViewportView(table_allEnfermedades);
 		
-		JCheckBox chckbxNewCheckBox_4 = new JCheckBox("Hepatitis A");
-		chckbxNewCheckBox_4.setBounds(21, 104, 97, 23);
-		panel.add(chckbxNewCheckBox_4);
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(289, 49, 167, 155);
+		panel_1.add(panel_3);
+		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		JCheckBox chckbxNewCheckBox_5 = new JCheckBox("Rotavirus");
-		chckbxNewCheckBox_5.setBounds(174, 130, 97, 23);
-		panel.add(chckbxNewCheckBox_5);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel_3.add(scrollPane_1, BorderLayout.CENTER);
 		
-		JCheckBox chckbxNewCheckBox_6 = new JCheckBox("Sarampi\u00F3n ");
-		chckbxNewCheckBox_6.setBounds(368, 78, 97, 23);
-		panel.add(chckbxNewCheckBox_6);
+		table_enfermedadesVacuna = new JTable();
+		String[] header= {"Nombre"};
 		
-		JCheckBox chckbxNewCheckBox_7 = new JCheckBox("Papera");
-		chckbxNewCheckBox_7.setBounds(368, 104, 97, 23);
-		panel.add(chckbxNewCheckBox_7);
+		scrollPane_1.setViewportView(table_enfermedadesVacuna);
 		
-		JCheckBox chckbxNewCheckBox_8 = new JCheckBox("Rubeola");
-		chckbxNewCheckBox_8.setBounds(368, 130, 97, 23);
-		panel.add(chckbxNewCheckBox_8);
+		JButton btnNewButton = new JButton(">>");
+		btnNewButton.setBounds(196, 99, 83, 23);
+		panel_1.add(btnNewButton);
 		
-		JCheckBox chckbxNewCheckBox_9 = new JCheckBox("Covid-19");
-		chckbxNewCheckBox_9.setBounds(21, 156, 97, 23);
-		panel.add(chckbxNewCheckBox_9);
+		JButton btnNewButton_1 = new JButton("<<");
+		btnNewButton_1.setBounds(196, 133, 83, 23);
+		panel_1.add(btnNewButton_1);
 		
-		JCheckBox chckbxNewCheckBox_10 = new JCheckBox("Influenza");
-		chckbxNewCheckBox_10.setBounds(21, 188, 97, 23);
-		panel.add(chckbxNewCheckBox_10);
+		JLabel lblNewLabel_3 = new JLabel("Enfermedades:");
+		lblNewLabel_3.setBounds(19, 22, 105, 16);
+		panel_1.add(lblNewLabel_3);
 		
-		JCheckBox chckbxNewCheckBox_11 = new JCheckBox("Gripe");
-		chckbxNewCheckBox_11.setBounds(174, 156, 97, 23);
-		panel.add(chckbxNewCheckBox_11);
-		
-		JCheckBox chckbxNewCheckBox_12 = new JCheckBox("Varicela");
-		chckbxNewCheckBox_12.setBounds(174, 188, 97, 23);
-		panel.add(chckbxNewCheckBox_12);
-		
-		JCheckBox chckbxNewCheckBox_13 = new JCheckBox("T\u00E9tanos ");
-		chckbxNewCheckBox_13.setBounds(368, 156, 97, 23);
-		panel.add(chckbxNewCheckBox_13);
-		
-		JCheckBox chckbxNewCheckBox_14 = new JCheckBox("Difteria");
-		chckbxNewCheckBox_14.setBounds(368, 188, 97, 23);
-		panel.add(chckbxNewCheckBox_14);
+		JLabel lblNewLabel_4 = new JLabel("Enfermedad/es Vacuna:");
+		lblNewLabel_4.setBounds(292, 23, 144, 14);
+		panel_1.add(lblNewLabel_4);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

@@ -19,6 +19,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import logico.Enfermedad;
+
 public class RegEnfermedad extends JDialog {
 
 	/**
@@ -59,7 +61,7 @@ public class RegEnfermedad extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegEnfermedad() {
+	public RegEnfermedad(Enfermedad enfermedad) {
 		
 		setTitle("Registrar Enfermedad");
 		setBounds(100, 100, 450, 452);

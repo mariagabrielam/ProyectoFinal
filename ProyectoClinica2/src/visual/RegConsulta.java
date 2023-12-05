@@ -2,12 +2,16 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,16 +29,6 @@ import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Vacuna;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTable;
 
 public class RegConsulta extends JDialog {
 
@@ -57,15 +51,16 @@ public class RegConsulta extends JDialog {
 	private JSpinner spnFchConsulta;
 	private JButton okButton;
 	private JTextArea txtDescripcion;
-	private JComboBox cbxVacuna;
-	private JComboBox cbxEnfermedades;
+	private JComboBox<Object> cbxVacuna;
+	private JComboBox<Object> cbxEnfermedades;
+	private JTextField txtId;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null,null);
+			RegConsulta dialog = new RegConsulta(null,null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -77,6 +72,7 @@ public class RegConsulta extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegConsulta(Doctor doctor, Paciente paciente, Date fecha) {
+		load(paciente);
 		setTitle("Registrar Consulta");
 		setBounds(100, 100, 456, 562);
 		getContentPane().setLayout(new BorderLayout());
@@ -182,35 +178,35 @@ public class RegConsulta extends JDialog {
 			contentPanel.add(panel);
 			{
 				JLabel label = new JLabel("Fecha Realizada:");
-				label.setBounds(29, 29, 116, 16);
+				label.setBounds(29, 47, 116, 16);
 				panel.add(label);
 			}
 			{
 				JLabel label = new JLabel("Motivo de Consulta:");
-				label.setBounds(29, 58, 116, 16);
+				label.setBounds(29, 76, 116, 16);
 				panel.add(label);
 			}
 			{
 				JLabel label = new JLabel("Prioridad Triaje:");
-				label.setBounds(29, 143, 116, 16);
+				label.setBounds(29, 155, 116, 16);
 				panel.add(label);
 			}
 			{
 				JLabel label = new JLabel("Descripci\u00F3n:");
-				label.setBounds(29, 172, 84, 16);
+				label.setBounds(29, 176, 84, 16);
 				panel.add(label);
 			}
 			{
 				txtMotivo = new JTextField();
 				txtMotivo.setColumns(10);
-				txtMotivo.setBounds(146, 55, 267, 22);
+				txtMotivo.setBounds(146, 73, 267, 22);
 				panel.add(txtMotivo);
 			}
 			{
 				spnFchConsulta = new JSpinner();
 				spnFchConsulta.setEnabled(false);
 				spnFchConsulta.setModel(new SpinnerDateModel(new Date(1701403200000L), null, null, Calendar.DAY_OF_YEAR));
-				spnFchConsulta.setBounds(129, 26, 127, 22);
+				spnFchConsulta.setBounds(129, 44, 127, 22);
 				panel.add(spnFchConsulta);
 			}
 			{
@@ -249,7 +245,7 @@ public class RegConsulta extends JDialog {
 					rbtnVerde.setSelected(false);
 				}
 			});
-			rbtnRojo.setBounds(129, 140, 56, 23);
+			rbtnRojo.setBounds(129, 152, 56, 23);
 			panel.add(rbtnRojo);
 
 			rbtnAmarillo = new JRadioButton("Amarillo");
@@ -260,7 +256,7 @@ public class RegConsulta extends JDialog {
 					rbtnRojo.setSelected(false);
 				}
 			});
-			rbtnAmarillo.setBounds(203, 140, 84, 23);
+			rbtnAmarillo.setBounds(203, 152, 84, 23);
 			panel.add(rbtnAmarillo);
 
 			rbtnVerde = new JRadioButton("Verde");
@@ -272,34 +268,44 @@ public class RegConsulta extends JDialog {
 				}
 			});
 			rbtnVerde.setSelected(true);
-			rbtnVerde.setBounds(291, 140, 70, 23);
+			rbtnVerde.setBounds(291, 152, 70, 23);
 			panel.add(rbtnVerde);
 
 			txtDescripcion = new JTextArea();
-			txtDescripcion.setBounds(29, 191, 384, 80);
+			txtDescripcion.setBounds(29, 195, 384, 80);
 			panel.add(txtDescripcion);
 			{
 				JLabel lblNewLabel_4 = new JLabel("Vacuna:");
-				lblNewLabel_4.setBounds(29, 85, 56, 16);
+				lblNewLabel_4.setBounds(29, 103, 56, 16);
 				panel.add(lblNewLabel_4);
 			}
 			{
-				cbxVacuna = new JComboBox();
-				cbxVacuna.setModel(new DefaultComboBoxModel(loadVacunas()));
-				cbxVacuna.setBounds(88, 82, 116, 22);
+				cbxVacuna = new JComboBox<Object>();
+				cbxVacuna.setModel(new DefaultComboBoxModel<Object>(loadVacunas()));
+				cbxVacuna.setBounds(88, 100, 116, 22);
 				panel.add(cbxVacuna);
 			}
 			{
 				JLabel lblEnfermedad = new JLabel("Enfermedad:");
-				lblEnfermedad.setBounds(29, 117, 84, 16);
+				lblEnfermedad.setBounds(29, 129, 84, 16);
 				panel.add(lblEnfermedad);
 			}
 			{
-				cbxEnfermedades = new JComboBox();
-				cbxEnfermedades.setModel(new DefaultComboBoxModel(loadEnfermedades()));
-				cbxEnfermedades.setBounds(110, 114, 116, 22);
+				cbxEnfermedades = new JComboBox<Object>();
+				cbxEnfermedades.setModel(new DefaultComboBoxModel<Object>(loadEnfermedades()));
+				cbxEnfermedades.setBounds(110, 126, 116, 22);
 				panel.add(cbxEnfermedades);
 			}
+			
+			JLabel lblNewLabel_5 = new JLabel("C\u00F3digo:");
+			lblNewLabel_5.setBounds(29, 23, 56, 16);
+			panel.add(lblNewLabel_5);
+			
+			txtId = new JTextField();
+			txtId.setEditable(false);
+			txtId.setBounds(88, 20, 116, 22);
+			panel.add(txtId);
+			txtId.setColumns(10);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -314,7 +320,7 @@ public class RegConsulta extends JDialog {
 							prio = 3;
 						else if(rbtnAmarillo.isEnabled())
 							prio = 2;
-						Consulta consulta = new Consulta(doctor,txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
+						Consulta consulta = new Consulta(txtId.getText(),doctor,txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
 						Hospital.getInstance().addConsulta(consulta);
 						if(rbtnYes.isEnabled())
 							paciente.getHistorial().getMisConsultas().add(consulta);
@@ -336,6 +342,7 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
 	}
 
 	private Object[] loadVacunas() {
@@ -367,10 +374,11 @@ public class RegConsulta extends JDialog {
 		
 	}
 	private void load(Paciente paciente) {
+		txtId.setText("Con-"+Hospital.getInstance().getCodigoConsulta());
 		txtNHC.setText(paciente.getNhc());
 		txtNombre.setText(paciente.getNombre());
-		//txtPeso.setText(paciente.getPeso().toString());
-		//txtEstatura.setText(paciente.getEstatura().toString());
+		txtPeso.setText(String.valueOf(paciente.getPeso()));
+		txtEstatura.setText(String.valueOf(paciente.getEstatura()));
 		cbxSangre.setSelectedIndex(sangreIndex(paciente));
 	}
 
@@ -391,6 +399,6 @@ public class RegConsulta extends JDialog {
 			return 7;
 		if(paciente.esSangreONegativo())
 			return 8;
-		return (Integer) null;
+		return 0;
 	}
 }

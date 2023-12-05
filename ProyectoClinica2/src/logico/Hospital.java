@@ -13,6 +13,8 @@ public class Hospital {
 	private ArrayList<Consulta>misConsultas;
 	private static int CodigoDoctor = 1;
 	private static int CodigoPaciente = 1;
+	private static int CodigoCita = 1;
+	private static int CodigoConsulta = 1;
 	
 	public Hospital() {
 		super();
@@ -112,6 +114,22 @@ public class Hospital {
 		this.misConsultas = misConsultas;
 	}
 
+	public static int getCodigoCita() {
+		return CodigoCita;
+	}
+
+	public static void setCodigoCita(int codigoCita) {
+		CodigoCita = codigoCita;
+	}
+
+	public static int getCodigoConsulta() {
+		return CodigoConsulta;
+	}
+
+	public static void setCodigoConsulta(int codigoConsulta) {
+		CodigoConsulta = codigoConsulta;
+	}
+
 	public Doctor buscarDoctorById(String id) {
 		for(Persona aux:misPersonas)
 		{
@@ -148,6 +166,12 @@ public class Hospital {
 	}
 	public void contarPaciente() {
 		CodigoPaciente++;
+	}
+	public void contarCita() {
+		CodigoCita++;
+	}
+	public void contarConsulta() {
+		CodigoConsulta++;
 	}
 
 	public void addPersona(Persona aux) {

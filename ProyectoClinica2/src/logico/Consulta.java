@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Consulta {
 
+	private String id;
 	private Date fchConsulta;
 	private Doctor miDoctor;
 	private String descripcion;
@@ -12,16 +13,25 @@ public class Consulta {
 	private String triaje; // Motivo de consulta
 	private int prioridadDeTriaje; // Del 1-3 siendo el 1 de mayor prioridad
 
-	public Consulta(Doctor miDoctor, String descripcion, Enfermedad enfermedad, Vacuna miVacuna, String triaje,
+	public Consulta(String id, Doctor miDoctor, String descripcion, Enfermedad enfermedad, Vacuna miVacuna, String triaje,
 			int prioridadDeTriaje) {
 		super();
-		fchConsulta = new Date();
+		this.id = id;
+		this.fchConsulta = new Date();
 		this.miDoctor = miDoctor;
 		this.descripcion = descripcion;
 		this.enfermedad = enfermedad;
 		this.miVacuna = miVacuna;
 		this.triaje = triaje;
 		this.prioridadDeTriaje = prioridadDeTriaje;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Date getFchConsulta() {

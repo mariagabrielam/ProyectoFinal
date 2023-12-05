@@ -60,6 +60,7 @@ public class RegCita extends JDialog {
 	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
 	private static DefaultTableModel model;
 	private static Object[] row;
+	private JTextField txtId;
 
 	/**
 	 * Launch the application.
@@ -179,7 +180,7 @@ public class RegCita extends JDialog {
 		
 		JPanel panel_Fecha = new JPanel();
 		panel_Fecha.setBorder(new TitledBorder(null, "Fecha de la Cita", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Fecha.setBounds(10, 182, 535, 258);
+		panel_Fecha.setBounds(10, 170, 535, 270);
 		contentPanel.add(panel_Fecha);
 		panel_Fecha.setLayout(null);
 		
@@ -189,7 +190,7 @@ public class RegCita extends JDialog {
 		
 		JPanel panel_Inicio = new JPanel();
 		panel_Inicio.setBorder(new TitledBorder(null, "Hora de Inicio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Inicio.setBounds(386, 23, 139, 93);
+		panel_Inicio.setBounds(386, 58, 139, 93);
 		panel_Fecha.add(panel_Inicio);
 		panel_Inicio.setLayout(null);
 		
@@ -203,7 +204,7 @@ public class RegCita extends JDialog {
 		
 		JPanel panel_Fin = new JPanel();
 		panel_Fin.setBorder(new TitledBorder(null, "Hora de Finalizaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Fin.setBounds(386, 140, 139, 93);
+		panel_Fin.setBounds(386, 152, 139, 93);
 		panel_Fecha.add(panel_Fin);
 		panel_Fin.setLayout(null);
 		
@@ -214,6 +215,19 @@ public class RegCita extends JDialog {
 		
 		spnHoraFin.setBounds(10, 42, 119, 20);
 		panel_Fin.add(spnHoraFin);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "C\u00F3digo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(388, 13, 135, 49);
+		panel_Fecha.add(panel);
+		panel.setLayout(null);
+		
+		txtId = new JTextField();
+		txtId.setEditable(false);
+		txtId.setBounds(12, 16, 116, 22);
+		panel.add(txtId);
+		txtId.setColumns(10);
+		txtId.setText("Cita-"+Hospital.getInstance().getCodigoCita());
 		
 		JPanel panel_Doctor = new JPanel();
 		panel_Doctor.setBorder(new TitledBorder(null, "Doctores Disponibles", TitledBorder.LEADING, TitledBorder.TOP, null, null));

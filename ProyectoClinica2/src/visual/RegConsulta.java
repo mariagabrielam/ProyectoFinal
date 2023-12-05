@@ -283,7 +283,7 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				cbxVacuna = new JComboBox<Object>();
-				cbxVacuna.setModel(new DefaultComboBoxModel<Object>(loadVacunas()));
+				loadVacunas();
 				cbxVacuna.setBounds(88, 100, 116, 22);
 				panel.add(cbxVacuna);
 			}
@@ -294,7 +294,7 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				cbxEnfermedades = new JComboBox<Object>();
-				cbxEnfermedades.setModel(new DefaultComboBoxModel<Object>(loadEnfermedades()));
+				loadEnfermedades();
 				cbxEnfermedades.setBounds(110, 126, 116, 22);
 				panel.add(cbxEnfermedades);
 			}
@@ -353,27 +353,20 @@ public class RegConsulta extends JDialog {
 		
 	}
 
-	private Object[] loadVacunas() {
-		String[] vacunas= null;
-		vacunas[0] = "<Seleccione>";
-		int i=1;
+	private void loadVacunas() {
+		cbxVacuna.addItem("<Seleccione>");
 		for(Vacuna aux:Hospital.getInstance().getMisVacunas())
 		{
-			vacunas[i] = aux.getNombre();
-			i++;
+			cbxVacuna.addItem(aux.getNombre());
+			
 		}
-		return vacunas;
 	}
-	private Object[] loadEnfermedades() {
-		String[] enfermedades=null;
-		enfermedades[0] = "<Seleccione>";
-		int i=1;
+	private void loadEnfermedades() {
+		cbxEnfermedades.addItem("<Seleccione>");
 		for(Enfermedad aux:Hospital.getInstance().getMisEnfermedades())
 		{
-			enfermedades[i] = aux.getNombre();
-			i++;
+			cbxEnfermedades.addItem(aux.getNombre());
 		}
-		return enfermedades;
 	}
 
 	private void habilitarButton() {

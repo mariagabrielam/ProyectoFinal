@@ -155,6 +155,9 @@ public class ListarCita extends JDialog {
 				btnOk = new JButton("Registrar Consulta");
 				btnOk.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						RegConsulta regConsulta = new RegConsulta(selected);
+						regConsulta.setModal(true);
+						regConsulta.setVisible(true);
 					}
 				});
 				btnOk.setEnabled(false);

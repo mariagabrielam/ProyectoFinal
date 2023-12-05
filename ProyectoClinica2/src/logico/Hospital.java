@@ -17,6 +17,8 @@ public class Hospital {
 	private static int codigoPaciente = 1;
 	private static int codigoCita = 1;
 	private static int codigoConsulta = 1;
+	private static int codigoVacuna = 1;
+	private static int codigoVivienda = 1;
 	
 	public Hospital() {
 		super();
@@ -120,10 +122,6 @@ public class Hospital {
 		return codigoCita;
 	}
 
-	public static void setCodigoCita(int codigoCita) {
-		codigoCita = codigoCita;
-	}
-
 	public static int getCodigoConsulta() {
 		return codigoConsulta;
 	}
@@ -198,6 +196,7 @@ public class Hospital {
 	
 	public void addVivienda(Vivienda vivienda) {
 		misViviendas.add(vivienda);
+		codigoVivienda = getCodigoVivienda() + 1;
 	}
 	
 	public void addCita(Cita cita) {
@@ -207,6 +206,7 @@ public class Hospital {
 	
 	public void addVacuna(Vacuna vacuna) {
 		misVacunas.add(vacuna);
+		codigoVacuna = getCodigoVacuna() + 1;
 	}
 	
 	public void addConsulta(Consulta aux) {
@@ -257,5 +257,13 @@ public class Hospital {
 				return aux;
 		}
 		return null;
+	}
+
+	public static int getCodigoVacuna() {
+		return codigoVacuna;
+	}
+
+	public static int getCodigoVivienda() {
+		return codigoVivienda;
 	}
 }

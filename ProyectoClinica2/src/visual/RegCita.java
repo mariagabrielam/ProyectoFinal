@@ -19,7 +19,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JScrollPane;
@@ -33,7 +32,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
@@ -44,7 +42,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.Font;
 
 public class RegCita extends JDialog {
 
@@ -65,7 +62,6 @@ public class RegCita extends JDialog {
 	private JFormattedTextField txtTelefono;
 	private Persona miPersona = null;
 	private Doctor selected = null;
-	private static ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
 	private static ArrayList<Cita> misCitas = Hospital.getInstance().getMisCitas();
 	private static ArrayList<Doctor> doctoresDisponibles = new ArrayList<>();
 	private static DefaultTableModel model;
@@ -197,8 +193,8 @@ public class RegCita extends JDialog {
 		calendario.getDayChooser().setWeekOfYearVisible(false);
 		calendario.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				//cargarDoctoresDisponibles();
-				mostrarFecha();
+				cargarDoctoresDisponibles();
+				
 			}
 		});
 		calendario.setBounds(10, 28, 366, 219);
@@ -213,8 +209,8 @@ public class RegCita extends JDialog {
 		spnHoraInicio = new JSpinner();
 		spnHoraInicio.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				//cargarDoctoresDisponibles();
-				mostrarFecha();
+				cargarDoctoresDisponibles();
+				
 			}
 		});
 		spnHoraInicio.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
@@ -233,8 +229,8 @@ public class RegCita extends JDialog {
 		spnHoraFin = new JSpinner();
 		spnHoraFin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				//cargarDoctoresDisponibles();
-				mostrarFecha();
+				cargarDoctoresDisponibles();
+				
 			}
 		});
 		spnHoraFin.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
@@ -285,7 +281,7 @@ public class RegCita extends JDialog {
 						}
 						Date fchProgramada = determinarFecha(calendario.getDate() , (Date) spnHoraFin.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
-						//Hospital.getInstance().addCita(nuevaCita);
+						Hospital.getInstance().addCita(nuevaCita);
 					}
 				});
 				okButton.setEnabled(false);
@@ -354,6 +350,9 @@ public class RegCita extends JDialog {
         calHoraInicio.setTime((Date) spnHoraInicio.getValue());
         calHoraFin.setTime((Date) spnHoraFin.getValue());
         
+        for (Cita cita : misCitas) {
+			
+		}
 			
 		return doctoresDisponibles;
 	}
@@ -382,11 +381,5 @@ public class RegCita extends JDialog {
 		}
 		return "Masculino";
 	}
-    private void mostrarFecha()
-    {
-    	Date fchProgramada = determinarFecha(calendario.getDate() , (Date) spnHoraInicio.getValue());
-    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-    	sdf.setTimeZone(TimeZone.getDefault());
-    	
-    }
+ 
 }

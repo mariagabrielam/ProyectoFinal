@@ -20,12 +20,13 @@ import com.toedter.calendar.JCalendar;
 
 import logico.Cita;
 import logico.Doctor;
-import logico.Enfermedad;
 import logico.Hospital;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class ListarCita extends JDialog {
 
@@ -96,6 +97,10 @@ public class ListarCita extends JDialog {
 		panel_Dia.setLayout(null);
 		
 		calendar = new JCalendar();
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+			}
+		});
 		calendar.setBounds(10, 25, 256, 189);
 		panel_Dia.add(calendar);
 		
@@ -148,6 +153,10 @@ public class ListarCita extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnOk = new JButton("Registrar Consulta");
+				btnOk.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
 				btnOk.setEnabled(false);
 				btnOk.setActionCommand("OK");
 				buttonPane.add(btnOk);

@@ -25,6 +25,10 @@ import java.awt.event.ActionEvent;
 
 public class ListarEnfermedades extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8315395309179208009L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;

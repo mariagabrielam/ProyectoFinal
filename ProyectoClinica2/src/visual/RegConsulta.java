@@ -25,7 +25,6 @@ import javax.swing.border.TitledBorder;
 
 import logico.Cita;
 import logico.Consulta;
-import logico.Doctor;
 import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
@@ -355,7 +354,7 @@ public class RegConsulta extends JDialog {
 	}
 
 	private Object[] loadVacunas() {
-		String[] vacunas=null;
+		String[] vacunas= null;
 		vacunas[0] = "<Seleccione>";
 		int i=1;
 		for(Vacuna aux:Hospital.getInstance().getMisVacunas())

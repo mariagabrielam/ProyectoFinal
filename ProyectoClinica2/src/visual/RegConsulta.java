@@ -23,11 +23,13 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import logico.Cita;
 import logico.Consulta;
 import logico.Doctor;
 import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
+import logico.Persona;
 import logico.Vacuna;
 
 public class RegConsulta extends JDialog {
@@ -60,7 +62,7 @@ public class RegConsulta extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null,null,null);
+			RegConsulta dialog = new RegConsulta(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -71,8 +73,8 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta(Doctor doctor, Paciente paciente, Date fecha) {
-		load(paciente);
+	public RegConsulta(Cita cita) {
+		load(cita.getProxPaciente());
 		setTitle("Registrar Consulta");
 		setBounds(100, 100, 456, 562);
 		getContentPane().setLayout(new BorderLayout());
@@ -160,6 +162,7 @@ public class RegConsulta extends JDialog {
 			}
 			
 			cbxSangre = new JComboBox<Object>();
+			cbxSangre.setEnabled(false);
 			cbxSangre.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					habilitarButton();
@@ -320,10 +323,15 @@ public class RegConsulta extends JDialog {
 							prio = 3;
 						else if(rbtnAmarillo.isEnabled())
 							prio = 2;
-						Consulta consulta = new Consulta(txtId.getText(),doctor,txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
+						Consulta consulta = new Consulta(txtId.getText(),cita.getMiDoctor(),txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
 						Hospital.getInstance().addConsulta(consulta);
-						if(rbtnYes.isEnabled())
-							paciente.getHistorial().getMisConsultas().add(consulta);
+						if(((Paciente) cita.getProxPaciente()).getNhc()!=null)
+						{
+							//Persona cita.getProxPaciente() = new Paciente()
+						}
+							
+							if(rbtnYes.isEnabled())
+								((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
 					}
 				});
 				okButton.setEnabled(false);
@@ -373,13 +381,19 @@ public class RegConsulta extends JDialog {
 			okButton.setEnabled(true);
 		
 	}
-	private void load(Paciente paciente) {
+	private void load(Persona paciente) {
 		txtId.setText("Con-"+Hospital.getInstance().getCodigoConsulta());
-		txtNHC.setText(paciente.getNhc());
 		txtNombre.setText(paciente.getNombre());
-		txtPeso.setText(String.valueOf(paciente.getPeso()));
-		txtEstatura.setText(String.valueOf(paciente.getEstatura()));
-		cbxSangre.setSelectedIndex(sangreIndex(paciente));
+		if(((Paciente) paciente).getNhc()!=null) {
+			txtNHC.setText(((Paciente) paciente).getNhc());
+			txtPeso.setText(String.valueOf(((Paciente) paciente).getPeso()));
+			txtEstatura.setText(String.valueOf(((Paciente) paciente).getEstatura()));
+			cbxSangre.setSelectedIndex(sangreIndex((Paciente)paciente));
+		}
+		else {
+			cbxSangre.setEnabled(true);
+			txtNHC.setText("NHC-"+Hospital.getInstance().getCodigoPaciente());
+		}
 	}
 
 	private int sangreIndex(Paciente paciente) {

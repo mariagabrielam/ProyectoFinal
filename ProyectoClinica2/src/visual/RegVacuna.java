@@ -8,12 +8,26 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
+
+import logico.Enfermedad;
+import logico.Hospital;
+
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RegVacuna extends JDialog {
 
@@ -24,8 +38,18 @@ public class RegVacuna extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtLote;
 	private JTextField txtNombre;
+	private Enfermedad selectedAllEnfermedad;
+	private Enfermedad selectedEnfermedadVacuna;
 	private JTable table_allEnfermedades;
 	private JTable table_enfermedadesVacuna;
+	private static DefaultTableModel modelAllEnferm;
+	private static DefaultTableModel modelEnfermVacuna;
+	private static Object[] rowAllEnferm;
+	private static Object[] rowEnfermVacuna;
+	private static ArrayList<Enfermedad>allEnferm;
+	private static ArrayList<Enfermedad>enfermVacuna;
+	private JButton btnnRightMove;
+	private JButton btnnLeftMove;
 
 	/**
 	 * Launch the application.
@@ -45,6 +69,8 @@ public class RegVacuna extends JDialog {
 	 */
 	public RegVacuna() {
 		setTitle("Registrar Vacuna");
+		setResizable(false);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 515, 467);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -96,10 +122,29 @@ public class RegVacuna extends JDialog {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel_2.add(scrollPane, BorderLayout.CENTER);
-		
-		table_allEnfermedades = new JTable();
 		scrollPane.setViewportView(table_allEnfermedades);
+		panel_2.add(scrollPane, BorderLayout.CENTER);
+		{
+		
+			String[] header= {"Nombre"};
+			modelAllEnferm= new DefaultTableModel();
+			modelAllEnferm.setColumnIdentifiers(header);
+			table_allEnfermedades = new JTable();
+			table_allEnfermedades.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = table_allEnfermedades.getSelectedRow();
+					if(index>=0) {
+						selectedAllEnfermedad=allEnferm.get(index);
+						selectedEnfermedadVacuna=null;
+						btnRightMove.setEnabled(true);
+					}
+				}
+			});
+			table_allEnfermedades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table_allEnfermedades.setModel(modelAllEnferm);
+			scrollPane.setViewportView(table_allEnfermedades);
+		}
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(289, 49, 167, 155);
@@ -107,24 +152,57 @@ public class RegVacuna extends JDialog {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_3.add(scrollPane_1, BorderLayout.CENTER);
+		{
 		
-		table_enfermedadesVacuna = new JTable();
-		String[] header = {"Nombre"};
+			table_enfermedadesVacuna = new JTable();
+			String[] header= {"Nombre"};
+			modelEnfermVacuna = new DefaultTableModel();
+			modelEnfermVacuna.setColumnIdentifiers(header);
+			table_enfermedadesVacuna.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index=table_enfermedadesVacuna.getSelectedRow();
+					if(index>=0) {
+						selectedEnfermedadVacuna=enfermVacuna.get(index);
+						selectedAllEnfermedad=null;
+						btnnLeftMove.setEnabled(true);
+					}
+				}
+			});
+			table_enfermedadesVacuna.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table_enfermedadesVacuna.setModel(modelEnfermVacuna);
+			scrollPane_1.setViewportView(table_enfermedadesVacuna);
+		}
 		
-		scrollPane_1.setViewportView(table_enfermedadesVacuna);
-		
-		JButton btnNewButton = new JButton(">>");
-		btnNewButton.setBounds(196, 99, 83, 23);
-		panel_1.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("<<");
-		btnNewButton_1.setBounds(196, 133, 83, 23);
-		panel_1.add(btnNewButton_1);
-		
-		JLabel lblNewLabel_3 = new JLabel("Enfermedades:");
-		lblNewLabel_3.setBounds(19, 22, 105, 16);
-		panel_1.add(lblNewLabel_3);
+		btnnRightMove = new JButton(">>");
+		btnnRightMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnnRightMove.setEnabled(false);
+				if(selectedAllEnfermedad!=null) {
+					enfermVacuna.add(selectedAllEnfermedad);
+					allEnferm.remove(selectedAllEnfermedad);
+				}else {
+					allEnferm.add(selectedEnfermedadVacuna);
+					enfermVacuna.remove(selectedEnfermedadVacuna);
+				}
+			}
+		});
+		btnnRightMove.setBounds(196, 99, 83, 23);
+		panel_1.add(btnnRightMove);
+		{
+			btnnLeftMove= new JButton("<<");
+			btnnLeftMove.setEnabled(false);
+			btnnLeftMove.setBounds(196, 133, 83, 23);
+			panel_1.add(btnnLeftMove);
+			
+		}
+		{
+			JLabel lblNewLabel_3 = new JLabel("Enfermedades:");
+			lblNewLabel_3.setBounds(19, 22, 105, 16);
+			panel_1.add(lblNewLabel_3);
+		}
 		
 		JLabel lblNewLabel_4 = new JLabel("Enfermedad/es Vacuna:");
 		lblNewLabel_4.setBounds(292, 23, 144, 14);
@@ -145,5 +223,28 @@ public class RegVacuna extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	public static void loadAllEnfermedades() {
+		modelAllEnferm.setRowCount(0);
+		rowAllEnferm = new Object[modelAllEnferm.getColumnCount()];
+		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
+		  rowAllEnferm[0] = enferm.getNombre();
+		  rowAllEnferm[1] = enferm.isVigilancia();
+		  rowAllEnferm[2] = enferm.getPrioridadTriaje();
+		  modelAllEnferm.addRow(rowAllEnferm);
+		}
+		
+	}
+	
+	public static void loadEnfermedadVacuna() {
+		modelEnfermVacuna.setRowCount(0);
+		rowEnfermVacuna = new Object[modelEnfermVacuna.getColumnCount()];
+		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
+		  rowEnfermVacuna[0] = enferm.getNombre();
+		  rowEnfermVacuna[1] = enferm.isVigilancia();
+		  rowEnfermVacuna[2] = enferm.getPrioridadTriaje();
+		  modelEnfermVacuna.addRow(rowEnfermVacuna);
+		}
+		
 	}
 }

@@ -5,12 +5,14 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Enfermedad;
+import logico.Fabrica;
 import logico.Hospital;
 
 import javax.swing.JScrollPane;
@@ -29,9 +31,6 @@ public class ListarEnfermedades extends JDialog {
 	private static DefaultTableModel model;
 	private static Object[] row;
 	private Enfermedad selected = null;
-	private JButton btnUpdate;
-	private JButton btnDelete;
-	private JButton btnCancel;
 	private JButton btnUpdate_1;
 	private JButton btnDelete_1;
 	private JButton btnCancel_1;
@@ -78,8 +77,8 @@ public class ListarEnfermedades extends JDialog {
 						public void mouseClicked(MouseEvent e) {
 						   int index = table.getSelectedRow();
 						   if(index>=0){
-							  btnDelete.setEnabled(true);
-							  btnUpdate.setEnabled(true);
+							  btnDelete_1.setEnabled(true);
+							  btnUpdate_1.setEnabled(true);
 							  selected =Hospital.getInstance().buscarEnfermedadByNombre(table.getValueAt(index, 0).toString());
 						   }
 						}
@@ -104,22 +103,32 @@ public class ListarEnfermedades extends JDialog {
 						update.setVisible(true);
 					}
 				});
+				btnUpdate_1.setEnabled(false);
+				btnUpdate_1.setActionCommand("btnUpdate");
 				buttonPane.add(btnUpdate_1);
+				getRootPane().setDefaultButton(btnUpdate_1);
 			}
 			{
 				btnDelete_1 = new JButton("Eliminar");
 				btnDelete_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						int Option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el queso con código: "+selected.getCodigo(), "Eliminar", JOptionPane.OK_CANCEL_OPTION);
+						if(Option == JOptionPane.OK_OPTION){
+					    	Hospital.getInstance().EliminarQueso(selected);
+					    	//loadQuesos();
+					    	btnDelete_1.setEnabled(false);
+					    	btnUpdate_1.setEnabled(false);	    	
+					    }
 					}
 				});
-				btnDelete_1.setActionCommand("OK");
+				btnDelete_1.setEnabled(false);;
 				buttonPane.add(btnDelete_1);
-				getRootPane().setDefaultButton(btnDelete_1);
 			}
 			{
 				btnCancel_1 = new JButton("Cancelar");
 				btnCancel_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						dispose();
 					}
 				});
 				btnCancel_1.setActionCommand("Cancel");

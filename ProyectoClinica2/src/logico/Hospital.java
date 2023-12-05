@@ -13,10 +13,10 @@ public class Hospital {
 	private ArrayList<Consulta>misConsultas;
 	private ArrayList<Vivienda>misViviendas;
 	private ArrayList<Cita>misCitas;
-	private static int CodigoDoctor = 1;
-	private static int CodigoPaciente = 1;
-	private static int CodigoCita = 1;
-	private static int CodigoConsulta = 1;
+	private static int codigoDoctor = 1;
+	private static int codigoPaciente = 1;
+	private static int codigoCita = 1;
+	private static int codigoConsulta = 1;
 	
 	public Hospital() {
 		super();
@@ -85,19 +85,19 @@ public class Hospital {
 	}
 
 	public static int getCodigoDoctor() {
-		return CodigoDoctor;
+		return codigoDoctor;
 	}
 
 	public static void setCodigoDoctor(int codigoDoctor) {
-		CodigoDoctor = codigoDoctor;
+		Hospital.codigoDoctor = codigoDoctor;
 	}
 
 	public static int getCodigoPaciente() {
-		return CodigoPaciente;
+		return codigoPaciente;
 	}
 
 	public static void setCodigoPaciente(int codigoPaciente) {
-		CodigoPaciente = codigoPaciente;
+		Hospital.codigoPaciente = codigoPaciente;
 	}
 
 	public ArrayList<Vacuna> getMisVacunas() {
@@ -117,19 +117,19 @@ public class Hospital {
 	}
 
 	public static int getCodigoCita() {
-		return CodigoCita;
+		return codigoCita;
 	}
 
 	public static void setCodigoCita(int codigoCita) {
-		CodigoCita = codigoCita;
+		codigoCita = codigoCita;
 	}
 
 	public static int getCodigoConsulta() {
-		return CodigoConsulta;
+		return codigoConsulta;
 	}
 
 	public static void setCodigoConsulta(int codigoConsulta) {
-		CodigoConsulta = codigoConsulta;
+		Hospital.codigoConsulta = codigoConsulta;
 	}
 
 	public Doctor buscarDoctorById(String id) {
@@ -163,25 +163,12 @@ public class Hospital {
 		return null;
 	}
 
-	public void contarDoctor() {
-		CodigoDoctor++;
-	}
-	public void contarPaciente() {
-		CodigoPaciente++;
-	}
-	public void contarCita() {
-		CodigoCita++;
-	}
-	public void contarConsulta() {
-		CodigoConsulta++;
-	}
-
 	public void addPersona(Persona aux) {
 		misPersonas.add(aux);
 		if(aux instanceof Doctor)
-			contarDoctor();
+			codigoDoctor++;
 		else
-			contarPaciente();
+			codigoPaciente++;
 		
 	}
 
@@ -199,10 +186,21 @@ public class Hospital {
 	
 	public void addCita(Cita cita) {
 		misCitas.add(cita);
+		codigoCita++;
 	}
 	
 	public void addVacuna(Vacuna vacuna) {
 		misVacunas.add(vacuna);
+	}
+	
+	public void addConsulta(Consulta aux) {
+		misConsultas.add(aux);
+		codigoConsulta++;
+		
+	}
+	
+	public void eliminarEnfermedad(Enfermedad selected) {
+		misEnfermedades.remove(selected);
 	}
 	
 	public boolean verificarUsuario(String username, String password) {
@@ -235,10 +233,5 @@ public class Hospital {
 				return aux;
 		}
 		return null;
-	}
-
-	public void addConsulta(Consulta aux) {
-		misConsultas.add(aux);
-		
 	}
 }

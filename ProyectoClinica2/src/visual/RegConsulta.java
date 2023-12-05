@@ -327,11 +327,12 @@ public class RegConsulta extends JDialog {
 						Hospital.getInstance().addConsulta(consulta);
 						if(((Paciente) cita.getProxPaciente()).getNhc()!=null)
 						{
-							//Persona cita.getProxPaciente() = new Paciente()
-						}
-							
+							Paciente paciente = new Paciente(cita.getProxPaciente(),txtNHC.getText(),cbxSangre.getSelectedItem().toString(),Float.valueOf(txtPeso.getText()),Float.valueOf(txtEstatura.getText()));
 							if(rbtnYes.isEnabled())
-								((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
+								paciente.getHistorial().getMisConsultas().add(consulta);
+						}
+						else if(rbtnYes.isEnabled())
+							((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
 					}
 				});
 				okButton.setEnabled(false);
@@ -382,7 +383,7 @@ public class RegConsulta extends JDialog {
 		
 	}
 	private void load(Persona paciente) {
-		txtId.setText("Con-"+Hospital.getInstance().getCodigoConsulta());
+		txtId.setText("Con-"+Hospital.getCodigoConsulta());
 		txtNombre.setText(paciente.getNombre());
 		if(((Paciente) paciente).getNhc()!=null) {
 			txtNHC.setText(((Paciente) paciente).getNhc());
@@ -392,7 +393,7 @@ public class RegConsulta extends JDialog {
 		}
 		else {
 			cbxSangre.setEnabled(true);
-			txtNHC.setText("NHC-"+Hospital.getInstance().getCodigoPaciente());
+			txtNHC.setText("NHC-"+Hospital.getCodigoPaciente());
 		}
 	}
 

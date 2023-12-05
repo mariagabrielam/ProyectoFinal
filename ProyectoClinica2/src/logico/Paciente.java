@@ -31,6 +31,14 @@ public class Paciente extends Persona {
 		this.estatura = 0;
 		this.misVacunas = new ArrayList<>();
 	}
+	public Paciente(Persona persona, String nhc, String tipoSangre, float peso, float estatura) {
+		super(persona.getCedula(),persona.getNombre(), persona.getTelefono(), persona.getDireccion(),persona.getSexo());
+		this.historial = new HistorialClinico(nhc);
+		this.tipoSangre = tipoSangre;
+		this.peso = peso;
+		this.estatura = estatura;
+		this.misVacunas = new ArrayList<>();
+	}
 
 	public HistorialClinico getHistorial() {
 		return historial;

@@ -12,7 +12,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Enfermedad;
-import logico.Fabrica;
 import logico.Hospital;
 
 import javax.swing.JScrollPane;
@@ -112,10 +111,10 @@ public class ListarEnfermedades extends JDialog {
 				btnDelete_1 = new JButton("Eliminar");
 				btnDelete_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int Option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el queso con código: "+selected.getCodigo(), "Eliminar", JOptionPane.OK_CANCEL_OPTION);
+						int Option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el queso con código: "+selected.getNombre(), "Eliminar", JOptionPane.OK_CANCEL_OPTION);
 						if(Option == JOptionPane.OK_OPTION){
-					    	Hospital.getInstance().EliminarQueso(selected);
-					    	//loadQuesos();
+					    	Hospital.getInstance().eliminarEnfermedad(selected);
+					    	loadEnfermedades();
 					    	btnDelete_1.setEnabled(false);
 					    	btnUpdate_1.setEnabled(false);	    	
 					    }
@@ -135,6 +134,17 @@ public class ListarEnfermedades extends JDialog {
 				buttonPane.add(btnCancel_1);
 			}
 		}
+	}
+	public static void loadEnfermedades() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
+		  row[0] = enferm.getNombre();
+		  row[1] = enferm.isVigilancia();
+		  row[2] = enferm.getPrioridadTriaje();
+		  model.addRow(row);
+		}
+		
 	}
 
 }

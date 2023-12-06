@@ -25,6 +25,7 @@ public class Hospital implements Serializable {
 	private static int codigoVacuna = 1;
 	private static int codigoVivienda = 1;
 	private static Usuario loginUser;
+	private static int CodigoEmpleado = 1;
 	
 	public Hospital() {
 		super();
@@ -153,6 +154,10 @@ public class Hospital implements Serializable {
 
 	public void setMisCitas(ArrayList<Cita> misCitas) {
 		this.misCitas = misCitas;
+	}
+
+	public static int getCodigoEmpleado() {
+		return CodigoEmpleado;
 	}
 
 	public Doctor buscarDoctorById(String id) {

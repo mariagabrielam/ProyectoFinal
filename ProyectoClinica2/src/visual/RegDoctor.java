@@ -11,7 +11,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
 import logico.Doctor;
+import logico.Empleado;
 import logico.Hospital;
+import logico.Persona;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +27,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class RegDoctor extends JDialog {
 
@@ -44,6 +48,9 @@ public class RegDoctor extends JDialog {
 	private JFormattedTextField txtTelefono;
 	private JButton okButton;
 	private JFormattedTextField txtExequatur;
+	private JRadioButton rbtnDoctor;
+	private JRadioButton rbtnSecretario;
+	private JPanel panelDoctor;
 
 	/**
 	 * Launch the application.
@@ -65,13 +72,13 @@ public class RegDoctor extends JDialog {
 	 */
 	public RegDoctor() throws ParseException {
 		setTitle("Registrar Doctor");
-		setBounds(100, 100, 554, 366);
+		setBounds(100, 100, 445, 392);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		panel_General.setBorder(new TitledBorder(null, "Datos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_General.setBounds(12, 13, 408, 156);
+		panel_General.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Generales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_General.setBounds(12, 13, 408, 126);
 		contentPanel.add(panel_General);
 		panel_General.setLayout(null);
 		{
@@ -116,7 +123,7 @@ public class RegDoctor extends JDialog {
 		}
 		{
 			JLabel lblNewLabel_4 = new JLabel("Direcci\u00F3n:");
-			lblNewLabel_4.setBounds(12, 129, 65, 16);
+			lblNewLabel_4.setBounds(12, 98, 65, 16);
 			panel_General.add(lblNewLabel_4);
 		}
 		{
@@ -127,27 +134,10 @@ public class RegDoctor extends JDialog {
 					habilitarButton();
 				}
 			});
-			txtDireccion.setBounds(70, 123, 296, 22);
+			txtDireccion.setBounds(82, 95, 316, 22);
 			panel_General.add(txtDireccion);
 			txtDireccion.setColumns(10);
 		}
-		{
-			JLabel lblNewLabel_5 = new JLabel("Especialidad");
-			lblNewLabel_5.setBounds(204, 93, 65, 16);
-			panel_General.add(lblNewLabel_5);
-		}
-
-		cbxEspecialidad = new JComboBox<Object>();
-		cbxEspecialidad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				habilitarButton();
-			}
-		});
-		cbxEspecialidad.setModel(new DefaultComboBoxModel<Object>(
-				new String[] { "<Seleccione>", "Cardiologo", "Podologo", "Ginecologo" }));
-		cbxEspecialidad.setToolTipText("");
-		cbxEspecialidad.setBounds(282, 90, 116, 22);
-		panel_General.add(cbxEspecialidad);
 		{
 			try {
 				MaskFormatter formatter = new MaskFormatter("###-#######-#");
@@ -173,25 +163,12 @@ public class RegDoctor extends JDialog {
 					panel_General.add(txtTelefono);
 				}
 
-				JLabel lblNewLabel_6 = new JLabel("Exequatur: ");
-				lblNewLabel_6.setBounds(10, 94, 67, 14);
-				panel_General.add(lblNewLabel_6);
-
 				MaskFormatter formatterExequatur = new MaskFormatter("##-####");
-				txtExequatur = new JFormattedTextField(formatterExequatur);
-				txtExequatur.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyReleased(KeyEvent e) {
-						habilitarButton();
-					}
-				});
-				txtExequatur.setBounds(82, 89, 116, 20);
-				panel_General.add(txtExequatur);
 
 				JPanel panel_Sexo = new JPanel();
 				panel_Sexo
 						.setBorder(new TitledBorder(null, "Sexo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_Sexo.setBounds(12, 180, 408, 59);
+				panel_Sexo.setBounds(12, 143, 408, 51);
 				contentPanel.add(panel_Sexo);
 				panel_Sexo.setLayout(null);
 
@@ -209,6 +186,77 @@ public class RegDoctor extends JDialog {
 				rdbtnF = new JRadioButton("Femenino");
 				rdbtnF.setBounds(240, 17, 92, 25);
 				panel_Sexo.add(rdbtnF);
+				{
+					panelDoctor = new JPanel();
+					panelDoctor.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Espec\u00EDficos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+					panelDoctor.setBounds(12, 246, 408, 61);
+					contentPanel.add(panelDoctor);
+					panelDoctor.setLayout(null);
+					
+									JLabel lblNewLabel_6 = new JLabel("Exequatur: ");
+									lblNewLabel_6.setBounds(12, 25, 67, 14);
+									panelDoctor.add(lblNewLabel_6);
+									txtExequatur = new JFormattedTextField(formatterExequatur);
+									txtExequatur.setBounds(84, 22, 116, 20);
+									panelDoctor.add(txtExequatur);
+									{
+										JLabel lblNewLabel_5 = new JLabel("Especialidad:");
+										lblNewLabel_5.setBounds(206, 24, 79, 16);
+										panelDoctor.add(lblNewLabel_5);
+									}
+									
+											cbxEspecialidad = new JComboBox<Object>();
+											cbxEspecialidad.setBounds(284, 22, 116, 22);
+											panelDoctor.add(cbxEspecialidad);
+											cbxEspecialidad.addActionListener(new ActionListener() {
+												public void actionPerformed(ActionEvent e) {
+													habilitarButton();
+												}
+											});
+											cbxEspecialidad.setModel(new DefaultComboBoxModel<Object>(
+													new String[] { "<Seleccione>", "Cardiologo", "Podologo", "Ginecologo" }));
+											cbxEspecialidad.setToolTipText("");
+											{
+												JPanel panel_1 = new JPanel();
+												panel_1.setLayout(null);
+												panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tipo de Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+												panel_1.setBounds(12, 193, 408, 51);
+												contentPanel.add(panel_1);
+												{
+													rbtnDoctor = new JRadioButton("Doctor");
+													rbtnDoctor.addActionListener(new ActionListener() {
+														public void actionPerformed(ActionEvent e) {
+															rbtnDoctor.setSelected(true);
+															rbtnSecretario.setSelected(false);
+															panelDoctor.setVisible(true);
+															txtID.setText("D-"+Hospital.getCodigoDoctor());
+														}
+													});
+													rbtnDoctor.setSelected(true);
+													rbtnDoctor.setBounds(74, 17, 92, 25);
+													panel_1.add(rbtnDoctor);
+												}
+												{
+													rbtnSecretario = new JRadioButton("Secretario");
+													rbtnSecretario.addActionListener(new ActionListener() {
+														public void actionPerformed(ActionEvent e) {
+															rbtnDoctor.setSelected(false);
+															rbtnSecretario.setSelected(true);
+															panelDoctor.setVisible(false);
+															txtID.setText("S-"+Hospital.getCodigoEmpleado());
+														}
+													});
+													rbtnSecretario.setBounds(240, 17, 92, 25);
+													panel_1.add(rbtnSecretario);
+												}
+											}
+									txtExequatur.addKeyListener(new KeyAdapter() {
+										@Override
+										public void keyReleased(KeyEvent e) {
+											habilitarButton();
+										}
+									});
+				}
 				rdbtnF.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						rdbtnF.setSelected(true);
@@ -229,9 +277,18 @@ public class RegDoctor extends JDialog {
 				okButton.setEnabled(false);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Doctor aux = new Doctor(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
+						Persona aux = null;
+						if(rbtnDoctor.isSelected())
+						{
+							aux = new Doctor(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
 								txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Doctor",
 								txtExequatur.getText(), cbxEspecialidad.getSelectedItem().toString());
+						}
+						else
+						{
+							aux = new Empleado(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
+									txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Secretario");
+						}
 						Hospital.getInstance().addPersona(aux);
 						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -263,13 +320,22 @@ public class RegDoctor extends JDialog {
 	}
 
 	private void habilitarButton() {
-		if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
-				&& cbxEspecialidad.getSelectedIndex() > 0 && txtCedula.getText().charAt(0) != ' '
-				&& txtTelefono.getText().charAt(0) != ' ' && txtExequatur.getText().charAt(0) != ' ') {
-			okButton.setEnabled(true);
-		} else {
-			okButton.setEnabled(false);
-		}
+		if(rbtnDoctor.isSelected())
+			if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
+					&& cbxEspecialidad.getSelectedIndex() > 0 && txtCedula.getText().charAt(0) != ' '
+					&& txtTelefono.getText().charAt(0) != ' ' && txtExequatur.getText().charAt(0) != ' ') {
+				okButton.setEnabled(true);
+			} else {
+				okButton.setEnabled(false);
+			}
+		else
+			if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
+					&& txtCedula.getText().charAt(0) != ' ' && txtTelefono.getText().charAt(0) != ' ') {
+				okButton.setEnabled(true);
+			} else {
+				okButton.setEnabled(false);
+			}
+			
 
 	}
 	private void borrarCampos() {

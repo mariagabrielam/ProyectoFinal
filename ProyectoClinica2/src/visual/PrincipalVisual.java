@@ -175,7 +175,7 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar Doctor");
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar Empleado");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -229,19 +229,10 @@ public class PrincipalVisual extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportBorder(new TitledBorder(null, "Citas de Hoy", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(12, 164, 391, 251);
-		contentPane.add(scrollPane);
-		
-		
-		tblCitas = new JTable();
 		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
 		loadCitasHoy();
-		scrollPane.setViewportView(tblCitas);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -319,6 +310,21 @@ public class PrincipalVisual extends JFrame {
 		txtPorVac.setColumns(10);
 		txtPorVac.setBounds(232, 150, 34, 22);
 		panel.add(txtPorVac);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Citas de Hoy", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(12, 166, 391, 249);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 27, 367, 209);
+		panel_1.add(scrollPane);
+		
+		
+		tblCitas = new JTable();
+		tblCitas.setModel(model);
+		scrollPane.setViewportView(tblCitas);
 		
 		load();
 		mostrarPrivilegios();

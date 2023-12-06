@@ -152,6 +152,12 @@ public class PrincipalVisual extends JFrame {
 		});
 		mnCita.add(mntmNewMenuItem_4);
 		
+		JMenu mnNewMenu = new JMenu("Paciente");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Listar Pacientes");
+		mnNewMenu.add(mntmNewMenuItem);
+		
 		mnAdmin = new JMenu("Administraci\u00F3n");
 		menuBar.add(mnAdmin);
 		
@@ -193,10 +199,14 @@ public class PrincipalVisual extends JFrame {
 		});
 		mnAdmin.add(mntmNewMenuItem_9);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Listar Pacientes");
-		mnAdmin.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Empleados");
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Doctores");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarDoctor doc = new ListarDoctor();
+				doc.setModal(true);
+				doc.setVisible(true);
+			}
+		});
 		mnAdmin.add(mntmNewMenuItem_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");

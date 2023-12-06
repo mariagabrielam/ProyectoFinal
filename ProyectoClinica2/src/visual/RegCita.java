@@ -331,8 +331,8 @@ public class RegCita extends JDialog {
 	}
 
 	private void habilitarBoton() {
-		if (!txtCedula.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
-				&& !txtTelefono.getText().isEmpty() && selected != null) {
+		if (txtCedula.getText().charAt(0) != ' ' && !txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
+				&& txtTelefono.getText().charAt(0) != ' ' && selected != null) {
 			okButton.setEnabled(true);
 		} else {
 			okButton.setEnabled(false);

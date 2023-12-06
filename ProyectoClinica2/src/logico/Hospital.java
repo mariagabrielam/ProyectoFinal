@@ -26,6 +26,9 @@ public class Hospital {
 		this.misHistoriales = new ArrayList<HistorialClinico>();
 		this.misEnfermedades = new ArrayList<Enfermedad>();
 		this.misUsuarios = new ArrayList<Usuario>();
+		this.misCitas = new ArrayList<>();
+		this.misVacunas = new ArrayList<>();
+		this.misConsultas = new ArrayList<>();
 	}
 	
 	public static Hospital getInstance() {

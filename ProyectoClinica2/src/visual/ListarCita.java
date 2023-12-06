@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -25,7 +26,6 @@ import com.toedter.calendar.JCalendar;
 import logico.Cita;
 import logico.Doctor;
 import logico.Hospital;
-import javax.swing.ListSelectionModel;
 
 public class ListarCita extends JDialog {
 
@@ -74,10 +74,10 @@ public class ListarCita extends JDialog {
 			panel_Doctor.setLayout(null);
 			
 			cbxDoctor = new JComboBox<Object>();
-			cbxDoctor.setModel(null);
 			loadDoctores();
 			cbxDoctor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					imprimirTituloTabla();
 					if(cbxDoctor.getSelectedIndex()>0)
 						doctor = Hospital.getInstance().buscarDoctorById(cbxDoctor.getSelectedItem().toString());
 					else
@@ -120,8 +120,7 @@ public class ListarCita extends JDialog {
 		panel_Horas.add(scrollPane);
 		
 		model = new DefaultTableModel();
-		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
-		model.setColumnIdentifiers(header);
+		imprimirTituloTabla();
 		tblAgenda = new JTable();
 		tblAgenda.addMouseListener(new MouseAdapter() {
 			@Override
@@ -201,7 +200,7 @@ public class ListarCita extends JDialog {
 	private void loadCitas(Doctor doctor) {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
-		if(doctor!= null)
+		if(doctor!= null) //Tiene doctor
 		{
 			for(Cita aux:Hospital.getInstance().getMisCitas())
 			{
@@ -209,14 +208,13 @@ public class ListarCita extends JDialog {
 				{
 					row[0] = aux.getId();
 					row[1] = aux.getFchProgramada().getTime();
-					row[2] = aux.getMiDoctor().getNombre();
-					row[3] = aux.getProxPaciente().getNombre();
+					row[2] = aux.getProxPaciente().getNombre();
 					model.addRow(row);
 				}
 			}
 		}
-		else 
-			for(Cita aux:Hospital.getInstance().getMisCitas())
+		else //No tiene
+			for(Cita aux:Hospital.getInstance().getMisCitas()) 
 			{
 				row[0] = aux.getId();
 				row[1] = aux.getFchProgramada().getTime();

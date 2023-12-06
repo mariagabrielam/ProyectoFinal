@@ -235,6 +235,7 @@ public class RegDoctor extends JDialog {
 						Hospital.getInstance().addPersona(aux);
 						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro",
 								JOptionPane.INFORMATION_MESSAGE);
+						borrarCampos();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -270,5 +271,13 @@ public class RegDoctor extends JDialog {
 			okButton.setEnabled(false);
 		}
 
+	}
+	private void borrarCampos() {
+		txtCedula.setText("");
+		txtDireccion.setText("");
+		txtExequatur.setText("");
+		txtID.setText("D-"+Hospital.getCodigoDoctor());
+		txtTelefono.setText("");
+		txtNombre.setText("");
 	}
 }

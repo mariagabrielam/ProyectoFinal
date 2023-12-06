@@ -246,6 +246,13 @@ public class Hospital {
 		}
 		return null;
 	}
+	public Vacuna buscarVacunaByCode(String string) {
+		for(Vacuna aux:misVacunas) {
+			if(aux.getLote().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
 	public Vacuna buscarVacunaByNombre(String string) {
 		for(Vacuna aux:misVacunas) {
 			if(aux.getNombre().equalsIgnoreCase(string))
@@ -279,5 +286,16 @@ public class Hospital {
 			}
 		}
 	return misPacientes;
+	}
+
+	public Consulta buscarConsultaById(String string) {
+		for(Consulta aux:misConsultas) {
+			if(aux.getId().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
+	public void eliminarVacuna(Vacuna aux) {
+		misVacunas.remove(aux);
 	}
 }

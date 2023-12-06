@@ -42,6 +42,7 @@ public class ListarPaciente extends JDialog {
 	private Paciente selected = null;
 	private JTable tblVacunas;
 	private JButton btnSelect;
+	private JButton btnVacuna;
 
 	/**
 	 * Launch the application.
@@ -60,6 +61,7 @@ public class ListarPaciente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarPaciente() {
+		setTitle("Lista de Pacientes");
 		setBounds(100, 100, 511, 529);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,8 +81,10 @@ public class ListarPaciente extends JDialog {
 							if(index>0)
 							{
 								selected = Hospital.getInstance().buscarPacienteByNHC(tblPacientes.getValueAt(index, 0).toString());
-								btnSelect.setEnabled(false);
-							}					}
+								btnSelect.setEnabled(true);
+								btnVacuna.setEnabled(true);
+							}					
+						}
 				});
 				scrollPane.setViewportView(tblPacientes);
 				String[] header = {"Código","Cédula","Nombre"};
@@ -204,12 +208,26 @@ public class ListarPaciente extends JDialog {
 						
 					}
 				});
+				
+				btnVacuna = new JButton("Ingresar Vacuna");
+				btnVacuna.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+				btnVacuna.setEnabled(false);
+				buttonPane.add(btnVacuna);
 				btnSelect.setActionCommand("OK");
 				buttonPane.add(btnSelect);
 				getRootPane().setDefaultButton(btnSelect);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

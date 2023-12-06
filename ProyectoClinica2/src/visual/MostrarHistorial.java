@@ -220,7 +220,7 @@ public class MostrarHistorial extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblConsulta.getSelectedRow();
-				//selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
+				selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
 				loadHistorial();
 			}
 		});

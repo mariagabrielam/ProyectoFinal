@@ -330,8 +330,14 @@ public class RegConsulta extends JDialog {
 							if(rbtnYes.isEnabled())
 								paciente.getHistorial().getMisConsultas().add(consulta);
 						}
-						else if(rbtnYes.isEnabled())
-							((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
+						else 
+						{
+							((Paciente) cita.getProxPaciente()).setPeso(Float.valueOf(txtPeso.getText()));
+							((Paciente) cita.getProxPaciente()).setEstatura(Float.valueOf(txtEstatura.getText()));
+							if(rbtnYes.isEnabled())
+								((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
+						}
+							
 					}
 				});
 				okButton.setEnabled(false);

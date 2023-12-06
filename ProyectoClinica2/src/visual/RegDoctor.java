@@ -90,14 +90,14 @@ public class RegDoctor extends JDialog {
 		{
 			txtID = new JTextField();
 			txtID.setEditable(false);
-			txtID.setBounds(38, 26, 116, 22);
+			txtID.setBounds(70, 26, 116, 22);
 			panel.add(txtID);
 			txtID.setColumns(10);
 			txtID.setText("D-"+Hospital.getCodigoDoctor());
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("C\u00E9dula:");
-			lblNewLabel_1.setBounds(184, 29, 56, 16);
+			lblNewLabel_1.setBounds(196, 29, 56, 16);
 			panel.add(lblNewLabel_1);
 		}
 		{
@@ -113,7 +113,7 @@ public class RegDoctor extends JDialog {
 					habilitarButton();
 				}
 			});
-			txtNombre.setBounds(73, 59, 116, 22);
+			txtNombre.setBounds(70, 56, 116, 22);
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
 		}
@@ -135,7 +135,7 @@ public class RegDoctor extends JDialog {
 					habilitarButton();
 				}
 			});
-			txtDireccion.setBounds(73, 89, 116, 22);
+			txtDireccion.setBounds(70, 86, 116, 22);
 			panel.add(txtDireccion);
 			txtDireccion.setColumns(10);
 		}
@@ -153,7 +153,7 @@ public class RegDoctor extends JDialog {
 		});
 		cbxExeq.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Cardiologo", "Podologo"}));
 		cbxExeq.setToolTipText("");
-		cbxExeq.setBounds(83, 118, 106, 22);
+		cbxExeq.setBounds(70, 116, 106, 22);
 		panel.add(cbxExeq);
 		
 		JLabel lblNewLabel_6 = new JLabel("Sexo:");

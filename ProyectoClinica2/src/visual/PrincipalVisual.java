@@ -142,6 +142,16 @@ public class PrincipalVisual extends JFrame {
 		});
 		mnCita.add(mntmNewMenuItem_6);
 		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Listar Cita");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarCita listCita =  new ListarCita();
+				listCita.setModal(true);
+				listCita.setVisible(true);
+			}
+		});
+		mnCita.add(mntmNewMenuItem_4);
+		
 		mnAdmin = new JMenu("Administraci\u00F3n");
 		menuBar.add(mnAdmin);
 		

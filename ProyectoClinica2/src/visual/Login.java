@@ -152,9 +152,8 @@ public class Login extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(Hospital.getInstance().verificarUsuario(txtUser.getText(),passwordField.getPassword().toString())) {
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Login", JOptionPane.INFORMATION_MESSAGE);
-							PrincipalVisual principalVisual = new PrincipalVisual(Hospital.getInstance().buscarUsuarioByName(txtUser.getText()));
-							//principalVisual.setModal(true);
-							principalVisual.setVisible(true);
+							PrincipalVisual frame = new PrincipalVisual(Hospital.getInstance().buscarUsuarioByName(txtUser.getText()));
+							frame.setVisible(true);
 							dispose();
 						}
 					}

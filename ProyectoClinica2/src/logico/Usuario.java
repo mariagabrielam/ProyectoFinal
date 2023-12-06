@@ -11,12 +11,14 @@ public class Usuario implements Serializable{
 	private String username;
 	private String password;
 	private Persona persona;
+	private String tipo;
 	
-	public Usuario(String username, String password, Persona persona) {
+	public Usuario(String username, String password, Persona persona, String tipo) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.persona = persona;
+		this.setTipo(tipo);
 	}
 
 	public String getUsername() {
@@ -41,6 +43,14 @@ public class Usuario implements Serializable{
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	

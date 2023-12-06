@@ -25,7 +25,7 @@ public class Hospital implements Serializable {
 	private static int codigoVacuna = 1;
 	private static int codigoVivienda = 1;
 	private static Usuario loginUser;
-	private static int CodigoEmpleado = 1;
+	private static int codigoEmpleado = 1;
 	
 	public Hospital() {
 		super();
@@ -157,7 +157,7 @@ public class Hospital implements Serializable {
 	}
 
 	public static int getCodigoEmpleado() {
-		return CodigoEmpleado;
+		return codigoEmpleado;
 	}
 
 	public Doctor buscarDoctorById(String id) {
@@ -193,10 +193,18 @@ public class Hospital implements Serializable {
 
 	public void addPersona(Persona aux) {
 		misPersonas.add(aux);
-		if(aux instanceof Doctor)
-			codigoDoctor++;
-		else
+		if(aux instanceof Empleado)
+		{
+			if(((Empleado) aux).esDoctor())
+			{
+				codigoDoctor++;
+			}else
+				codigoEmpleado++;
+				
+		}else {
 			codigoPaciente++;
+		}
+			
 		
 	}
 
@@ -318,5 +326,14 @@ public class Hospital implements Serializable {
 
 	public void eliminarVacuna(Vacuna selected) {
 		misVacunas.remove(selected);
+	}
+
+	public void contarDoctor() {
+		codigoDoctor++;
+		
+	}
+
+	public void contarEmpleado() {
+		codigoEmpleado++;
 	}
 }

@@ -27,6 +27,10 @@ import java.awt.Color;
 
 public class ListarPaciente extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7764217445984764763L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable tblPacientes;
 	private static DefaultTableModel model;
@@ -248,6 +252,7 @@ public class ListarPaciente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadPacientes();
 	}
 	private void loadPacientes() {
 		model.setRowCount(0);

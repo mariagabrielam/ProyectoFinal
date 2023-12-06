@@ -62,7 +62,7 @@ public class ListarDoctor extends JDialog {
 	 */
 	public ListarDoctor() {
 		setTitle("Lista de Doctores");
-		setBounds(100, 100, 624, 444);
+		setBounds(100, 100, 544, 444);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -70,13 +70,13 @@ public class ListarDoctor extends JDialog {
 		{
 			JPanel panel_Doctores = new JPanel();
 			panel_Doctores.setBorder(new TitledBorder(null, "Doctores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_Doctores.setBounds(163, 11, 435, 350);
+			panel_Doctores.setBounds(10, 101, 506, 260);
 			contentPanel.add(panel_Doctores);
 			panel_Doctores.setLayout(null);
 			
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setBounds(10, 21, 415, 318);
+			scrollPane.setBounds(10, 21, 486, 228);
 			panel_Doctores.add(scrollPane);
 			
 			String[] header = {"Id" , "Nombre" , "Cedula" ,"Especialidad"};
@@ -101,26 +101,38 @@ public class ListarDoctor extends JDialog {
 		
 		JPanel panel_Filtros = new JPanel();
 		panel_Filtros.setBorder(new TitledBorder(null, "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Filtros.setBounds(10, 188, 154, 173);
+		panel_Filtros.setBounds(10, 11, 506, 79);
 		contentPanel.add(panel_Filtros);
 		panel_Filtros.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Especialidad: ");
-		lblNewLabel.setBounds(10, 28, 72, 14);
+		lblNewLabel.setBounds(26, 26, 72, 14);
 		panel_Filtros.add(lblNewLabel);
 		
 		String[] especialidades = buscarEspecialidades();
 		cbxEspecialidad = new JComboBox<Object>(especialidades);
-		cbxEspecialidad.setBounds(10, 44, 134, 20);
+		cbxEspecialidad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doctoresFiltrado = filtrarByEspecialidad(misDoctores, cbxEspecialidad.getSelectedItem().toString());
+				imprimirDoctores(doctoresFiltrado);
+			}
+		});
+		cbxEspecialidad.setBounds(26, 44, 134, 20);
 		panel_Filtros.add(cbxEspecialidad);
 		
 		JLabel lblNewLabel_1 = new JLabel("Sexo: ");
-		lblNewLabel_1.setBounds(10, 75, 46, 14);
+		lblNewLabel_1.setBounds(186, 26, 46, 14);
 		panel_Filtros.add(lblNewLabel_1);
 		
 		cbxSexo = new JComboBox<Object>();
+		cbxSexo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doctoresFiltrado = filtrarBySexo(misDoctores, cbxEspecialidad.getSelectedItem().toString());
+				imprimirDoctores(doctoresFiltrado);
+			}
+		});
 		cbxSexo.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Selecione>", "Masculino", "Femenino"}));
-		cbxSexo.setBounds(10, 93, 134, 20);
+		cbxSexo.setBounds(186, 44, 134, 20);
 		panel_Filtros.add(cbxSexo);
 		
 		JButton btnBorrarFiltros = new JButton("Borrar Filtros");
@@ -128,30 +140,11 @@ public class ListarDoctor extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				cbxEspecialidad.setSelectedIndex(0);
 				cbxSexo.setSelectedIndex(0);
-				
-				imprimirDoctores(misDoctores,"<Selecione>","<Selecione>");
+				imprimirDoctores(misDoctores);
 			}
 		});
-		btnBorrarFiltros.setBounds(10, 124, 134, 23);
+		btnBorrarFiltros.setBounds(346, 43, 134, 23);
 		panel_Filtros.add(btnBorrarFiltros);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Ordenar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 154, 166);
-		contentPanel.add(panel);
-		panel.setLayout(null);
-		
-		JButton btnAlfa = new JButton("Alfabetico");
-		btnAlfa.setBounds(10, 24, 134, 23);
-		panel.add(btnAlfa);
-		
-		JButton btnId = new JButton("Identificaci\u00F3n");
-		btnId.setBounds(10, 71, 134, 23);
-		panel.add(btnId);
-		
-		JButton btnEspecialidad = new JButton("Especialidad");
-		btnEspecialidad.setBounds(10, 118, 134, 23);
-		panel.add(btnEspecialidad);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -178,10 +171,10 @@ public class ListarDoctor extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+		imprimirDoctores(misDoctores);
 	}
 	
-	private void imprimirDoctores(ArrayList<Doctor> doctores, String sexo, String especialidades)
+	private void imprimirDoctores(ArrayList<Doctor> doctores)
 	{
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
@@ -214,4 +207,36 @@ public class ListarDoctor extends JDialog {
 		especialidadSinRepetir.toArray(especialidades);
 		return especialidades;
 	}
+	private ArrayList<Doctor> filtrarByEspecialidad(ArrayList<Doctor> doctores, String especialidad)
+	{
+		ArrayList<Doctor> doctoresEspecialidad = new ArrayList<>();
+		for (Doctor aux : doctores) {
+			if(especialidad.equalsIgnoreCase("<Selecione>"))
+			{
+				doctoresEspecialidad = doctores;
+				break;
+			}else if(aux.getEspecialidad().equalsIgnoreCase(especialidad))
+			{
+				doctoresEspecialidad.add(aux);
+			}
+		}
+		return doctoresEspecialidad;
+	}
+	
+	private ArrayList<Doctor> filtrarBySexo(ArrayList<Doctor> doctores, String sexo)
+	{
+		ArrayList<Doctor> doctoresSexo = new ArrayList<>();
+		for (Doctor aux : doctores) {
+			if(sexo.equalsIgnoreCase("<Selecione>"))
+			{
+				doctoresSexo = doctores;
+				break;
+			}else if(aux.getEspecialidad().equalsIgnoreCase(sexo))
+			{
+				doctoresSexo.add(aux);
+			}
+		}
+		return doctoresSexo;
+	}
+
 }

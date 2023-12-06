@@ -26,6 +26,10 @@ import java.awt.event.ActionEvent;
 
 public class ListarVacuna extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 14848950850112453L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;

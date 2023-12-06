@@ -230,6 +230,7 @@ public class RegDoctor extends JDialog {
 															rbtnSecretario.setSelected(false);
 															panelDoctor.setVisible(true);
 															txtID.setText("D-"+Hospital.getCodigoDoctor());
+															habilitarButton();
 														}
 													});
 													rbtnDoctor.setSelected(true);
@@ -244,6 +245,7 @@ public class RegDoctor extends JDialog {
 															rbtnSecretario.setSelected(true);
 															panelDoctor.setVisible(false);
 															txtID.setText("S-"+Hospital.getCodigoEmpleado());
+															habilitarButton();
 														}
 													});
 													rbtnSecretario.setBounds(240, 17, 92, 25);

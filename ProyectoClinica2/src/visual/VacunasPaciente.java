@@ -28,6 +28,10 @@ import java.awt.event.ActionEvent;
 
 public class VacunasPaciente extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6167109698954110585L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNHC;
 	private JTextField txtNombre;
@@ -217,10 +221,10 @@ public class VacunasPaciente extends JDialog {
 			row[0] = aux.getNombre();
 		}
 		model1.setRowCount(0);
-		row1 =new Object[model.getColumnCount()];
+		row1 =new Object[model1.getColumnCount()];
 		for(Vacuna aux:vacunasPaciente)
 		{
-			row[0] = aux.getNombre();
+			row1[0] = aux.getNombre();
 		}
 	}
 }

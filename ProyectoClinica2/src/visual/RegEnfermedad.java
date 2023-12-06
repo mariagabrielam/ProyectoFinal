@@ -28,7 +28,6 @@ public class RegEnfermedad extends JDialog {
 	 */
 	private static final long serialVersionUID = 3119794586616135153L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtID;
 	private JTextField txtNombre;
 	private JTextField txtPrecauciones;
 	private JTextField txtProcedimientos;
@@ -36,11 +35,11 @@ public class RegEnfermedad extends JDialog {
 	private JCheckBox chbxFiebre;
 	private JCheckBox chbxDolor;
 	private JCheckBox chbx;
-	private JCheckBox checkBox;
-	private JCheckBox checkBox_1;
+	private JCheckBox chckbxDiarrea;
+	private JCheckBox chckbxDolorDeCabeza;
 	private JCheckBox chckbxNewCheckBox_1;
-	private JCheckBox checkBox_2;
-	private JCheckBox checkBox_3;
+	private JCheckBox chckbxMareo;
+	private JCheckBox chckbxFaatiga;
 	private JRadioButton rdbtnVigilancia;
 	private JButton okButton;
 	private int contSintomas = 0;
@@ -64,7 +63,7 @@ public class RegEnfermedad extends JDialog {
 	public RegEnfermedad(Enfermedad enfermedad) {
 		
 		setTitle("Registrar Enfermedad");
-		setBounds(100, 100, 450, 452);
+		setBounds(100, 100, 450, 478);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -72,22 +71,12 @@ public class RegEnfermedad extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Datos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(12, 13, 408, 344);
+		panel.setBounds(12, 11, 412, 384);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("ID:");
-		lblNewLabel.setBounds(12, 36, 30, 16);
-		panel.add(lblNewLabel);
-		
-		txtID = new JTextField();
-		txtID.setEditable(false);
-		txtID.setBounds(38, 33, 116, 22);
-		panel.add(txtID);
-		txtID.setColumns(10);
-		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setBounds(166, 36, 56, 16);
+		lblNewLabel_1.setBounds(12, 36, 56, 16);
 		panel.add(lblNewLabel_1);
 		
 		txtNombre = new JTextField();
@@ -97,17 +86,17 @@ public class RegEnfermedad extends JDialog {
 				habilitarBoton();
 			}
 		});
-		txtNombre.setBounds(228, 33, 116, 22);
+		txtNombre.setBounds(64, 33, 116, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Precauciones:");
-		lblNewLabel_3.setBounds(12, 197, 89, 16);
+		lblNewLabel_3.setBounds(39, 187, 89, 16);
 		panel.add(lblNewLabel_3);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00EDntomas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(12, 63, 384, 103);
+		panel_1.setBounds(12, 73, 384, 103);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -121,11 +110,11 @@ public class RegEnfermedad extends JDialog {
 		chbxToz.setBounds(8, 19, 113, 25);
 		panel_1.add(chbxToz);
 		
-		chbx = new JCheckBox("New check box");
+		chbx = new JCheckBox("V\u00F3mitos ");
 		chbx.setBounds(8, 43, 113, 25);
 		panel_1.add(chbx);
 		
-		chckbxNewCheckBox_1 = new JCheckBox("New check box");
+		chckbxNewCheckBox_1 = new JCheckBox("N\u00E1useas");
 		chckbxNewCheckBox_1.setBounds(8, 69, 113, 25);
 		panel_1.add(chckbxNewCheckBox_1);
 		
@@ -139,13 +128,13 @@ public class RegEnfermedad extends JDialog {
 		chbxFiebre.setBounds(125, 19, 113, 25);
 		panel_1.add(chbxFiebre);
 		
-		checkBox = new JCheckBox("New check box");
-		checkBox.setBounds(125, 43, 113, 25);
-		panel_1.add(checkBox);
+		chckbxDiarrea = new JCheckBox("Diarrea");
+		chckbxDiarrea.setBounds(125, 43, 113, 25);
+		panel_1.add(chckbxDiarrea);
 		
-		checkBox_2 = new JCheckBox("New check box");
-		checkBox_2.setBounds(125, 69, 113, 25);
-		panel_1.add(checkBox_2);
+		chckbxMareo = new JCheckBox("Mareo");
+		chckbxMareo.setBounds(125, 69, 113, 25);
+		panel_1.add(chckbxMareo);
 		
 		chbxDolor = new JCheckBox("Dolor Corporal");
 		chbxDolor.addActionListener(new ActionListener() {
@@ -157,47 +146,47 @@ public class RegEnfermedad extends JDialog {
 		chbxDolor.setBounds(248, 19, 113, 25);
 		panel_1.add(chbxDolor);
 		
-		checkBox_1 = new JCheckBox("New check box");
-		checkBox_1.setBounds(248, 43, 113, 25);
-		panel_1.add(checkBox_1);
+		chckbxDolorDeCabeza = new JCheckBox("Dolor de cabeza");
+		chckbxDolorDeCabeza.setBounds(248, 43, 113, 25);
+		panel_1.add(chckbxDolorDeCabeza);
 		
-		checkBox_3 = new JCheckBox("New check box");
-		checkBox_3.setBounds(248, 69, 113, 25);
-		panel_1.add(checkBox_3);
+		chckbxFaatiga = new JCheckBox("Fatiga");
+		chckbxFaatiga.setBounds(248, 69, 113, 25);
+		panel_1.add(chckbxFaatiga);
 		
 		txtPrecauciones = new JTextField();
-		txtPrecauciones.setBounds(96, 197, 300, 37);
+		txtPrecauciones.setBounds(112, 187, 284, 61);
 		panel.add(txtPrecauciones);
 		txtPrecauciones.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Procedimientos:");
-		lblNewLabel_2.setBounds(9, 239, 92, 16);
+		lblNewLabel_2.setBounds(26, 272, 92, 16);
 		panel.add(lblNewLabel_2);
 		
 		txtProcedimientos = new JTextField();
-		txtProcedimientos.setBounds(112, 239, 284, 61);
+		txtProcedimientos.setBounds(112, 272, 284, 61);
 		panel.add(txtProcedimientos);
 		txtProcedimientos.setColumns(10);
 		
-		rdbtnVigilancia = new JRadioButton(" Vigilancia");
-		rdbtnVigilancia.setBounds(12, 275, 127, 25);
+		rdbtnVigilancia = new JRadioButton(" Enfermedad en Vigilancia");
+		rdbtnVigilancia.setBounds(227, 32, 169, 25);
 		panel.add(rdbtnVigilancia);
 		
 		JRadioButton radioButton = new JRadioButton("Verde");
 		radioButton.setSelected(true);
-		radioButton.setBounds(274, 303, 70, 23);
+		radioButton.setBounds(286, 354, 70, 23);
 		panel.add(radioButton);
 		
 		JRadioButton radioButton_1 = new JRadioButton("Amarillo");
-		radioButton_1.setBounds(186, 303, 84, 23);
+		radioButton_1.setBounds(187, 354, 84, 23);
 		panel.add(radioButton_1);
 		
 		JRadioButton radioButton_2 = new JRadioButton("Rojo");
-		radioButton_2.setBounds(112, 303, 56, 23);
+		radioButton_2.setBounds(112, 354, 56, 23);
 		panel.add(radioButton_2);
 		
 		JLabel label = new JLabel("Prioridad Triaje:");
-		label.setBounds(12, 306, 116, 16);
+		label.setBounds(28, 357, 116, 16);
 		panel.add(label);
 		{
 			JPanel buttonPane = new JPanel();

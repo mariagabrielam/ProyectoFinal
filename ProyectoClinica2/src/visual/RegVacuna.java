@@ -45,8 +45,7 @@ public class RegVacuna extends JDialog {
 	private static Object[] rowEnfermVacuna;
 	private static ArrayList<Enfermedad>allEnferm;
 	private static ArrayList<Enfermedad>enfermVacuna;
-	private JButton btnnRightMove;
-	private JButton btnnLeftMove;
+	private JButton btnMove;
 
 	/**
 	 * Launch the application.
@@ -68,7 +67,7 @@ public class RegVacuna extends JDialog {
 		setTitle("Registrar Vacuna");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setBounds(100, 100, 515, 467);
+		setBounds(100, 100, 507, 458);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -134,7 +133,8 @@ public class RegVacuna extends JDialog {
 					if(index>=0) {
 						selectedAllEnfermedad=allEnferm.get(index);
 						selectedEnfermedadVacuna=null;
-						btnnRightMove.setEnabled(true);
+						btnMove.setText(">>");
+						btnMove.setEnabled(true);
 					}
 				}
 			});
@@ -164,7 +164,8 @@ public class RegVacuna extends JDialog {
 					if(index>=0) {
 						selectedEnfermedadVacuna=enfermVacuna.get(index);
 						selectedAllEnfermedad=null;
-						btnnLeftMove.setEnabled(true);
+						btnMove.setText("<<");
+						btnMove.setEnabled(true);
 					}
 				}
 			});
@@ -173,10 +174,11 @@ public class RegVacuna extends JDialog {
 			scrollPane_1.setViewportView(table_enfermedadesVacuna);
 		}
 		
-		btnnRightMove = new JButton(">>");
-		btnnRightMove.addActionListener(new ActionListener() {
+		btnMove = new JButton(">>");
+		btnMove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnnRightMove.setEnabled(false);
+				btnMove.setEnabled(false);
+				btnMove.setText("");
 				if(selectedAllEnfermedad!=null) {
 					enfermVacuna.add(selectedAllEnfermedad);
 					allEnferm.remove(selectedAllEnfermedad);
@@ -186,15 +188,9 @@ public class RegVacuna extends JDialog {
 				}
 			}
 		});
-		btnnRightMove.setBounds(196, 99, 83, 23);
-		panel_1.add(btnnRightMove);
-		{
-			btnnLeftMove= new JButton("<<");
-			btnnLeftMove.setEnabled(false);
-			btnnLeftMove.setBounds(196, 133, 83, 23);
-			panel_1.add(btnnLeftMove);
-			
-		}
+		btnMove.setEnabled(false);
+		btnMove.setBounds(196, 114, 83, 23);
+		panel_1.add(btnMove);
 		{
 			JLabel lblNewLabel_3 = new JLabel("Enfermedades:");
 			lblNewLabel_3.setBounds(19, 22, 105, 16);
@@ -210,16 +206,24 @@ public class RegVacuna extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadAllEnfermedades();
+		loadEnfermedadVacuna();
 	}
 	public static void loadAllEnfermedades() {
 		modelAllEnferm.setRowCount(0);

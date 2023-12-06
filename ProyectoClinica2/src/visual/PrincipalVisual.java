@@ -214,10 +214,11 @@ public class PrincipalVisual extends JFrame {
 		JButton btnCerraSesion = new JButton("Cerrar Sesi\u00F3n");
 		btnCerraSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				Login login = new Login();
 				login.setModal(true);
 				login.setVisible(true);
-				dispose();
+				
 			}
 		});
 		menuBar.add(btnCerraSesion);
@@ -244,7 +245,7 @@ public class PrincipalVisual extends JFrame {
 		panel.setBounds(417, 13, 317, 182);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		load();
+		
 		
 		cbxEnfermedades = new JComboBox<String>();
 		cbxEnfermedades.addActionListener(new ActionListener() {
@@ -316,6 +317,7 @@ public class PrincipalVisual extends JFrame {
 		txtPorVac.setBounds(232, 150, 34, 22);
 		panel.add(txtPorVac);
 		
+		load();
 		mostrarPrivilegios();
 	}
 	
@@ -340,7 +342,10 @@ public class PrincipalVisual extends JFrame {
 		return count;
 	}
 	private int getContagiados(Enfermedad enfermedad) {
+		if(Hospital.getCodigoPaciente() != 1) {
 		return getCasos(enfermedad)/(Hospital.getCodigoPaciente()-1);
+		}
+		return 0;
 	}
 	private int getVacunados(Vacuna vacuna) {
 		int count = 0;
@@ -352,7 +357,11 @@ public class PrincipalVisual extends JFrame {
 		return count;
 	}
 	private int getPorVac(Vacuna vacuna) {
-		return getVacunados(vacuna)/(Hospital.getCodigoPaciente()-1);
+		if(Hospital.getCodigoPaciente() != 1)
+		{
+			return getVacunados(vacuna)/(Hospital.getCodigoPaciente()-1);
+		}
+		return 0;
 	}
 	
 	public void loadCitasHoy()

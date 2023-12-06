@@ -28,6 +28,8 @@ import javax.swing.border.TitledBorder;
 
 import logico.Hospital;
 import logico.Usuario;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Login extends JDialog {
 
@@ -93,6 +95,24 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				FileOutputStream hospital2;
+				ObjectOutputStream hospitalWrite;
+				try {
+					hospital2 = new FileOutputStream("hospital.dat");
+					hospitalWrite = new ObjectOutputStream(hospital2);
+					hospitalWrite.writeObject(Hospital.getInstance());
+					hospital2.close();
+					hospitalWrite.close();
+				} catch (FileNotFoundException e1) {
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		setTitle("Login");
 		setBounds(100, 100, 395, 261);
@@ -162,8 +182,7 @@ public class Login extends JDialog {
 						if (Hospital.getInstance().verificarUsuario(txtUser.getText(),
 								String.valueOf(txtPassword.getPassword()))) {
 							
-							PrincipalVisual frame = new PrincipalVisual(
-									Hospital.getInstance().buscarUsuarioByName(txtUser.getText()));
+							PrincipalVisual frame = new PrincipalVisual();
 							frame.setVisible(true);
 							dispose();
 						} else

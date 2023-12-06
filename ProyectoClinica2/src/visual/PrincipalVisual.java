@@ -28,11 +28,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Cita;
-import logico.Doctor;
 import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
-import logico.Usuario;
 import logico.Vacuna;
 
 public class PrincipalVisual extends JFrame {
@@ -45,6 +43,7 @@ public class PrincipalVisual extends JFrame {
 	 * 
 	 */
 	private JPanel contentPane;
+	private JMenuItem mnitHistorialPaciente;
 	private JMenu mnAdmin;
 	private JMenu mnCita;
 	private JMenuItem mnitHistorialClinica;
@@ -59,6 +58,8 @@ public class PrincipalVisual extends JFrame {
 	private Vacuna vacuna = null;
 	private JComboBox<String> cbxVacuna;
 	private JComboBox<String> cbxEnfermedades;
+	private JMenu mnHistorial;
+	private JMenu mnPaciente;
 
 	/**
 	 * Launch the application.
@@ -67,7 +68,7 @@ public class PrincipalVisual extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrincipalVisual frame = new PrincipalVisual(null);
+					PrincipalVisual frame = new PrincipalVisual();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,7 +80,7 @@ public class PrincipalVisual extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PrincipalVisual(Usuario user) {
+	public PrincipalVisual() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -99,18 +100,20 @@ public class PrincipalVisual extends JFrame {
 				
 			}
 		});
-		setVisibleByUser(user);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 764, 502);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu_2 = new JMenu("Historial Cl\u00EDnico");
-		menuBar.add(mnNewMenu_2);
+		mnHistorial = new JMenu("Historial Cl\u00EDnico");
+		menuBar.add(mnHistorial);
 		
-		mnitHistorialClinica = new JMenuItem("Listar Historial Cl\u00EDnica");
-		mnNewMenu_2.add(mnitHistorialClinica);
+		mnitHistorialPaciente = new JMenuItem("Historial Paciente");
+		mnHistorial.add(mnitHistorialPaciente);
+		
+		mnitHistorialClinica = new JMenuItem("Historial Cl\u00EDnica");
+		mnHistorial.add(mnitHistorialClinica);
 		mnitHistorialClinica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MostrarHistorial mostrarHistorial = new MostrarHistorial();
@@ -148,16 +151,11 @@ public class PrincipalVisual extends JFrame {
 		});
 		mnCita.add(mntmNewMenuItem_4);
 		
-		JMenu mnNewMenu = new JMenu("Paciente");
-		menuBar.add(mnNewMenu);
+		mnPaciente = new JMenu("Paciente");
+		menuBar.add(mnPaciente);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar Pacientes");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem);
+		mnPaciente.add(mntmNewMenuItem);
 		
 		mnAdmin = new JMenu("Administraci\u00F3n");
 		menuBar.add(mnAdmin);
@@ -193,7 +191,7 @@ public class PrincipalVisual extends JFrame {
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar Vacuna");
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegVacuna regVacuna = new RegVacuna();
+				RegVacuna regVacuna = new RegVacuna(null);
 				regVacuna.setModal(true);
 				regVacuna.setVisible(true);
 			}
@@ -213,8 +211,8 @@ public class PrincipalVisual extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");
 		mnAdmin.add(mntmNewMenuItem_2);
 		
-		JButton btnNewButton = new JButton("Cerrar Sesi\u00F3n");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCerraSesion = new JButton("Cerrar Sesi\u00F3n");
+		btnCerraSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login login = new Login();
 				login.setModal(true);
@@ -222,7 +220,7 @@ public class PrincipalVisual extends JFrame {
 				dispose();
 			}
 		});
-		menuBar.add(btnNewButton);
+		menuBar.add(btnCerraSesion);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -317,6 +315,19 @@ public class PrincipalVisual extends JFrame {
 		txtPorVac.setColumns(10);
 		txtPorVac.setBounds(232, 150, 34, 22);
 		panel.add(txtPorVac);
+		
+		mostrarPrivilegios();
+	}
+	
+	private void mostrarPrivilegios() {
+		if (Hospital.getLoginUser().esPrivilegiado()) {
+			mnAdmin.setVisible(false);
+		}else if(Hospital.getLoginUser().esBasic())
+		{
+			mnAdmin.setVisible(false);
+			mnHistorial.setVisible(false);
+			mnPaciente.setVisible(false);
+		}
 	}
 	
 	private int getCasos(Enfermedad enfermedad) {
@@ -343,18 +354,7 @@ public class PrincipalVisual extends JFrame {
 	private int getPorVac(Vacuna vacuna) {
 		return getVacunados(vacuna)/(Hospital.getCodigoPaciente()-1);
 	}
-
-	public void setVisibleByUser(Usuario user)
-	{
-		if(user.getPersona() instanceof Doctor) {
-			mnAdmin.setVisible(false);
-			mnitHistorialClinica.setVisible(false);
-		}
-		else {
-			mnCita.setVisible(false);
-			mnAdmin.setVisible(true);
-		}
-	}
+	
 	public void loadCitasHoy()
 	{
 		Date fechaHoy = new Date();

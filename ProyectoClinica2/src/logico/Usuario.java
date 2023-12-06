@@ -52,6 +52,41 @@ public class Usuario implements Serializable{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
+	
+	public void setAdmin() {
+		this.tipo = "Administrador";
+	}
+	
+	public void setBasic() {
+		this.tipo = "Basico";
+	}
+	
+	public void setPrivilegio() {
+		this.tipo = "Privilegiado";
+	}
+	
+	public boolean esAdmin() {
+		if(this.tipo == "Administrador")
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean esBasic() {
+		if(this.tipo == "Basico")
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean esPrivilegiado() {
+		if(this.tipo == "Privilegiado")
+		{
+			return true;
+		}
+		return false;
+	}
 	
 }

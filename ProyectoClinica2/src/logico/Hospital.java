@@ -19,6 +19,7 @@ public class Hospital {
 	private static int codigoConsulta = 1;
 	private static int codigoVacuna = 1;
 	private static int codigoVivienda = 1;
+	private static Usuario loginUser;
 	
 	public Hospital() {
 		super();
@@ -225,6 +226,7 @@ public class Hospital {
 	public boolean verificarUsuario(String username, String password) {
 		for(Usuario aux:misUsuarios) {
 			if(aux.getUsername().equals(username) && aux.getPassword().equals(password))
+				setLoginUser(aux);
 				return true;
 		}
 		return false;
@@ -242,13 +244,6 @@ public class Hospital {
 	public Enfermedad buscarEnfermedadByNombre(String string) {
 		for(Enfermedad aux:misEnfermedades) {
 			if(aux.getNombre().equalsIgnoreCase(string))
-				return aux;
-		}
-		return null;
-	}
-	public Vacuna buscarVacunaByCode(String string) {
-		for(Vacuna aux:misVacunas) {
-			if(aux.getLote().equalsIgnoreCase(string))
 				return aux;
 		}
 		return null;
@@ -288,14 +283,11 @@ public class Hospital {
 	return misPacientes;
 	}
 
-	public Consulta buscarConsultaById(String string) {
-		for(Consulta aux:misConsultas) {
-			if(aux.getId().equalsIgnoreCase(string))
-				return aux;
-		}
-		return null;
+	public static Usuario getLoginUser() {
+		return loginUser;
 	}
-	public void eliminarVacuna(Vacuna aux) {
-		misVacunas.remove(aux);
+
+	public static void setLoginUser(Usuario loginUser) {
+		Hospital.loginUser = loginUser;
 	}
 }

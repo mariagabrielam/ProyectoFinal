@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Enfermedad;
 import logico.Hospital;
+import logico.Vacuna;
 
 public class RegVacuna extends JDialog {
 
@@ -46,65 +47,65 @@ public class RegVacuna extends JDialog {
 	private static ArrayList<Enfermedad>allEnferm;
 	private static ArrayList<Enfermedad>enfermVacuna;
 	private JButton btnMove;
+	private Vacuna miVacuna=null;
+	private JSpinner spnCantVacuna;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			RegVacuna dialog = new RegVacuna();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegVacuna() {
-		setTitle("Registrar Vacuna");
+	public RegVacuna(Vacuna laVacuna) {
+		miVacuna=laVacuna;
 		setResizable(false);
-		setLocationRelativeTo(null);
+		if(miVacuna==null) {
+			setTitle("Registrar Vacuna");
+		}else {
+			setTitle("Modificar Vacuna");
+		}
 		setBounds(100, 100, 507, 458);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBounds(10, 11, 479, 121);
+			contentPanel.add(panel);
+			panel.setLayout(null);
+			
+			JLabel lblNewLabel = new JLabel("Lote:");
+			lblNewLabel.setBounds(40, 32, 46, 14);
+			panel.add(lblNewLabel);
+			
+			txtLote = new JTextField();
+			txtLote.setBounds(80, 29, 86, 20);
+			panel.add(txtLote);
+			txtLote.setColumns(10);
+			
+			JLabel lblNewLabel_1 = new JLabel("Nombre:");
+			lblNewLabel_1.setBounds(24, 82, 46, 14);
+			panel.add(lblNewLabel_1);
+			
+			txtNombre = new JTextField();
+			txtNombre.setBounds(80, 79, 187, 20);
+			panel.add(txtNombre);
+			txtNombre.setColumns(10);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 479, 121);
-		contentPanel.add(panel);
-		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Lote:");
-		lblNewLabel.setBounds(40, 32, 46, 14);
-		panel.add(lblNewLabel);
-		
-		txtLote = new JTextField();
-		txtLote.setBounds(80, 29, 86, 20);
-		panel.add(txtLote);
-		txtLote.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setBounds(24, 82, 46, 14);
-		panel.add(lblNewLabel_1);
-		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(80, 79, 187, 20);
-		panel.add(txtNombre);
-		txtNombre.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("Cantidad de Vacuna:");
-		lblNewLabel_2.setBounds(272, 32, 122, 14);
-		panel.add(lblNewLabel_2);
-		
-		JSpinner spnCantVacuna = new JSpinner();
-		spnCantVacuna.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
-		spnCantVacuna.setBounds(389, 29, 68, 20);
-		panel.add(spnCantVacuna);
+			JLabel lblNewLabel_2 = new JLabel("Cantidad de Vacuna:");
+			lblNewLabel_2.setBounds(272, 32, 122, 14);
+			panel.add(lblNewLabel_2);
+			
+			spnCantVacuna = new JSpinner();
+			spnCantVacuna.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+			spnCantVacuna.setBounds(389, 29, 68, 20);
+			panel.add(spnCantVacuna);
+		}
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -206,9 +207,18 @@ public class RegVacuna extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				if(miVacuna!=null) {
+					okButton.setText("Modificar");
+				}
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//Enfermedad miEnfermedad= new Enfermedad(id, nombre, sintomas, precauciones, procedimientos, vigilancia, prioridadTriaje)
+						if(miVacuna==null) {
+							Vacuna laVacuna= new Vacuna(txtLote.getText(), txtNombre.getText(),allEnferm,new Integer(spnCantVacuna.getValue().toString()));
+							Hospital.getInstance().addVacuna(laVacuna);
+							ListarEnfermedades.loadEnfermedades();
+							dispose();
+						}
+						
 					}
 				});
 				okButton.setEnabled(false);
@@ -230,7 +240,7 @@ public class RegVacuna extends JDialog {
 		loadAllEnfermedades();
 		loadEnfermedadVacuna();
 	}
-	public static void loadAllEnfermedades() {
+	private static void loadAllEnfermedades() {
 		modelAllEnferm.setRowCount(0);
 		rowAllEnferm = new Object[modelAllEnferm.getColumnCount()];
 		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
@@ -242,7 +252,7 @@ public class RegVacuna extends JDialog {
 		
 	}
 	
-	public static void loadEnfermedadVacuna() {
+	private static void loadEnfermedadVacuna() {
 		modelEnfermVacuna.setRowCount(0);
 		rowEnfermVacuna = new Object[modelEnfermVacuna.getColumnCount()];
 		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
@@ -253,4 +263,6 @@ public class RegVacuna extends JDialog {
 		}
 		
 	}
+	
+	
 }

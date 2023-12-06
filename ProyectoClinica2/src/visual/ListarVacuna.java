@@ -11,39 +11,36 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logico.Enfermedad;
 import logico.Hospital;
+import logico.Vacuna;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ListarEnfermedades extends JDialog {
+public class ListarVacuna extends JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8315395309179208009L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private Enfermedad selected = null;
-	private JButton btnUpdate_1;
-	private JButton btnDelete_1;
-	private JButton btnCancel_1;
+	private Vacuna selected=null;
+	private JButton btnUpdate;
+	private JButton btnDelete;
+	private JButton btnCancelar;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ListarEnfermedades dialog = new ListarEnfermedades();
+			ListarVacuna dialog = new ListarVacuna();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -54,8 +51,8 @@ public class ListarEnfermedades extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarEnfermedades() {
-		setTitle("Listado de Enfermedades");
+	public ListarVacuna() {
+		setTitle("Listado de Vacunas");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,21 +66,21 @@ public class ListarEnfermedades extends JDialog {
 			{
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panel.add(scrollPane, BorderLayout.CENTER);
+				panel.add(scrollPane);
 				{
-					String[] header = {"Nombre","Enfermedad en Vigilacia","Prioridad de Triaje"};
+					String[] header= {"Lote","Nombre","Enfermedad","Cantidad"};
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(header);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						   int index = table.getSelectedRow();
-						   if(index>=0){
-							  btnDelete_1.setEnabled(true);
-							  btnUpdate_1.setEnabled(true);
-							  selected =Hospital.getInstance().buscarEnfermedadByNombre(table.getValueAt(index, 0).toString());
-						   }
+							int index= table.getSelectedRow();
+							if(index>=0){
+							  btnDelete.setEnabled(true);
+							  btnUpdate.setEnabled(true);
+							  selected =Hospital.getInstance().buscarVacunaByNombre(table.getValueAt(index, 0).toString());
+							}
 						}
 					});
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -94,62 +91,60 @@ public class ListarEnfermedades extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnUpdate_1 = new JButton("Actualizar");
-				btnUpdate_1.addActionListener(new ActionListener() {
+				btnUpdate = new JButton("Actualizar");
+				btnUpdate.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						RegEnfermedad update= new RegEnfermedad(selected);
+						RegVacuna update= new RegVacuna(selected);
 						update.setModal(true);
 						update.setVisible(true);
 					}
 				});
-				btnUpdate_1.setEnabled(false);
-				btnUpdate_1.setActionCommand("btnUpdate");
-				buttonPane.add(btnUpdate_1);
-				getRootPane().setDefaultButton(btnUpdate_1);
+				btnUpdate.setEnabled(false);
+				btnUpdate.setActionCommand("btnUpdate");
+				buttonPane.add(btnUpdate);
+				getRootPane().setDefaultButton(btnUpdate);
 			}
 			{
-				btnDelete_1 = new JButton("Eliminar");
-				btnDelete_1.addActionListener(new ActionListener() {
+				btnDelete = new JButton("Eliminar");
+				btnDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int Option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el queso con código: "+selected.getNombre(), "Eliminar", JOptionPane.OK_CANCEL_OPTION);
 						if(Option == JOptionPane.OK_OPTION){
-					    	Hospital.getInstance().eliminarEnfermedad(selected);
-					    	loadEnfermedades();
-					    	btnDelete_1.setEnabled(false);
-					    	btnUpdate_1.setEnabled(false);	    	
+					    	Hospital.getInstance().eliminarVacuna(selected);
+					    	loadVacunas();
+					    	btnDelete.setEnabled(false);
+					    	btnUpdate.setEnabled(false);	    	
 					    }
 					}
 				});
-				btnDelete_1.setEnabled(false);;
-				buttonPane.add(btnDelete_1);
+				btnDelete.setEnabled(false);;
+				buttonPane.add(btnDelete);
 			}
 			{
-				btnCancel_1 = new JButton("Cancelar");
-				btnCancel_1.addActionListener(new ActionListener() {
+				btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				btnCancel_1.setActionCommand("Cancel");
-				buttonPane.add(btnCancel_1);
+				btnCancelar.setActionCommand("Cancel");
+				buttonPane.add(btnCancelar);
 			}
 		}
-		loadEnfermedades();
+		loadVacunas();
 	}
-	public static void loadEnfermedades() {
+	public static void loadVacunas() {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
-		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
-		  row[0] = enferm.getNombre();
-		  row[1] = enferm.isVigilancia();
-		  row[2] = enferm.getPrioridadTriaje();
+		for (Vacuna vacunita : Hospital.getInstance().getMisVacunas()){
+		  row[0] = vacunita.getLote();
+		  row[1] = vacunita.getNombre();
+		  row[2] = vacunita.getMisEnfermedad();
+		  row[3]= vacunita.getCant();
 		  model.addRow(row);
 		}
-		
 	}
-
 }

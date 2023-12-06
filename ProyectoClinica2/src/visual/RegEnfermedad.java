@@ -31,18 +31,21 @@ public class RegEnfermedad extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtPrecauciones;
 	private JTextField txtProcedimientos;
-	private JCheckBox chbxToz;
-	private JCheckBox chbxFiebre;
-	private JCheckBox chbxDolor;
-	private JCheckBox chbx;
-	private JCheckBox chckbxDiarrea;
-	private JCheckBox chckbxDolorDeCabeza;
-	private JCheckBox chckbxNewCheckBox_1;
-	private JCheckBox chckbxMareo;
-	private JCheckBox chckbxFaatiga;
+	private JCheckBox ckbxTos;
+	private JCheckBox ckbxFiebre;
+	private JCheckBox ckbxDolorCor;
+	private JCheckBox ckbxVomitos;
+	private JCheckBox ckbxDiarrea;
+	private JCheckBox ckbxDolorCab;
+	private JCheckBox ckbxNauseas;
+	private JCheckBox ckbxMareo;
+	private JCheckBox ckbxFatiga;
 	private JRadioButton rdbtnVigilancia;
-	private JButton okButton;
+	private JButton btnRegistrar;
 	private int contSintomas = 0;
+	private JRadioButton rdbtnRojo;
+	private JRadioButton rdbtnAmarillo;
+	private JRadioButton rdbtnVerde;
 
 	/**
 	 * Launch the application.
@@ -100,59 +103,59 @@ public class RegEnfermedad extends JDialog {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		chbxToz = new JCheckBox("Tos");
-		chbxToz.addActionListener(new ActionListener() {
+		ckbxTos = new JCheckBox("Tos");
+		ckbxTos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CambioSintomas(chbxToz.isSelected());
+				CambioSintomas(ckbxTos.isSelected());
 				habilitarBoton();
 			}
 		});
-		chbxToz.setBounds(8, 19, 113, 25);
-		panel_1.add(chbxToz);
+		ckbxTos.setBounds(8, 19, 113, 25);
+		panel_1.add(ckbxTos);
 		
-		chbx = new JCheckBox("V\u00F3mitos ");
-		chbx.setBounds(8, 43, 113, 25);
-		panel_1.add(chbx);
+		ckbxVomitos = new JCheckBox("V\u00F3mitos ");
+		ckbxVomitos.setBounds(8, 43, 113, 25);
+		panel_1.add(ckbxVomitos);
 		
-		chckbxNewCheckBox_1 = new JCheckBox("N\u00E1useas");
-		chckbxNewCheckBox_1.setBounds(8, 69, 113, 25);
-		panel_1.add(chckbxNewCheckBox_1);
+		ckbxNauseas = new JCheckBox("N\u00E1useas");
+		ckbxNauseas.setBounds(8, 69, 113, 25);
+		panel_1.add(ckbxNauseas);
 		
-		chbxFiebre = new JCheckBox("Fiebre");
-		chbxFiebre.addActionListener(new ActionListener() {
+		ckbxFiebre = new JCheckBox("Fiebre");
+		ckbxFiebre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CambioSintomas(chbxFiebre.isSelected());
+				CambioSintomas(ckbxFiebre.isSelected());
 				habilitarBoton();
 			}
 		});
-		chbxFiebre.setBounds(125, 19, 113, 25);
-		panel_1.add(chbxFiebre);
+		ckbxFiebre.setBounds(125, 19, 113, 25);
+		panel_1.add(ckbxFiebre);
 		
-		chckbxDiarrea = new JCheckBox("Diarrea");
-		chckbxDiarrea.setBounds(125, 43, 113, 25);
-		panel_1.add(chckbxDiarrea);
+		ckbxDiarrea = new JCheckBox("Diarrea");
+		ckbxDiarrea.setBounds(125, 43, 113, 25);
+		panel_1.add(ckbxDiarrea);
 		
-		chckbxMareo = new JCheckBox("Mareo");
-		chckbxMareo.setBounds(125, 69, 113, 25);
-		panel_1.add(chckbxMareo);
+		ckbxMareo = new JCheckBox("Mareo");
+		ckbxMareo.setBounds(125, 69, 113, 25);
+		panel_1.add(ckbxMareo);
 		
-		chbxDolor = new JCheckBox("Dolor Corporal");
-		chbxDolor.addActionListener(new ActionListener() {
+		ckbxDolorCor = new JCheckBox("Dolor Corporal");
+		ckbxDolorCor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CambioSintomas(chbxDolor.isSelected());
+				CambioSintomas(ckbxDolorCor.isSelected());
 				habilitarBoton();
 			}
 		});
-		chbxDolor.setBounds(248, 19, 113, 25);
-		panel_1.add(chbxDolor);
+		ckbxDolorCor.setBounds(248, 19, 113, 25);
+		panel_1.add(ckbxDolorCor);
 		
-		chckbxDolorDeCabeza = new JCheckBox("Dolor de cabeza");
-		chckbxDolorDeCabeza.setBounds(248, 43, 113, 25);
-		panel_1.add(chckbxDolorDeCabeza);
+		ckbxDolorCab = new JCheckBox("Dolor de Cabeza");
+		ckbxDolorCab.setBounds(248, 43, 113, 25);
+		panel_1.add(ckbxDolorCab);
 		
-		chckbxFaatiga = new JCheckBox("Fatiga");
-		chckbxFaatiga.setBounds(248, 69, 113, 25);
-		panel_1.add(chckbxFaatiga);
+		ckbxFatiga = new JCheckBox("Fatiga");
+		ckbxFatiga.setBounds(248, 69, 113, 25);
+		panel_1.add(ckbxFatiga);
 		
 		txtPrecauciones = new JTextField();
 		txtPrecauciones.setBounds(112, 187, 284, 61);
@@ -172,18 +175,18 @@ public class RegEnfermedad extends JDialog {
 		rdbtnVigilancia.setBounds(227, 32, 169, 25);
 		panel.add(rdbtnVigilancia);
 		
-		JRadioButton radioButton = new JRadioButton("Verde");
-		radioButton.setSelected(true);
-		radioButton.setBounds(286, 354, 70, 23);
-		panel.add(radioButton);
+		rdbtnVerde = new JRadioButton("Verde");
+		rdbtnVerde.setSelected(true);
+		rdbtnVerde.setBounds(286, 354, 70, 23);
+		panel.add(rdbtnVerde);
 		
-		JRadioButton radioButton_1 = new JRadioButton("Amarillo");
-		radioButton_1.setBounds(187, 354, 84, 23);
-		panel.add(radioButton_1);
+		rdbtnAmarillo = new JRadioButton("Amarillo");
+		rdbtnAmarillo.setBounds(187, 354, 84, 23);
+		panel.add(rdbtnAmarillo);
 		
-		JRadioButton radioButton_2 = new JRadioButton("Rojo");
-		radioButton_2.setBounds(112, 354, 56, 23);
-		panel.add(radioButton_2);
+		rdbtnRojo = new JRadioButton("Rojo");
+		rdbtnRojo.setBounds(112, 354, 56, 23);
+		panel.add(rdbtnRojo);
 		
 		JLabel label = new JLabel("Prioridad Triaje:");
 		label.setBounds(28, 357, 116, 16);
@@ -193,21 +196,25 @@ public class RegEnfermedad extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("OK");
-				okButton.setEnabled(false);
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnRegistrar = new JButton("Registrar");
+				btnRegistrar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
+				btnRegistrar.setEnabled(false);
+				btnRegistrar.setActionCommand("OK");
+				buttonPane.add(btnRegistrar);
+				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.addActionListener(new ActionListener() {
+				JButton btnCancel = new JButton("Cancelar");
+				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancel.setActionCommand("Cancel");
+				buttonPane.add(btnCancel);
 			}
 		}
 	}
@@ -222,9 +229,9 @@ public class RegEnfermedad extends JDialog {
 
 	private void habilitarBoton() {
 		if(!txtNombre.getText().isEmpty() && contSintomas>0) {
-			okButton.setEnabled(true);
+			btnRegistrar.setEnabled(true);
 		}else {
-			okButton.setEnabled(false);
+			btnRegistrar.setEnabled(false);
 		}
 	}
 }

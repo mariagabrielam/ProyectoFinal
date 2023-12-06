@@ -9,7 +9,7 @@ public class Enfermedad {
 	private boolean vigilancia;
 	private int prioridadTriaje;
 
-	public Enfermedad(String id, String nombre, String[] sintomas, String[] precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
+	public Enfermedad(String nombre, String[] sintomas, String[] precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
 		super();
 		
 		this.nombre = nombre;

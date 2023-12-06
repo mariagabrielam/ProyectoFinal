@@ -84,12 +84,15 @@ public class PrincipalVisual extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				FileOutputStream empresa2;
-				ObjectOutputStream empresaWrite;
+				FileOutputStream hospital2;
+				ObjectOutputStream hospitalWrite;
 				try {
-					empresa2 = new  FileOutputStream("hospital.dat");
-					empresaWrite = new ObjectOutputStream(empresa2);
-					empresaWrite.writeObject(Hospital.getInstance());
+					hospital2 = new  FileOutputStream("hospital.dat");
+					hospitalWrite = new ObjectOutputStream(hospital2);
+					hospitalWrite.writeObject(Hospital.getInstance());
+					hospital2.close();
+					hospitalWrite.close();
+					dispose();
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

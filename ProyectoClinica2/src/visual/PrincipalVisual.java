@@ -1,6 +1,5 @@
 package visual;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +12,20 @@ import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import logico.Cita;
 import logico.Doctor;
@@ -27,16 +34,6 @@ import logico.Hospital;
 import logico.Paciente;
 import logico.Usuario;
 import logico.Vacuna;
-
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class PrincipalVisual extends JFrame {
 
@@ -230,7 +227,7 @@ public class PrincipalVisual extends JFrame {
 		panel.setLayout(null);
 		load();
 		
-		cbxEnfermedades = new JComboBox();
+		cbxEnfermedades = new JComboBox<String>();
 		cbxEnfermedades.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedEnfermedad();
@@ -249,7 +246,7 @@ public class PrincipalVisual extends JFrame {
 		lblVacuna.setBounds(132, 95, 91, 16);
 		panel.add(lblVacuna);
 		
-		cbxVacuna = new JComboBox();
+		cbxVacuna = new JComboBox<String>();
 		cbxVacuna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedVacuna();

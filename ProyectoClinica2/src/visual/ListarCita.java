@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,12 +25,7 @@ import com.toedter.calendar.JCalendar;
 import logico.Cita;
 import logico.Doctor;
 import logico.Hospital;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.DefaultComboBoxModel;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import javax.swing.ListSelectionModel;
 
 public class ListarCita extends JDialog {
 
@@ -61,7 +60,6 @@ public class ListarCita extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCita() {
-		loadCitas(doctor);
 		setTitle("Agenda de Citas");
 		setBounds(100, 100, 676, 406);
 		getContentPane().setLayout(new BorderLayout());
@@ -76,7 +74,8 @@ public class ListarCita extends JDialog {
 			panel_Doctor.setLayout(null);
 			
 			cbxDoctor = new JComboBox<Object>();
-			cbxDoctor.setModel(new DefaultComboBoxModel<Object>(loadDoctores()));
+			cbxDoctor.setModel(null);
+			loadDoctores();
 			cbxDoctor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(cbxDoctor.getSelectedIndex()>0)
@@ -84,7 +83,9 @@ public class ListarCita extends JDialog {
 					else
 						doctor = null;
 					loadCitas(doctor);
+					habilitarBoton();
 				}
+				
 			});
 			cbxDoctor.setBounds(10, 26, 256, 27);
 			panel_Doctor.add(cbxDoctor);
@@ -99,6 +100,9 @@ public class ListarCita extends JDialog {
 		calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
+				selected = null;
+				habilitarBoton();
+				
 			}
 		});
 		calendar.setBounds(10, 25, 256, 189);
@@ -115,6 +119,9 @@ public class ListarCita extends JDialog {
 		scrollPane.setBounds(10, 21, 328, 280);
 		panel_Horas.add(scrollPane);
 		
+		model = new DefaultTableModel();
+		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
+		model.setColumnIdentifiers(header);
 		tblAgenda = new JTable();
 		tblAgenda.addMouseListener(new MouseAdapter() {
 			@Override
@@ -123,29 +130,12 @@ public class ListarCita extends JDialog {
 				if(index>0)
 				{
 					selected = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
-					btnOk.setEnabled(true);
 				}
 				
 			}
 		});
-		tblAgenda.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Código","Hora de Inicio", "Doctor", "Paciente"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -7946187111276830986L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		tblAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblAgenda.setModel(model);
 		scrollPane.setViewportView(tblAgenda);
 		{
 			JPanel buttonPane = new JPanel();
@@ -176,18 +166,36 @@ public class ListarCita extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadCitas(doctor);
 	}
-
-	private String[] loadDoctores() {
-		String[] doctores=null;
-		doctores[0] = "<Seleccione>";
-		int i=1;
-		for(Doctor aux:Hospital.getInstance().getMisDoctores())
+	
+	private void imprimirTituloTabla()
+	{
+		if(cbxDoctor.getSelectedIndex() > 0)
 		{
-			doctores[i] = aux.getNombre();
-			i++;
+			String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
+			model.setColumnIdentifiers(header);
+		}else {
+			String[] header = {"Código","Hora de Inicio", "Paciente"};
+			model.setColumnIdentifiers(header);
 		}
-		return doctores;
+	}
+	
+	private void habilitarBoton()
+	{
+		if(cbxDoctor.getSelectedIndex() > 0 && selected != null)
+		{
+			btnOk.setEnabled(true);
+		}else {
+			btnOk.setEnabled(false);
+		}
+	}
+	
+	private void loadDoctores() {
+		cbxDoctor.addItem("<Seleccione>");		
+		for (Doctor aux : Hospital.getInstance().getMisDoctores()) {
+			cbxDoctor.addItem(aux.getNombre());
+		}
 	}
 
 	private void loadCitas(Doctor doctor) {

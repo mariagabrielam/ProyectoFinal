@@ -291,6 +291,7 @@ public class RegCita extends JDialog {
 			}
 		});
 		tblDoctores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblDoctores.setModel(model);
 		scrollPane.setViewportView(tblDoctores);
 		{
 			JPanel buttonPane = new JPanel();

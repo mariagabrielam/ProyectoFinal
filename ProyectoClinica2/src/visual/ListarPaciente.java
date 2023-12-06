@@ -22,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class ListarPaciente extends JDialog {
 
@@ -62,31 +64,13 @@ public class ListarPaciente extends JDialog {
 	 */
 	public ListarPaciente() {
 		setTitle("Lista de Pacientes");
-		setBounds(100, 100, 511, 529);
+		setBounds(100, 100, 605, 529);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setViewportBorder(new TitledBorder(null, "Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			scrollPane.setBounds(0, 0, 193, 443);
-			contentPanel.add(scrollPane);
 			{
-				tblPacientes = new JTable();
-				tblPacientes.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-							int index = tblPacientes.getSelectedRow();
-							if(index>0)
-							{
-								selected = Hospital.getInstance().buscarPacienteByNHC(tblPacientes.getValueAt(index, 0).toString());
-								btnSelect.setEnabled(true);
-								btnVacuna.setEnabled(true);
-							}					
-						}
-				});
-				scrollPane.setViewportView(tblPacientes);
 				String[] header = {"Código","Cédula","Nombre"};
 				model = new DefaultTableModel();
 				model.setColumnIdentifiers(header);
@@ -95,7 +79,7 @@ public class ListarPaciente extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Datos del Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(203, 13, 278, 430);
+		panel.setBounds(297, 13, 278, 430);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
@@ -130,15 +114,6 @@ public class ListarPaciente extends JDialog {
 		JLabel lblNewLabel_7 = new JLabel("Direcci\u00F3n:");
 		lblNewLabel_7.setBounds(17, 129, 69, 16);
 		panel.add(lblNewLabel_7);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportBorder(new TitledBorder(null, "Vacunas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(12, 235, 258, 188);
-		panel.add(scrollPane);
-		
-		tblVacunas = new JTable();
-		tblVacunas.setRowSelectionAllowed(false);
-		scrollPane.setViewportView(tblVacunas);
 		String[] header = {"Nombre"};
 		model1 = new DefaultTableModel();
 		model1.setColumnIdentifiers(header);
@@ -190,6 +165,45 @@ public class ListarPaciente extends JDialog {
 		txtEstatura.setColumns(10);
 		txtEstatura.setBounds(112, 204, 116, 22);
 		panel.add(txtEstatura);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "Vacunas", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		panel_2.setBounds(17, 236, 241, 181);
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 27, 217, 141);
+		panel_2.add(scrollPane);
+		
+		tblVacunas = new JTable();
+		tblVacunas.setRowSelectionAllowed(false);
+		scrollPane.setViewportView(tblVacunas);
+		tblVacunas.setModel(model1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(0, 13, 285, 430);
+		contentPanel.add(panel_1);
+		panel_1.setLayout(null);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(12, 25, 261, 392);
+		panel_1.add(scrollPane_1);
+		tblPacientes = new JTable();
+		tblPacientes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					int index = tblPacientes.getSelectedRow();
+					if(index>0)
+					{
+						selected = Hospital.getInstance().buscarPacienteByNHC(tblPacientes.getValueAt(index, 0).toString());
+						btnSelect.setEnabled(true);
+						btnVacuna.setEnabled(true);
+					}					
+				}
+		});
+		scrollPane_1.setViewportView(tblPacientes);
+		tblPacientes.setModel(model);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

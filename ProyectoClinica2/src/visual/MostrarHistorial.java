@@ -56,6 +56,7 @@ public class MostrarHistorial extends JDialog {
 	private JRadioButton rbtnVerde;
 	private JRadioButton rbtnAmarillo;
 	private JRadioButton rbtnRojo;
+	private JButton btnSelect;
 
 	/**
 	 * Launch the application.
@@ -75,7 +76,7 @@ public class MostrarHistorial extends JDialog {
 	 */
 	public MostrarHistorial() {
 		setTitle("Historial Cl\u00EDnico");
-		setBounds(100, 100, 650, 529);
+		setBounds(100, 100, 810, 529);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -83,7 +84,7 @@ public class MostrarHistorial extends JDialog {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(178, 13, 442, 114);
+		panel_1.setBounds(338, 13, 442, 114);
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -115,14 +116,14 @@ public class MostrarHistorial extends JDialog {
 		txtNHC.setColumns(10);
 		
 		txtNombre = new JTextField();
-		txtNombre.setEnabled(false);
+		txtNombre.setEditable(false);
 		txtNombre.setBounds(69, 69, 116, 22);
 		panel_1.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Datos de la Consulta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(178, 131, 442, 292);
+		panel_2.setBounds(338, 131, 442, 292);
 		contentPanel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -169,19 +170,19 @@ public class MostrarHistorial extends JDialog {
 		panel_2.add(lblNewLabel_7);
 		
 		txtDescripcion = new JTextField();
-		txtDescripcion.setEnabled(false);
+		txtDescripcion.setEditable(false);
 		txtDescripcion.setBounds(29, 204, 384, 75);
 		panel_2.add(txtDescripcion);
 		txtDescripcion.setColumns(10);
 		
 		txtMotivo = new JTextField();
-		txtMotivo.setEnabled(false);
+		txtMotivo.setEditable(false);
 		txtMotivo.setBounds(146, 84, 267, 22);
 		panel_2.add(txtMotivo);
 		txtMotivo.setColumns(10);
 		
 		txtDoctor = new JTextField();
-		txtDoctor.setEnabled(false);
+		txtDoctor.setEditable(false);
 		txtDoctor.setBounds(78, 55, 175, 22);
 		panel_2.add(txtDoctor);
 		txtDoctor.setColumns(10);
@@ -206,22 +207,30 @@ public class MostrarHistorial extends JDialog {
 		});
 		rbtnRojo.setBounds(126, 112, 127, 25);
 		panel_2.add(rbtnRojo);
-		
-		panHistorial = new JScrollPane();
-		panHistorial.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Consultas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panHistorial.setBounds(12, 13, 154, 421);
-		contentPanel.add(panHistorial);
-		
-		tblConsulta = new JTable();
 		String[] header = {"Código","Fecha","Doctor"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Consultas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(12, 13, 314, 410);
+		contentPanel.add(panel);
+		panel.setLayout(null);
+		
+		panHistorial = new JScrollPane();
+		panHistorial.setBounds(12, 24, 290, 373);
+		panel.add(panHistorial);
+		
+		tblConsulta = new JTable();
+		tblConsulta.setModel(model);
 		tblConsulta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblConsulta.getSelectedRow();
-				selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
-				loadHistorial();
+				if(index >0)
+				{
+					btnSelect.setEnabled(true);
+				}
 			}
 		});
 		panHistorial.setViewportView(tblConsulta);
@@ -236,6 +245,20 @@ public class MostrarHistorial extends JDialog {
 						dispose();
 					}
 				});
+				
+				btnSelect = new JButton("Seleccionar");
+				btnSelect.setEnabled(false);
+				btnSelect.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int index = tblConsulta.getSelectedRow();
+						if(index >0)
+						{
+							selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
+							loadHistorial();
+						}
+					}
+				});
+				buttonPane.add(btnSelect);
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}

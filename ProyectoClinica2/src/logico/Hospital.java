@@ -255,6 +255,13 @@ public class Hospital {
 		}
 		return null;
 	}
+	public Vacuna buscarVacunaByLote(String string) {
+		for(Vacuna aux:misVacunas) {
+			if(aux.getLote().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
 
 	public Cita buscarCitaById(String id) {
 		for(Cita aux:misCitas) {
@@ -289,5 +296,17 @@ public class Hospital {
 
 	public static void setLoginUser(Usuario loginUser) {
 		Hospital.loginUser = loginUser;
+	}
+
+	public Consulta buscarConsultaById(String string) {
+		for(Consulta aux:misConsultas) {
+			if(aux.getId().equalsIgnoreCase(string))
+				return aux;
+		}
+		return null;
+	}
+
+	public void eliminarVacuna(Vacuna selected) {
+		misVacunas.remove(selected);
 	}
 }

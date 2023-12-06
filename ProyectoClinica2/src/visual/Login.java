@@ -111,6 +111,7 @@ public class Login extends JDialog {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				dispose();
 			}
 		});
 

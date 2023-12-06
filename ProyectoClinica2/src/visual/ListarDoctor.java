@@ -129,7 +129,7 @@ public class ListarDoctor extends JDialog {
 				cbxEspecialidad.setSelectedIndex(0);
 				cbxSexo.setSelectedIndex(0);
 				
-				imprimirDoctores(misDoctores);
+				imprimirDoctores(misDoctores,"<Selecione>","<Selecione>");
 			}
 		});
 		btnBorrarFiltros.setBounds(10, 124, 134, 23);
@@ -169,14 +169,19 @@ public class ListarDoctor extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
-		imprimirDoctores(misDoctores);
+		
 	}
 	
-	private void imprimirDoctores(ArrayList<Doctor> doctores)
+	private void imprimirDoctores(ArrayList<Doctor> doctores, String sexo, String especialidades)
 	{
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];

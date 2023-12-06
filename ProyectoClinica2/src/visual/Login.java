@@ -61,8 +61,9 @@ public class Login extends JDialog {
 					try {
 						empresa2 = new  FileOutputStream("hospital.dat");
 						empresaWrite = new ObjectOutputStream(empresa2);
-						empresaWrite.writeObject(Hospital.getInstance());
 						Usuario admin = new Usuario("Admin", "Admin", null, "Admin");
+						Hospital.getInstance().addUsuario(admin);
+						empresaWrite.writeObject(Hospital.getInstance());
 						empresa2.close();
 						empresaWrite.close();
 					} catch (FileNotFoundException e1) {
@@ -159,6 +160,8 @@ public class Login extends JDialog {
 							frame.setVisible(true);
 							dispose();
 						}
+						else
+							JOptionPane.showMessageDialog(null, "Datos Erroneos", "Login", JOptionPane.ERROR_MESSAGE);
 					}
 				});
 				btnLogin.setActionCommand("OK");

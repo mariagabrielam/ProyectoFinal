@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,9 +29,6 @@ import javax.swing.border.TitledBorder;
 import logico.Hospital;
 import logico.Usuario;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 public class Login extends JDialog {
 
 	/**
@@ -36,48 +37,48 @@ public class Login extends JDialog {
 	private static final long serialVersionUID = -4116032584153181645L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUser;
-	private JPasswordField passwordField;
+	private JPasswordField txtPassword;
 	private JButton btnLogin;
-
+	
 	/**
 	 * Launch the application.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				FileInputStream empresa;
-				FileOutputStream empresa2;
-				ObjectInputStream empresaRead;
-				ObjectOutputStream empresaWrite;
+				FileInputStream hospital;
+				FileOutputStream hospital2;
+				ObjectInputStream hospitalRead;
+				ObjectOutputStream hospitalWrite;
 				try {
-					empresa = new FileInputStream ("hospital.dat");
-					empresaRead = new ObjectInputStream(empresa);
-					Hospital temp= (Hospital)empresaRead.readObject();
+					hospital = new FileInputStream("hospital.dat");
+					hospitalRead = new ObjectInputStream(hospital);
+					Hospital temp = (Hospital) hospitalRead.readObject();
 					Hospital.setElHospital(temp);
-					empresa.close();
-					empresaRead.close();
+					hospital.close();
+					hospitalRead.close();
 				} catch (FileNotFoundException e) {
 					try {
-						empresa2 = new  FileOutputStream("hospital.dat");
-						empresaWrite = new ObjectOutputStream(empresa2);
-						Usuario admin = new Usuario("Admin", "Admin", null, "Admin");
+						hospital2 = new FileOutputStream("hospital.dat");
+						hospitalWrite = new ObjectOutputStream(hospital2);
+						Usuario admin = new Usuario("Admin", "Admin", null, "Administrador");
 						Hospital.getInstance().addUsuario(admin);
-						empresaWrite.writeObject(Hospital.getInstance());
-						empresa2.close();
-						empresaWrite.close();
+						hospitalWrite.writeObject(Hospital.getInstance());
+						hospital2.close();
+						hospitalWrite.close();
 					} catch (FileNotFoundException e1) {
+						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (IOException e) {
-					
-					
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
@@ -92,22 +93,19 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
-		/*if(Hospital.getInstance().getMisUsuarios()==null)
-		{
-			JOptionPane.showMessageDialog(null, "Aun no hay usuarios creados. Cree el usuario de administración", "Falta de Usuario", JOptionPane.ERROR_MESSAGE);
-			CrearUsuario crearUsuario = new CrearUsuario(false);
-			crearUsuario.setModal(true);
-			crearUsuario.setVisible(true);
-		}*/
+
 		setTitle("Login");
-		setBounds(100, 100, 410, 261);
+		setBounds(100, 100, 395, 261);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(null);
+		setResizable(false);
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Ingrese sus datos", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+			panel.setBorder(
+					new TitledBorder(null, "Ingrese sus datos", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 			panel.setBounds(12, 13, 364, 151);
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -123,6 +121,12 @@ public class Login extends JDialog {
 			}
 			{
 				txtUser = new JTextField();
+				txtUser.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						
+					}
+				});
 				txtUser.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyReleased(KeyEvent e) {
@@ -133,17 +137,17 @@ public class Login extends JDialog {
 				panel.add(txtUser);
 				txtUser.setColumns(10);
 			}
-			
-			passwordField = new JPasswordField();
-			passwordField.addKeyListener(new KeyAdapter() {
+
+			txtPassword = new JPasswordField();
+			txtPassword.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
 					habilitarButton();
 				}
 			});
-			passwordField.setEchoChar('*');
-			passwordField.setBounds(116, 91, 173, 22);
-			panel.add(passwordField);
+			txtPassword.setEchoChar('*');
+			txtPassword.setBounds(116, 91, 173, 22);
+			panel.add(txtPassword);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -154,13 +158,15 @@ public class Login extends JDialog {
 				btnLogin.setEnabled(false);
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(Hospital.getInstance().verificarUsuario(txtUser.getText(),passwordField.getPassword().toString())) {
-							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Login", JOptionPane.INFORMATION_MESSAGE);
-							PrincipalVisual frame = new PrincipalVisual(Hospital.getInstance().buscarUsuarioByName(txtUser.getText()));
+						//System.out.println("USER ["+txtUser.getText()+"] PASS ["+String.valueOf(txtPassword.getPassword())+"]");
+						if (Hospital.getInstance().verificarUsuario(txtUser.getText(),
+								String.valueOf(txtPassword.getPassword()))) {
+							
+							PrincipalVisual frame = new PrincipalVisual(
+									Hospital.getInstance().buscarUsuarioByName(txtUser.getText()));
 							frame.setVisible(true);
 							dispose();
-						}
-						else
+						} else
 							JOptionPane.showMessageDialog(null, "Datos Erroneos", "Login", JOptionPane.ERROR_MESSAGE);
 					}
 				});
@@ -182,7 +188,7 @@ public class Login extends JDialog {
 	}
 
 	private void habilitarButton() {
-		if(!txtUser.getText().isEmpty() && !passwordField.getPassword().toString().isEmpty())
+		if (!txtUser.getText().isEmpty() && !txtPassword.getPassword().toString().isEmpty())
 			btnLogin.setEnabled(true);
 	}
 }

@@ -224,7 +224,7 @@ public class Hospital {
 	
 	public boolean verificarUsuario(String username, String password) {
 		for(Usuario aux:misUsuarios) {
-			if(aux.getUsername().equalsIgnoreCase(username)&&aux.getPassword().equals(password))
+			if(aux.getUsername().equals(username) && aux.getPassword().equals(password))
 				return true;
 		}
 		return false;

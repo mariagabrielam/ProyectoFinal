@@ -1,7 +1,7 @@
 package logico;
 
 public class Enfermedad {
-	private String id;
+	
 	private String nombre;
 	private String[] sintomas;
 	private String[] precauciones;
@@ -11,7 +11,7 @@ public class Enfermedad {
 
 	public Enfermedad(String id, String nombre, String[] sintomas, String[] precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
 		super();
-		this.id = id;
+		
 		this.nombre = nombre;
 		this.sintomas = sintomas;
 		this.precauciones = precauciones;
@@ -20,12 +20,6 @@ public class Enfermedad {
 		this.setPrioridadTriaje(prioridadTriaje);
 	}
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getNombre() {
 		return nombre;
 	}

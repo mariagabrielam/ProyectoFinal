@@ -205,7 +205,12 @@ public class RegVacuna extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Registrar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Enfermedad miEnfermedad= new Enfermedad(id, nombre, sintomas, precauciones, procedimientos, vigilancia, prioridadTriaje)
+					}
+				});
 				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);

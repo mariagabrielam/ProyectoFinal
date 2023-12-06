@@ -135,4 +135,17 @@ public class Paciente extends Persona {
 		return false;
 	}
 
+	public boolean isVacunado(Vacuna vacuna) {
+		for(Vacuna aux:misVacunas)
+		{
+			if(aux == vacuna)
+				return true;
+		}
+		return false;
+	}
+
+	public boolean estaEnfermo(Enfermedad enfermedad) {
+		return historial.tenerEnfermedad(enfermedad);
+	}
+
 }

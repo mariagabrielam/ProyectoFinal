@@ -44,4 +44,13 @@ public class HistorialClinico {
 		this.consultasImportantes = misConsultas;
 	}
 
+	public boolean tenerEnfermedad(Enfermedad enfermedad) {
+		for(Consulta aux:consultasImportantes)
+		{
+			if(aux.getEnfermedad()==enfermedad)
+				return true;
+		}
+		return false;
+	}
+
 }

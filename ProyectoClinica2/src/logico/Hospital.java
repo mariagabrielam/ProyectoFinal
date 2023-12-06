@@ -41,7 +41,7 @@ public class Hospital {
 	
 	public ArrayList<Doctor> getMisDoctores() {
 		ArrayList<Doctor> misDoctores = new ArrayList<>();
-			for (Persona aux : misDoctores) {
+			for (Persona aux : misPersonas) {
 				if(aux instanceof Doctor)
 				{
 					misDoctores.add((Doctor)aux);
@@ -265,5 +265,16 @@ public class Hospital {
 
 	public static int getCodigoVivienda() {
 		return codigoVivienda;
+	}
+
+	public ArrayList<Paciente> getMisPacientes() {
+		ArrayList<Paciente> misPacientes = new ArrayList<>();
+		for (Persona aux : misPersonas) {
+			if(aux instanceof Paciente)
+			{
+				misPacientes.add((Paciente)aux);
+			}
+		}
+	return misPacientes;
 	}
 }

@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,9 +20,23 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logico.Cita;
 import logico.Doctor;
+import logico.Enfermedad;
 import logico.Hospital;
+import logico.Paciente;
 import logico.Usuario;
+import logico.Vacuna;
+
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class PrincipalVisual extends JFrame {
 
@@ -37,6 +52,17 @@ public class PrincipalVisual extends JFrame {
 	private JMenu mnAdmin;
 	private JMenu mnCita;
 	private JMenuItem mnitHistorialClinica;
+	private JTable tblCitas;
+	private static DefaultTableModel model;
+	private static Object[] row;
+	private JTextField txtCasos;
+	private JTextField txtContagiados;
+	private JTextField txtVacunados;
+	private JTextField txtPorVac;
+	private Enfermedad enfermedad = null;
+	private Vacuna vacuna = null;
+	private JComboBox<String> cbxVacuna;
+	private JComboBox<String> cbxEnfermedades;
 
 	/**
 	 * Launch the application.
@@ -168,12 +194,138 @@ public class PrincipalVisual extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");
 		mnAdmin.add(mntmNewMenuItem_2);
+		
+		JButton btnNewButton = new JButton("Cerrar Sesi\u00F3n");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login login = new Login();
+				login.setModal(true);
+				login.setVisible(true);
+				dispose();
+			}
+		});
+		menuBar.add(btnNewButton);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(new TitledBorder(null, "Citas de Hoy", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane.setBounds(12, 164, 391, 251);
+		contentPane.add(scrollPane);
+		
+		
+		tblCitas = new JTable();
+		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(header);
+		loadCitasHoy();
+		scrollPane.setViewportView(tblCitas);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(417, 13, 317, 182);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		load();
+		
+		cbxEnfermedades = new JComboBox();
+		cbxEnfermedades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedEnfermedad();
+				txtCasos.setText(String.valueOf(getCasos(enfermedad)));
+				txtContagiados.setText(String.valueOf(getContagiados(enfermedad)));
+			}
+		});
+		cbxEnfermedades.setBounds(40, 29, 241, 22);
+		panel.add(cbxEnfermedades);
+		
+		JLabel lblNewLabel = new JLabel("Enfermedad");
+		lblNewLabel.setBounds(120, 13, 91, 16);
+		panel.add(lblNewLabel);
+		
+		JLabel lblVacuna = new JLabel("Vacuna");
+		lblVacuna.setBounds(132, 95, 91, 16);
+		panel.add(lblVacuna);
+		
+		cbxVacuna = new JComboBox();
+		cbxVacuna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedVacuna();
+				txtVacunados.setText(String.valueOf(getVacunados(vacuna)));
+				txtPorVac.setText(String.valueOf(getPorVac(vacuna)));
+			}
+		});
+		cbxVacuna.setBounds(40, 115, 241, 22);
+		panel.add(cbxVacuna);
+		
+		JLabel lblNewLabel_1 = new JLabel("Casos:");
+		lblNewLabel_1.setBounds(23, 66, 56, 16);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("% Contagiado:");
+		lblNewLabel_2.setBounds(139, 66, 98, 16);
+		panel.add(lblNewLabel_2);
+		
+		txtCasos = new JTextField();
+		txtCasos.setEditable(false);
+		txtCasos.setBounds(73, 64, 34, 22);
+		panel.add(txtCasos);
+		txtCasos.setColumns(10);
+		
+		txtContagiados = new JTextField();
+		txtContagiados.setEditable(false);
+		txtContagiados.setColumns(10);
+		txtContagiados.setBounds(231, 64, 34, 22);
+		panel.add(txtContagiados);
+		
+		JLabel lblVacunados = new JLabel("Vacunados:");
+		lblVacunados.setBounds(24, 152, 67, 16);
+		panel.add(lblVacunados);
+		
+		txtVacunados = new JTextField();
+		txtVacunados.setEditable(false);
+		txtVacunados.setColumns(10);
+		txtVacunados.setBounds(94, 150, 34, 22);
+		panel.add(txtVacunados);
+		
+		JLabel lblVacunado = new JLabel("% Vacunado:");
+		lblVacunado.setBounds(140, 152, 98, 16);
+		panel.add(lblVacunado);
+		
+		txtPorVac = new JTextField();
+		txtPorVac.setEditable(false);
+		txtPorVac.setColumns(10);
+		txtPorVac.setBounds(232, 150, 34, 22);
+		panel.add(txtPorVac);
 	}
 	
+	private int getCasos(Enfermedad enfermedad) {
+		int count = 0;
+		for(Paciente aux:Hospital.getInstance().getMisPacientes())
+		{
+			if(aux.estaEnfermo(enfermedad))
+				count++;
+		}
+		return count;
+	}
+	private int getContagiados(Enfermedad enfermedad) {
+		return getCasos(enfermedad)/(Hospital.getCodigoPaciente()-1);
+	}
+	private int getVacunados(Vacuna vacuna) {
+		int count = 0;
+		for(Paciente aux:Hospital.getInstance().getMisPacientes())
+		{
+			if(aux.isVacunado(vacuna))
+				count++;
+		}
+		return count;
+	}
+	private int getPorVac(Vacuna vacuna) {
+		return getVacunados(vacuna)/(Hospital.getCodigoPaciente()-1);
+	}
+
 	public void setVisibleByUser(Usuario user)
 	{
 		if(user.getPersona() instanceof Doctor) {
@@ -187,5 +339,56 @@ public class PrincipalVisual extends JFrame {
 			mnitHistorialPaciente.setVisible(false);
 		}
 	}
-
+	public void loadCitasHoy()
+	{
+		Date fechaHoy = new Date();
+		model.setRowCount(0);
+		row =new Object[model.getColumnCount()];
+		for(Cita aux:Hospital.getInstance().getMisCitas())
+		{
+			if(aux.getFchProgramada()==fechaHoy)
+			{
+				row[0] = aux.getId();
+				row[1] = aux.getFchProgramada().getTime();
+				row[2] = aux.getMiDoctor().getNombre();
+				row[3] = aux.getProxPaciente().getNombre();
+				model.addRow(row);
+			}
+		}
+	}
+	private void loadVacunas() {
+		cbxVacuna.addItem("<Seleccione>");
+		for(Vacuna aux:Hospital.getInstance().getMisVacunas())
+		{
+			cbxVacuna.addItem(aux.getNombre());
+			
+		}
+	}
+	private void loadEnfermedades() {
+		cbxEnfermedades.addItem("<Seleccione>");
+		for(Enfermedad aux:Hospital.getInstance().getMisEnfermedades())
+		{
+			cbxEnfermedades.addItem(aux.getNombre());
+		}
+	}
+	private void load()
+	{
+		loadVacunas();
+		loadEnfermedades();
+		selectedVacuna();
+		selectedEnfermedad();
+		txtVacunados.setText(String.valueOf(getVacunados(vacuna)));
+		txtPorVac.setText(String.valueOf(getPorVac(vacuna)));
+		txtCasos.setText(String.valueOf(getCasos(enfermedad)));
+		txtContagiados.setText(String.valueOf(getContagiados(enfermedad)));
+		
+	}
+	private void selectedVacuna()
+	{
+		vacuna = Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString());
+	}
+	private void selectedEnfermedad()
+	{
+		enfermedad = Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString());
+	}
 }

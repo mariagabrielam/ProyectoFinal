@@ -45,7 +45,6 @@ public class PrincipalVisual extends JFrame {
 	 * 
 	 */
 	private JPanel contentPane;
-	private JMenuItem mnitHistorialPaciente;
 	private JMenu mnAdmin;
 	private JMenu mnCita;
 	private JMenuItem mnitHistorialClinica;
@@ -110,10 +109,7 @@ public class PrincipalVisual extends JFrame {
 		JMenu mnNewMenu_2 = new JMenu("Historial Cl\u00EDnico");
 		menuBar.add(mnNewMenu_2);
 		
-		mnitHistorialPaciente = new JMenuItem("Historial Paciente");
-		mnNewMenu_2.add(mnitHistorialPaciente);
-		
-		mnitHistorialClinica = new JMenuItem("Historial Cl\u00EDnica");
+		mnitHistorialClinica = new JMenuItem("Listar Historial Cl\u00EDnica");
 		mnNewMenu_2.add(mnitHistorialClinica);
 		mnitHistorialClinica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -156,6 +152,11 @@ public class PrincipalVisual extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar Pacientes");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		mnAdmin = new JMenu("Administraci\u00F3n");
@@ -346,14 +347,12 @@ public class PrincipalVisual extends JFrame {
 	public void setVisibleByUser(Usuario user)
 	{
 		if(user.getPersona() instanceof Doctor) {
-			mnitHistorialPaciente.setVisible(true);
 			mnAdmin.setVisible(false);
 			mnitHistorialClinica.setVisible(false);
 		}
 		else {
 			mnCita.setVisible(false);
 			mnAdmin.setVisible(true);
-			mnitHistorialPaciente.setVisible(false);
 		}
 	}
 	public void loadCitasHoy()

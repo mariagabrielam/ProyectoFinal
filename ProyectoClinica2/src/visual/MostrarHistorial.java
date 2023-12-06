@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,8 +20,18 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logico.Consulta;
+import logico.Hospital;
+import logico.Paciente;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JRadioButton;
 
 public class MostrarHistorial extends JDialog {
 
@@ -29,13 +40,22 @@ public class MostrarHistorial extends JDialog {
 	 */
 	private static final long serialVersionUID = -8941096458613951699L;
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
 	private JTextField txtNHC;
 	private JTextField txtNombre;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtDescripcion;
+	private JTextField txtMotivo;
+	private JTextField txtDoctor;
+	private JTextField txtVacuna;
+	private Paciente selected = null;
+	private Consulta selectedCon = null;
+	private JTable tblConsulta;
+	private static DefaultTableModel model;
+	private static Object[] row;
+	private JScrollPane panHistorial;
+	private JSpinner spnDate;
+	private JRadioButton rbtnVerde;
+	private JRadioButton rbtnAmarillo;
+	private JRadioButton rbtnRojo;
 
 	/**
 	 * Launch the application.
@@ -61,15 +81,6 @@ public class MostrarHistorial extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Consultas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(12, 13, 154, 410);
-		contentPanel.add(panel);
-		
-		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panel.add(table);
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(178, 13, 442, 114);
@@ -84,12 +95,22 @@ public class MostrarHistorial extends JDialog {
 		lblNewLabel_1.setBounds(12, 69, 56, 16);
 		panel_1.add(lblNewLabel_1);
 		
+		
 		JButton btnNewButton = new JButton("Buscar");
-		btnNewButton.setBounds(174, 31, 97, 25);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selected = Hospital.getInstance().buscarPacienteByNHC(txtNHC.getText());
+				loadTablaHistorial();
+				panHistorial.setVisible(true);
+				txtNHC.setText(selected.getNhc());
+				txtNombre.setText(selected.getNombre());
+			}
+		});
+		btnNewButton.setBounds(197, 31, 97, 25);
 		panel_1.add(btnNewButton);
 		
 		txtNHC = new JTextField();
-		txtNHC.setBounds(47, 32, 116, 22);
+		txtNHC.setBounds(69, 32, 116, 22);
 		panel_1.add(txtNHC);
 		txtNHC.setColumns(10);
 		
@@ -104,6 +125,24 @@ public class MostrarHistorial extends JDialog {
 		panel_2.setBounds(178, 131, 442, 292);
 		contentPanel.add(panel_2);
 		panel_2.setLayout(null);
+		
+		rbtnVerde = new JRadioButton("Verde");
+		rbtnVerde.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prioButtons(3);
+			}
+		});
+		rbtnVerde.setBounds(268, 112, 127, 25);
+		panel_2.add(rbtnVerde);
+		
+		rbtnAmarillo = new JRadioButton("Amarillo");
+		rbtnAmarillo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prioButtons(2);
+			}
+		});
+		rbtnAmarillo.setBounds(187, 112, 127, 25);
+		panel_2.add(rbtnAmarillo);
 		
 		JLabel lblNewLabel_2 = new JLabel("Fecha Realizada:");
 		lblNewLabel_2.setBounds(29, 29, 116, 16);
@@ -129,41 +168,63 @@ public class MostrarHistorial extends JDialog {
 		lblNewLabel_7.setBounds(29, 145, 56, 16);
 		panel_2.add(lblNewLabel_7);
 		
-		textField = new JTextField();
-		textField.setEnabled(false);
-		textField.setBounds(29, 204, 384, 75);
-		panel_2.add(textField);
-		textField.setColumns(10);
+		txtDescripcion = new JTextField();
+		txtDescripcion.setEnabled(false);
+		txtDescripcion.setBounds(29, 204, 384, 75);
+		panel_2.add(txtDescripcion);
+		txtDescripcion.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setEnabled(false);
-		textField_1.setBounds(146, 84, 267, 22);
-		panel_2.add(textField_1);
-		textField_1.setColumns(10);
+		txtMotivo = new JTextField();
+		txtMotivo.setEnabled(false);
+		txtMotivo.setBounds(146, 84, 267, 22);
+		panel_2.add(txtMotivo);
+		txtMotivo.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setEnabled(false);
-		textField_2.setBounds(78, 55, 175, 22);
-		panel_2.add(textField_2);
-		textField_2.setColumns(10);
+		txtDoctor = new JTextField();
+		txtDoctor.setEnabled(false);
+		txtDoctor.setBounds(78, 55, 175, 22);
+		panel_2.add(txtDoctor);
+		txtDoctor.setColumns(10);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(1, 1, 3, 1));
-		spinner.setEnabled(false);
-		spinner.setBounds(129, 113, 30, 22);
-		panel_2.add(spinner);
+		txtVacuna = new JTextField();
+		txtVacuna.setEditable(false);
+		txtVacuna.setBounds(81, 144, 116, 22);
+		panel_2.add(txtVacuna);
+		txtVacuna.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setBounds(81, 144, 116, 22);
-		panel_2.add(textField_3);
-		textField_3.setColumns(10);
+		spnDate = new JSpinner();
+		spnDate.setModel(new SpinnerDateModel(new Date(1701403200000L), null, null, Calendar.DAY_OF_YEAR));
+		spnDate.setEnabled(false);
+		spnDate.setBounds(129, 26, 127, 22);
+		panel_2.add(spnDate);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setModel(new SpinnerDateModel(new Date(1701403200000L), null, null, Calendar.DAY_OF_YEAR));
-		spinner_1.setEnabled(false);
-		spinner_1.setBounds(129, 26, 127, 22);
-		panel_2.add(spinner_1);
+		rbtnRojo = new JRadioButton("Rojo");
+		rbtnRojo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prioButtons(1);
+			}
+		});
+		rbtnRojo.setBounds(126, 112, 127, 25);
+		panel_2.add(rbtnRojo);
+		
+		panHistorial = new JScrollPane();
+		panHistorial.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Consultas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panHistorial.setBounds(12, 13, 154, 421);
+		contentPanel.add(panHistorial);
+		
+		tblConsulta = new JTable();
+		String[] header = {"Código","Fecha","Doctor"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(header);
+		tblConsulta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tblConsulta.getSelectedRow();
+				//selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
+				loadHistorial();
+			}
+		});
+		panHistorial.setViewportView(tblConsulta);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -179,5 +240,41 @@ public class MostrarHistorial extends JDialog {
 				buttonPane.add(btnSalir);
 			}
 		}
+	}
+
+	private void loadTablaHistorial() {
+		model.setRowCount(0);
+		row =new Object[model.getColumnCount()];
+		for(Consulta aux:selected.getHistorial().getMisConsultas())
+		{
+			row[0] = aux.getId();
+			row[1] = aux.getFchConsulta();
+			row[2] = aux.getMiDoctor();
+			model.addRow(row);
+		}
+	}
+	private void loadHistorial() {
+		spnDate.setValue(selectedCon.getFchConsulta());
+		txtDoctor.setText(selectedCon.getMiDoctor().getNombre());
+		txtMotivo.setText(selectedCon.getTriaje());
+		prioButtons(selectedCon.getPrioridadDeTriaje());
+		if(selectedCon.getMiVacuna()!=null)
+			txtVacuna.setText(selectedCon.getMiVacuna().getNombre());
+		else
+			txtVacuna.setText("");
+		txtDescripcion.setText(selectedCon.getDescripcion());
+		
+	}
+	private void prioButtons(int num)
+	{
+		rbtnVerde.setSelected(false);
+		rbtnRojo.setSelected(false);
+		rbtnAmarillo.setSelected(true);
+		if(num == 1)
+			rbtnRojo.setSelected(true);
+		if(num == 2)
+			rbtnAmarillo.setSelected(true);
+		else
+			rbtnVerde.setSelected(false);
 	}
 }

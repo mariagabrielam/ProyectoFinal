@@ -6,7 +6,7 @@ public abstract class Persona implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7317722136588482361L;
 	protected String cedula;
 	protected String nombre;
 	protected String telefono;

@@ -176,12 +176,12 @@ public class CrearUsuario extends JDialog {
 						{
 							if(!adminCreado)
 							{
-								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(),null);
+								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
 								Hospital.getInstance().addUsuario(aux);
 								JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
 							}
 							else {
-								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(),selected);
+								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
 								Hospital.getInstance().addUsuario(aux);
 								JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
 							}

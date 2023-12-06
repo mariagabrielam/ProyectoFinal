@@ -1,18 +1,21 @@
 package logico;
 
-public class Doctor extends Persona {
+public class Doctor extends Empleado {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private String exequatur; //EXEQUATUR, especialidad
-	private String id;
+	private static final long serialVersionUID = -4842368835252259050L;
+	private String exequatur; //EXEQUATUR
+	private String especialidad;
 	
-	public Doctor(String cedula, String nombre, String telefono, String direccion, String sexo, String id, String exequatur) {
-		super(cedula, nombre, telefono, direccion, sexo);
-		this.setId(id);
-		this.setExequatur(exequatur); 
+	public Doctor(String id, String cedula, String nombre, String telefono, String direccion, String sexo, String cargo,
+			String exequatur, String especialidad) {
+		super(id, cedula, nombre, telefono, direccion, sexo, cargo);
+		this.exequatur = exequatur;
+		this.setEspecialidad(especialidad);
 	}
+
 
 	public String getExequatur() {
 		return exequatur;
@@ -28,6 +31,16 @@ public class Doctor extends Persona {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+
+	public String getEspecialidad() {
+		return especialidad;
+	}
+
+
+	public void setEspecialidad(String especialidad) {
+		this.especialidad = especialidad;
 	}
 	
 }

@@ -37,7 +37,7 @@ public class RegDoctor extends JDialog {
 	private JTextField txtID;
 	private JTextField txtNombre;
 	private JTextField txtDireccion;
-	private JComboBox<Object> cbxExeq;
+	private JComboBox<Object> cbxEspecialidad;
 	private JFormattedTextField txtCedula;
 	private JRadioButton rdbtnF;
 	private JRadioButton rdbtnM;
@@ -140,21 +140,21 @@ public class RegDoctor extends JDialog {
 			txtDireccion.setColumns(10);
 		}
 		{
-			JLabel lblNewLabel_5 = new JLabel("Exequatur:");
+			JLabel lblNewLabel_5 = new JLabel("Especialidad");
 			lblNewLabel_5.setBounds(12, 121, 65, 16);
 			panel.add(lblNewLabel_5);
 		}
 		
-		cbxExeq = new JComboBox<Object>();
-		cbxExeq.addActionListener(new ActionListener() {
+		cbxEspecialidad = new JComboBox<Object>();
+		cbxEspecialidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				habilitarButton();
 			}
 		});
-		cbxExeq.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Cardiologo", "Podologo"}));
-		cbxExeq.setToolTipText("");
-		cbxExeq.setBounds(70, 116, 106, 22);
-		panel.add(cbxExeq);
+		cbxEspecialidad.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Cardiologo", "Podologo"}));
+		cbxEspecialidad.setToolTipText("");
+		cbxEspecialidad.setBounds(80, 116, 106, 22);
+		panel.add(cbxEspecialidad);
 		
 		JLabel lblNewLabel_6 = new JLabel("Sexo:");
 		lblNewLabel_6.setBounds(235, 90, 56, 16);
@@ -208,13 +208,13 @@ public class RegDoctor extends JDialog {
 				okButton.setEnabled(false);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(cbxExeq.getSelectedIndex()!=0) {
-							Doctor aux = new Doctor(txtCedula.getText(),txtNombre.getText(),txtTelefono.getText(),txtDireccion.getText(),null,txtID.getText(),cbxExeq.getSelectedItem().toString());
+						if(cbxEspecialidad.getSelectedIndex()!=0) {
+							Doctor aux = new Doctor(txtID.getText(), txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), "SEXO", "Doctor", "EXQUATUR", cbxEspecialidad.getSelectedItem().toString());
 							if(rdbtnM.isEnabled()) {
-								aux.setSexo("M");
+								aux.setSexo("Masculino");
 							}
 							else {
-								aux.setSexo("F");
+								aux.setSexo("Femenino");
 							}
 							Hospital.getInstance().addPersona(aux);
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
@@ -242,7 +242,7 @@ public class RegDoctor extends JDialog {
 	}
 
 	private void habilitarButton() {
-		if(!txtNombre.getText().isEmpty()&&!txtCedula.getText().isEmpty()&&!txtTelefono.getText().isEmpty()&&!txtDireccion.getText().isEmpty()&&cbxExeq.getSelectedIndex()>0)
+		if(!txtNombre.getText().isEmpty()&&!txtCedula.getText().isEmpty()&&!txtTelefono.getText().isEmpty()&&!txtDireccion.getText().isEmpty()&&cbxEspecialidad.getSelectedIndex()>0)
 			okButton.setEnabled(true);
 		
 	}

@@ -226,7 +226,9 @@ public class ListarPaciente extends JDialog {
 				btnVacuna = new JButton("Ingresar Vacuna");
 				btnVacuna.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						VacunasPaciente vacunasPaciente = new VacunasPaciente(selected);
+						vacunasPaciente.setModal(true);
+						vacunasPaciente.setVisible(true);
 					}
 				});
 				btnVacuna.setEnabled(false);

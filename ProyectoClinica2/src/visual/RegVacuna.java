@@ -79,7 +79,7 @@ public class RegVacuna extends JDialog {
 			setTitle("Modificar Vacuna");
 		}
 		
-		setBounds(100, 100, 507, 458);
+		setBounds(100, 100, 515, 474);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,7 +93,7 @@ public class RegVacuna extends JDialog {
 			panel.setLayout(null);
 			
 			JLabel lblNewLabel = new JLabel("Lote:");
-			lblNewLabel.setBounds(40, 32, 46, 14);
+			lblNewLabel.setBounds(24, 32, 46, 14);
 			panel.add(lblNewLabel);
 			
 			txtLote = new JTextField();
@@ -103,12 +103,12 @@ public class RegVacuna extends JDialog {
 					habilitarBoton();
 				}
 			});
-			txtLote.setBounds(80, 29, 86, 20);
+			txtLote.setBounds(80, 29, 106, 20);
 			panel.add(txtLote);
 			txtLote.setColumns(10);
 			
 			JLabel lblNewLabel_1 = new JLabel("Nombre:");
-			lblNewLabel_1.setBounds(24, 82, 46, 14);
+			lblNewLabel_1.setBounds(24, 79, 68, 17);
 			panel.add(lblNewLabel_1);
 			
 			txtNombre = new JTextField();
@@ -124,12 +124,12 @@ public class RegVacuna extends JDialog {
 		
 		
 			JLabel lblNewLabel_2 = new JLabel("Cantidad de Vacuna:");
-			lblNewLabel_2.setBounds(272, 32, 122, 14);
+			lblNewLabel_2.setBounds(257, 32, 122, 14);
 			panel.add(lblNewLabel_2);
 			
 			spnCantVacuna = new JSpinner();
 			spnCantVacuna.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
-			spnCantVacuna.setBounds(389, 29, 68, 20);
+			spnCantVacuna.setBounds(377, 29, 68, 20);
 			panel.add(spnCantVacuna);
 		}
 		

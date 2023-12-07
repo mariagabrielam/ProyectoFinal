@@ -363,6 +363,7 @@ public class PrincipalVisual extends JFrame {
 				selectedEnfermedad();
 				txtCasos.setText(String.valueOf(getCasos(enfermedad)));
 				txtContagiados.setText(String.valueOf(getContagiados(enfermedad)));
+				loadEnfermedades();
 			}
 		});
 		cbxEnfermedades.setBounds(40, 29, 241, 22);
@@ -382,6 +383,7 @@ public class PrincipalVisual extends JFrame {
 				selectedVacuna();
 				txtVacunados.setText(String.valueOf(getVacunados(vacuna)));
 				txtPorVac.setText(String.valueOf(getPorVac(vacuna)));
+				loadVacunas();
 			}
 		});
 		cbxVacuna.setBounds(40, 115, 241, 22);
@@ -531,7 +533,7 @@ public class PrincipalVisual extends JFrame {
 		JLabel lblNewLabel_4 = new JLabel("");
 		lblNewLabel_4.setBounds(33, 15, 403, 156);
 		contentPane.add(lblNewLabel_4);
-		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elLogo.png")));
+		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elRealLogo.png")));
 		if(Hospital.getCodigoPaciente()>1) {
 			load();
 		}

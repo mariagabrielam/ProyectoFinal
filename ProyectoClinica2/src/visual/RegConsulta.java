@@ -75,7 +75,6 @@ public class RegConsulta extends JDialog {
 	 */
 	public RegConsulta(Cita cita) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegConsulta.class.getResource("/Iconos/clipboardIcon.png")));
-		load(cita.getProxPaciente());
 		setTitle("Registrar Consulta");
 		setBounds(100, 100, 456, 562);
 		getContentPane().setLayout(new BorderLayout());
@@ -358,6 +357,8 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		load(cita.getProxPaciente());
 		
 	}
 

@@ -311,8 +311,7 @@ public class RegCita extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (miPersona == null) {
-							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
-							miPersona = new Paciente(NHC, txtCedula.getText(), txtNombre.getText(),
+							miPersona = new Paciente(null, txtCedula.getText(), txtNombre.getText(),
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
 						}
 						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraInicio.getValue());

@@ -131,7 +131,7 @@ public class ListarCita extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblAgenda.getSelectedRow();
-				if (index > 0) {
+				if (index >= 0) {
 					selectedCita = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
 					if(!selectedCita.isEstado())
 						btnOk.setEnabled(true);
@@ -174,7 +174,7 @@ public class ListarCita extends JDialog {
 	}
 
 	private void habilitarBoton() {
-		if (cbxDoctor.getSelectedIndex() > 0 && selectedCita != null) {
+		if (tblAgenda.getSelectedRow() > 0 && selectedCita != null) {
 			btnOk.setEnabled(true);
 		} else {
 			btnOk.setEnabled(false);

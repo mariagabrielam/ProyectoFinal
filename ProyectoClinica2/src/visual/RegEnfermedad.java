@@ -48,7 +48,7 @@ public class RegEnfermedad extends JDialog {
 	private JRadioButton rdbtnRojo;
 	private JRadioButton rdbtnAmarillo;
 	private JRadioButton rdbtnVerde;
-	private Enfermedad miEnfermedad=null;
+	private Enfermedad miEnfermedad = null;
 
 	/**
 	 * Launch the application.
@@ -62,15 +62,16 @@ public class RegEnfermedad extends JDialog {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Create the dialog.
 	 */
 	public RegEnfermedad(Enfermedad laEnfermedad) {
-		miEnfermedad=laEnfermedad;
+		miEnfermedad = laEnfermedad;
 		setResizable(false);
-		if(miEnfermedad==null) {
+		if (miEnfermedad == null) {
 			setTitle("Registrar Enfermedad");
-		}else {
+		} else {
 			setTitle("Modificar Enfermedad");
 		}
 		setBounds(100, 100, 457, 510);
@@ -79,17 +80,17 @@ public class RegEnfermedad extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Datos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(10, 11, 421, 426);
 		contentPanel.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
 		lblNewLabel_1.setBounds(12, 36, 56, 16);
 		panel.add(lblNewLabel_1);
-		
+
 		txtNombre = new JTextField();
 		txtNombre.addKeyListener(new KeyAdapter() {
 			@Override
@@ -100,18 +101,19 @@ public class RegEnfermedad extends JDialog {
 		txtNombre.setBounds(64, 33, 116, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Precauciones:");
 		lblNewLabel_3.setBounds(12, 188, 122, 16);
 		panel.add(lblNewLabel_3);
-		
+
 		{
 			JPanel panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00EDntomas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00EDntomas",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(10, 73, 401, 103);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
-			
+
 			ckbxTos = new JCheckBox("Tos");
 			ckbxTos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -121,15 +123,15 @@ public class RegEnfermedad extends JDialog {
 			});
 			ckbxTos.setBounds(8, 19, 113, 25);
 			panel_1.add(ckbxTos);
-			
+
 			ckbxVomitos = new JCheckBox("V\u00F3mitos ");
 			ckbxVomitos.setBounds(8, 43, 113, 25);
 			panel_1.add(ckbxVomitos);
-			
+
 			ckbxNauseas = new JCheckBox("N\u00E1useas");
 			ckbxNauseas.setBounds(8, 69, 113, 25);
 			panel_1.add(ckbxNauseas);
-			
+
 			ckbxFiebre = new JCheckBox("Fiebre");
 			ckbxFiebre.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -139,15 +141,15 @@ public class RegEnfermedad extends JDialog {
 			});
 			ckbxFiebre.setBounds(125, 19, 113, 25);
 			panel_1.add(ckbxFiebre);
-			
+
 			ckbxDiarrea = new JCheckBox("Diarrea");
 			ckbxDiarrea.setBounds(125, 43, 113, 25);
 			panel_1.add(ckbxDiarrea);
-			
+
 			ckbxMareo = new JCheckBox("Mareo");
 			ckbxMareo.setBounds(125, 69, 113, 25);
 			panel_1.add(ckbxMareo);
-			
+
 			ckbxDolorCor = new JCheckBox("Dolor Corporal");
 			ckbxDolorCor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -157,33 +159,33 @@ public class RegEnfermedad extends JDialog {
 			});
 			ckbxDolorCor.setBounds(248, 19, 113, 25);
 			panel_1.add(ckbxDolorCor);
-			
+
 			ckbxDolorCab = new JCheckBox("Dolor de Cabeza");
 			ckbxDolorCab.setBounds(248, 43, 130, 25);
 			panel_1.add(ckbxDolorCab);
-			
+
 			ckbxFatiga = new JCheckBox("Fatiga");
 			ckbxFatiga.setBounds(248, 69, 113, 25);
 			panel_1.add(ckbxFatiga);
-			
+
 			txtPrecauciones = new JTextField();
 			txtPrecauciones.setBounds(112, 187, 299, 71);
 			panel.add(txtPrecauciones);
 			txtPrecauciones.setColumns(10);
-			
+
 			JLabel lblNewLabel_2 = new JLabel("Procedimientos:");
 			lblNewLabel_2.setBounds(12, 282, 116, 16);
 			panel.add(lblNewLabel_2);
-			
+
 			txtProcedimientos = new JTextField();
 			txtProcedimientos.setBounds(112, 282, 299, 71);
 			panel.add(txtProcedimientos);
 			txtProcedimientos.setColumns(10);
-			
+
 			rdbtnVigilancia = new JRadioButton(" Enfermedad en Vigilancia");
 			rdbtnVigilancia.setBounds(227, 32, 189, 25);
 			panel.add(rdbtnVigilancia);
-			
+
 			rdbtnVerde = new JRadioButton("Verde");
 			rdbtnVerde.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -195,7 +197,7 @@ public class RegEnfermedad extends JDialog {
 			rdbtnVerde.setSelected(true);
 			rdbtnVerde.setBounds(341, 375, 70, 23);
 			panel.add(rdbtnVerde);
-			
+
 			rdbtnAmarillo = new JRadioButton("Amarillo");
 			rdbtnAmarillo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -206,7 +208,7 @@ public class RegEnfermedad extends JDialog {
 			});
 			rdbtnAmarillo.setBounds(216, 375, 84, 23);
 			panel.add(rdbtnAmarillo);
-			
+
 			rdbtnRojo = new JRadioButton("Rojo");
 			rdbtnRojo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -217,7 +219,7 @@ public class RegEnfermedad extends JDialog {
 			});
 			rdbtnRojo.setBounds(113, 375, 56, 23);
 			panel.add(rdbtnRojo);
-			
+
 			JLabel label = new JLabel("Prioridad Triaje:");
 			label.setBounds(12, 378, 116, 16);
 			panel.add(label);
@@ -228,17 +230,21 @@ public class RegEnfermedad extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
-				if(miEnfermedad!=null) {
+				if (miEnfermedad != null) {
 					btnRegistrar.setText("Modificar");
 				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(miEnfermedad==null) {
-							Enfermedad laEnfermedad = new Enfermedad("E"+Hospital.getCodigoEnfermedad(), txtNombre.getText(), cargarSintomas(), txtPrecauciones.getText(), txtProcedimientos.getText(), rdbtnVigilancia.isSelected(), determinarPrioridadTriaje());
+						if (miEnfermedad == null) {
+							Enfermedad laEnfermedad = new Enfermedad("E-" + Hospital.getCodigoEnfermedad(),
+									txtNombre.getText(), cargarSintomas(), txtPrecauciones.getText(),
+									txtProcedimientos.getText(), rdbtnVigilancia.isSelected(),
+									determinarPrioridadTriaje());
 							Hospital.getInstance().addEnfermedad(laEnfermedad);
-							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro",
+									JOptionPane.INFORMATION_MESSAGE);
 							clean();
-						}else {
+						} else {
 							miEnfermedad.setNombre(txtNombre.getText());
 							miEnfermedad.setVigilancia(rdbtnVigilancia.isSelected());
 							miEnfermedad.setSintomas(cargarSintomas());
@@ -267,80 +273,82 @@ public class RegEnfermedad extends JDialog {
 				buttonPane.add(btnCancel);
 			}
 		}
+		loadEnfermedad();
 	}
+
 	private void CambioSintomas(boolean selected) {
-		if(selected) {
+		if (selected) {
 			contSintomas++;
-		}else {
+		} else {
 			contSintomas--;
 		}
 	}
 
 	private void habilitarBoton() {
-		if(!txtNombre.getText().isEmpty() && contSintomas>0) {
+		if (!txtNombre.getText().isEmpty() && contSintomas > 0) {
 			btnRegistrar.setEnabled(true);
-		}else {
+		} else {
 			btnRegistrar.setEnabled(false);
 		}
 	}
-	
+
 	private String[] cargarSintomas() {
-		String[] sintomas=new String[9];
-		int i=0;
-		if(ckbxTos.isSelected()) {
-			sintomas[i]=ckbxTos.getText();
+		String[] sintomas = new String[9];
+		int i = 0;
+		if (ckbxTos.isSelected()) {
+			sintomas[i] = ckbxTos.getText();
 			i++;
 		}
 
-		if(ckbxFiebre.isSelected()) {
-			sintomas[i]=ckbxFiebre.getText();
+		if (ckbxFiebre.isSelected()) {
+			sintomas[i] = ckbxFiebre.getText();
 			i++;
 		}
-		if(ckbxDolorCor.isSelected()) {
-			sintomas[i]=ckbxDolorCor.getText();
+		if (ckbxDolorCor.isSelected()) {
+			sintomas[i] = ckbxDolorCor.getText();
 			i++;
 		}
-		if(ckbxVomitos.isSelected()) {
-			sintomas[i]=ckbxVomitos.getText();
+		if (ckbxVomitos.isSelected()) {
+			sintomas[i] = ckbxVomitos.getText();
 			i++;
 		}
-		if(ckbxDiarrea.isSelected()) {
-			sintomas[i]=ckbxDiarrea.getText();
+		if (ckbxDiarrea.isSelected()) {
+			sintomas[i] = ckbxDiarrea.getText();
 			i++;
 		}
-		if(ckbxDolorCab.isSelected()) {
-			sintomas[i]=ckbxDolorCab.getText();
+		if (ckbxDolorCab.isSelected()) {
+			sintomas[i] = ckbxDolorCab.getText();
 			i++;
 		}
-		if(ckbxNauseas.isSelected()) {
-			sintomas[i]=ckbxNauseas.getText();
+		if (ckbxNauseas.isSelected()) {
+			sintomas[i] = ckbxNauseas.getText();
 			i++;
 		}
-		if(ckbxMareo.isSelected()) {
-			sintomas[i]=ckbxMareo.getText();
+		if (ckbxMareo.isSelected()) {
+			sintomas[i] = ckbxMareo.getText();
 			i++;
 		}
-		if(ckbxFatiga.isSelected()) {
-			sintomas[i]=ckbxFatiga.getText();
+		if (ckbxFatiga.isSelected()) {
+			sintomas[i] = ckbxFatiga.getText();
 			i++;
 		}
-		
+
 		return sintomas;
 	}
-	
+
 	private int determinarPrioridadTriaje() {
-		if(rdbtnVerde.isSelected()) {
+		if (rdbtnVerde.isSelected()) {
 			return 3;
 		}
-		if(rdbtnAmarillo.isSelected()) {
+		if (rdbtnAmarillo.isSelected()) {
 			return 2;
 		}
-		if(rdbtnRojo.isSelected()) {
+		if (rdbtnRojo.isSelected()) {
 			return 1;
 		}
 		return 0;
 	}
-	
+
 	private void clean() {
 		txtNombre.setText("");
 		rdbtnVigilancia.setSelected(true);
@@ -352,7 +360,7 @@ public class RegEnfermedad extends JDialog {
 		rdbtnRojo.setSelected(false);
 		rdbtnVerde.setSelected(true);
 	}
-	
+
 	private void desactivarAllCheckBoxes() {
 		ckbxTos.setSelected(false);
 		ckbxFiebre.setSelected(false);
@@ -363,5 +371,31 @@ public class RegEnfermedad extends JDialog {
 		ckbxNauseas.setSelected(false);
 		ckbxMareo.setSelected(false);
 		ckbxFatiga.setSelected(false);
+	}
+
+	private void loadEnfermedad() {
+		if (miEnfermedad != null) {
+			rdbtnRojo.setSelected(false);
+			rdbtnAmarillo.setSelected(false);
+			rdbtnVerde.setSelected(false);
+			txtNombre.setText(miEnfermedad.getNombre());
+			txtPrecauciones.setText(miEnfermedad.getPrecauciones());
+			txtProcedimientos.setText(miEnfermedad.getProcedimientos());
+			rdbtnVigilancia.setSelected(miEnfermedad.isVigilancia());
+			switch (miEnfermedad.getPrioridadTriaje()) {
+			case 1:
+				rdbtnRojo.setSelected(true);
+				break;
+			case 2:
+				rdbtnAmarillo.setSelected(true);
+				break;
+			case 3:
+				rdbtnVerde.setSelected(true);
+				break;
+
+			default:
+				break;
+			}
+		}
 	}
 }

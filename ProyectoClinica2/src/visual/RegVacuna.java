@@ -39,16 +39,16 @@ public class RegVacuna extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtLote;
 	private JTextField txtNombre;
-	private Enfermedad selectedAllEnfermedad;
-	private Enfermedad selectedEnfermedadVacuna;
 	private JTable table_allEnfermedades;
 	private JTable table_enfermedadesVacuna;
 	private static DefaultTableModel modelAllEnferm;
 	private static DefaultTableModel modelEnfermVacuna;
 	private static Object[] rowAllEnferm;
 	private static Object[] rowEnfermVacuna;
-	private static ArrayList<Enfermedad>allEnferm;
-	private static ArrayList<Enfermedad>enfermVacuna;
+	private static ArrayList<Enfermedad>allEnferm = new ArrayList<>();
+	private static ArrayList<Enfermedad>enfermVacuna = new ArrayList<>();
+	private Enfermedad selectedGlobal = null;
+	private Enfermedad selectedLocal = null;
 	private JButton btnMove;
 	private Vacuna miVacuna=null;
 	private JSpinner spnCantVacuna;
@@ -161,8 +161,8 @@ public class RegVacuna extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					int index = table_allEnfermedades.getSelectedRow();
 					if(index>=0) {
-						selectedAllEnfermedad=allEnferm.get(index);
-						selectedEnfermedadVacuna=null;
+						selectedGlobal=allEnferm.get(index);
+						selectedLocal = null;
 						btnMove.setText(">>");
 						btnMove.setEnabled(true);
 					}
@@ -192,8 +192,8 @@ public class RegVacuna extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					int index=table_enfermedadesVacuna.getSelectedRow();
 					if(index>=0) {
-						selectedEnfermedadVacuna=enfermVacuna.get(index);
-						selectedAllEnfermedad=null;
+						selectedLocal = enfermVacuna.get(index);
+						selectedGlobal=null;
 						btnMove.setText("<<");
 						btnMove.setEnabled(true);
 					}
@@ -215,13 +215,15 @@ public class RegVacuna extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				btnMove.setEnabled(false);
 				btnMove.setText("");
-				if(selectedAllEnfermedad!=null) {
-					enfermVacuna.add(selectedAllEnfermedad);
-					allEnferm.remove(selectedAllEnfermedad);
+				if(selectedGlobal!=null) {
+					enfermVacuna.add(selectedGlobal);
+					allEnferm.remove(selectedGlobal);
 				}else {
-					allEnferm.add(selectedEnfermedadVacuna);
-					enfermVacuna.remove(selectedEnfermedadVacuna);
+					allEnferm.add(selectedLocal);
+					enfermVacuna.remove(selectedLocal);
 				}
+				loadAllEnfermedades();
+				loadEnfermedadVacuna();
 			}
 		});
 		btnMove.setEnabled(false);
@@ -283,10 +285,8 @@ public class RegVacuna extends JDialog {
 	private static void loadAllEnfermedades() {
 		modelAllEnferm.setRowCount(0);
 		rowAllEnferm = new Object[modelAllEnferm.getColumnCount()];
-		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
+		for (Enfermedad enferm : allEnferm){
 		  rowAllEnferm[0] = enferm.getNombre();
-		  rowAllEnferm[1] = enferm.isVigilancia();
-		  rowAllEnferm[2] = enferm.getPrioridadTriaje();
 		  modelAllEnferm.addRow(rowAllEnferm);
 		}
 		
@@ -295,10 +295,8 @@ public class RegVacuna extends JDialog {
 	private static void loadEnfermedadVacuna() {
 		modelEnfermVacuna.setRowCount(0);
 		rowEnfermVacuna = new Object[modelEnfermVacuna.getColumnCount()];
-		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
+		for (Enfermedad enferm : enfermVacuna){
 		  rowEnfermVacuna[0] = enferm.getNombre();
-		  rowEnfermVacuna[1] = enferm.isVigilancia();
-		  rowEnfermVacuna[2] = enferm.getPrioridadTriaje();
 		  modelEnfermVacuna.addRow(rowEnfermVacuna);
 		}
 		
@@ -316,5 +314,9 @@ public class RegVacuna extends JDialog {
 		txtLote.setText("S-"+Hospital.getCodigoVacuna());
 		spnCantVacuna.setValue(new Integer(1));
 		txtNombre.setText("");
+	}
+	private void clonarEnfermedades()
+	{
+		allEnferm = (ArrayList<Enfermedad>) Hospital.getInstance().getMisEnfermedades().clone();
 	}
 }

@@ -396,5 +396,14 @@ public class Hospital implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public boolean buscarPacienteByCedula(String cedula) {
+		for(Paciente aux:getMisPacientes())
+		{
+			if(aux.getCedula().equalsIgnoreCase(cedula))
+				return true;
+		}
+		return false;
 	}  
 }

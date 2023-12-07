@@ -182,7 +182,7 @@ public class PrincipalVisual extends JFrame {
 		mnPaciente.add(mntmNewMenuItem);
 		
 		mnAdmin = new JMenu("Administraci\u00F3n");
-		menuBar.add(mnAdmin);
+		menuBar.add(mnAdmin);  
 		
 		JMenu mnNewMenu = new JMenu("Usuarios");
 		mnAdmin.add(mnNewMenu);
@@ -193,7 +193,7 @@ public class PrincipalVisual extends JFrame {
 				CrearUsuario crear = new CrearUsuario();
 				crear.setModal(true);
 				crear.setVisible(true);
-			}
+			} 
 		});
 		mnNewMenu.add(mntmNewMenuItem_7);
 		
@@ -331,7 +331,7 @@ public class PrincipalVisual extends JFrame {
 				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
 				Hospital.getInstance().addPersona(Sec1);
 				
-				Persona p1 = new Paciente("10-55-5555", "402-15325546.8", "Esteban", "809-555-65445", "Santiago", "Masculino");
+				Paciente p1 = new Paciente("1", "402-15325546-8", "Esteban", "809-555-65445", "Santiago", "Masculino");
 				Date dia = new Date();
 				Cita nuevaCita =  new Cita("C-1", p1, (Doctor)Doc2, dia);
 				Hospital.getInstance().addCita(nuevaCita);
@@ -360,9 +360,10 @@ public class PrincipalVisual extends JFrame {
 		cbxEnfermedades = new JComboBox<String>();
 		cbxEnfermedades.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectedEnfermedad();
+				selectedEnfermedad(); 
 				txtCasos.setText(String.valueOf(getCasos(enfermedad)));
 				txtContagiados.setText(String.valueOf(getContagiados(enfermedad)));
+				loadEnfermedades();
 			}
 		});
 		cbxEnfermedades.setBounds(40, 29, 241, 22);
@@ -382,6 +383,7 @@ public class PrincipalVisual extends JFrame {
 				selectedVacuna();
 				txtVacunados.setText(String.valueOf(getVacunados(vacuna)));
 				txtPorVac.setText(String.valueOf(getPorVac(vacuna)));
+				loadVacunas();
 			}
 		});
 		cbxVacuna.setBounds(40, 115, 241, 22);
@@ -531,7 +533,7 @@ public class PrincipalVisual extends JFrame {
 		JLabel lblNewLabel_4 = new JLabel("");
 		lblNewLabel_4.setBounds(33, 15, 403, 156);
 		contentPane.add(lblNewLabel_4);
-		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elLogo.png")));
+		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elRealLogo.png")));
 		if(Hospital.getCodigoPaciente()>1) {
 			load();
 		}

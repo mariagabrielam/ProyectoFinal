@@ -43,6 +43,7 @@ import logico.Hospital;
 import logico.Paciente;
 import logico.Persona;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class RegCita extends JDialog {
 
@@ -308,6 +309,7 @@ public class RegCita extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton = new JButton("OK");
+				okButton.setSelectedIcon(new ImageIcon(RegCita.class.getResource("/Iconos/plus.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (miPersona == null) {
@@ -424,15 +426,6 @@ public class RegCita extends JDialog {
 			row[1] = aux.getNombre();
 			model.addRow(row);
 		}
-	}
-
-	private String formatearNumero(String numero) {
-		while (numero.length() < 7) {
-	        numero = "0" + numero;
-	    }
-		// Formatear "###-##-##"
-		numero = numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
-	    return numero;
 	}
 
 	private String determimarSexo() {

@@ -186,7 +186,7 @@ public class CrearUsuario extends JDialog {
 						{
 							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, tipo);
 							Hospital.getInstance().addUsuario(aux);
-							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
 							clear();
 						}
 					}

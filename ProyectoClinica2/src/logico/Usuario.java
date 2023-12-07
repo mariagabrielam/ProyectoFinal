@@ -67,7 +67,7 @@ public class Usuario implements Serializable{
 	}
 
 	public boolean esAdmin() {
-		if(this.tipo == "Administrador")
+		if(this.tipo.equalsIgnoreCase("Administrador"))
 		{
 			return true;
 		}
@@ -75,7 +75,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public boolean esBasic() {
-		if(this.tipo == "Basico")
+		if(this.tipo.equalsIgnoreCase("Basico"))
 		{
 			return true;
 		}
@@ -83,7 +83,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public boolean esPrivilegiado() {
-		if(this.tipo == "Privilegiado")
+		if(this.tipo.equalsIgnoreCase("Privilegiado"))
 		{
 			return true;
 		}

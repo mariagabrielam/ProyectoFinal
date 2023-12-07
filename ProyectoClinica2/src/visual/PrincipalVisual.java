@@ -540,6 +540,7 @@ public class PrincipalVisual extends JFrame {
 	}
 	
 	private void mostrarPrivilegios() {
+		System.out.println(Hospital.getLoginUser().getUsername() + " " + Hospital.getLoginUser().getTipo());
 		if (Hospital.getLoginUser().esPrivilegiado()) {
 			mnAdmin.setVisible(false);
 		}else if(Hospital.getLoginUser().esBasic())

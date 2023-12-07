@@ -59,7 +59,7 @@ public class ListarVacuna extends JDialog {
 	public ListarVacuna() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVacuna.class.getResource("/Iconos/vacunaIcon.png")));
 		setTitle("Listado de Vacunas");
-		setBounds(100, 100, 593, 349);
+		setBounds(100, 100, 848, 473);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -68,9 +68,10 @@ public class ListarVacuna extends JDialog {
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			contentPanel.add(panel, BorderLayout.CENTER);
-			panel.setLayout(new BorderLayout(0, 0));
+			panel.setLayout(null);
 			{
 				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setBounds(416, 115, 380, 205);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panel.add(scrollPane);
 				{
@@ -94,6 +95,10 @@ public class ListarVacuna extends JDialog {
 					scrollPane.setViewportView(table);
 				}
 			}
+			
+			JPanel panel_1 = new JPanel();
+			panel_1.setBounds(10, 11, 342, 369);
+			panel.add(panel_1);
 		}
 		{
 			JPanel buttonPane = new JPanel();

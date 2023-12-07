@@ -153,7 +153,6 @@ public class ListarCita extends JDialog {
 						regConsulta.setVisible(true);
 					}
 				});
-				btnOk.setEnabled(false);
 				btnOk.setActionCommand("OK");
 				buttonPane.add(btnOk);
 				getRootPane().setDefaultButton(btnOk);

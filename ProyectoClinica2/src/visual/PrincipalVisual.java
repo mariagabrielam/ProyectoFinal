@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -225,7 +226,7 @@ public class PrincipalVisual extends JFrame {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					RegDoctor regDoctor = new RegDoctor();
+					RegDoctor regDoctor = new RegDoctor(null);
 					regDoctor.setModal(true);
 					regDoctor.setVisible(true);
 				} catch (ParseException e1) {
@@ -316,7 +317,7 @@ public class PrincipalVisual extends JFrame {
 		});
 		menuBar.add(btnCerraSesion);
 		
-		JButton btnNewButton = new JButton("Generar Doctores");
+		JButton btnNewButton = new JButton("Generar");
 		menuBar.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -329,6 +330,11 @@ public class PrincipalVisual extends JFrame {
 				
 				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
 				Hospital.getInstance().addPersona(Sec1);
+				
+				Persona p1 = new Paciente("10-55-5555", "402-15325546.8", "Esteban", "809-555-65445", "Santiago", "Masculino");
+				Date dia = new Date();
+				Cita nuevaCita =  new Cita("C-1", p1, (Doctor)Doc2, dia);
+				Hospital.getInstance().addCita(nuevaCita);
 				}
 				
 				
@@ -441,8 +447,6 @@ public class PrincipalVisual extends JFrame {
 		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tipos de Sangre de los Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_2.setBounds(509, 198, 225, 217);
 		contentPane.add(panel_2);
-		if(Hospital.getInstance().getMisPacientes()!=null)
-			loadSangreStats();
 		
 		JLabel lblNewLabel_3 = new JLabel("AB+:");
 		lblNewLabel_3.setBounds(48, 30, 32, 16);
@@ -528,8 +532,10 @@ public class PrincipalVisual extends JFrame {
 		lblNewLabel_4.setBounds(33, 15, 403, 156);
 		contentPane.add(lblNewLabel_4);
 		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elLogo.png")));
-		
-		load();
+		if(Hospital.getCodigoPaciente()>1) {
+			load();
+		}
+			
 		mostrarPrivilegios();
 	}
 	
@@ -610,6 +616,7 @@ public class PrincipalVisual extends JFrame {
 	}
 	private void load()
 	{
+		loadSangreStats();
 		loadVacunas();
 		loadEnfermedades();
 		selectedVacuna();
@@ -640,8 +647,6 @@ public class PrincipalVisual extends JFrame {
 	}
 	private void loadSangreStats()
 	{
-		if(Hospital.getCodigoPaciente()!=1)
-		{
 		txtABPlus.setText(String.valueOf(loadTipoSangre("AB+")));
 		txtAPlus.setText(String.valueOf(loadTipoSangre("A+")));
 		txtBPlus.setText(String.valueOf(loadTipoSangre("B+")));
@@ -650,7 +655,6 @@ public class PrincipalVisual extends JFrame {
 		txtAMinus.setText(String.valueOf(loadTipoSangre("A-")));
 		txtBMinus.setText(String.valueOf(loadTipoSangre("B-")));
 		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));	
-		}
 		
 	}
 }

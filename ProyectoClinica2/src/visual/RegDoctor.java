@@ -52,13 +52,14 @@ public class RegDoctor extends JDialog {
 	private JRadioButton rbtnDoctor;
 	private JRadioButton rbtnSecretario;
 	private JPanel panelDoctor;
+	private Persona miEmpleado = null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegDoctor dialog = new RegDoctor();
+			RegDoctor dialog = new RegDoctor(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -71,15 +72,25 @@ public class RegDoctor extends JDialog {
 	 * 
 	 * @throws ParseException
 	 */
-	public RegDoctor() throws ParseException {
+	public RegDoctor(Persona unEmpleado) throws ParseException {
+		miEmpleado = unEmpleado;
+		if (miEmpleado == null) // Registrando
+		{
+			setTitle("Registrar Empleado");
+		} else // Modificando
+		{
+			setTitle("Modificando Empleado");
+			rbtnDoctor.setEnabled(false);
+			rbtnSecretario.setEnabled(false);
+		}
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegDoctor.class.getResource("/Iconos/estetoscopioIcon.png")));
-		setTitle("Registrar Empleado");
 		setBounds(100, 100, 445, 392);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		panel_General.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Generales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_General.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Generales",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_General.setBounds(12, 13, 408, 126);
 		contentPanel.add(panel_General);
 		panel_General.setLayout(null);
@@ -190,76 +201,79 @@ public class RegDoctor extends JDialog {
 				panel_Sexo.add(rdbtnF);
 				{
 					panelDoctor = new JPanel();
-					panelDoctor.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Espec\u00EDficos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+					panelDoctor.setBorder(
+							new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Espec\u00EDficos",
+									TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 					panelDoctor.setBounds(12, 246, 408, 61);
 					contentPanel.add(panelDoctor);
 					panelDoctor.setLayout(null);
-					
-									JLabel lblNewLabel_6 = new JLabel("Exequatur: ");
-									lblNewLabel_6.setBounds(12, 25, 67, 14);
-									panelDoctor.add(lblNewLabel_6);
-									txtExequatur = new JFormattedTextField(formatterExequatur);
-									txtExequatur.setBounds(84, 22, 116, 20);
-									panelDoctor.add(txtExequatur);
-									{
-										JLabel lblNewLabel_5 = new JLabel("Especialidad:");
-										lblNewLabel_5.setBounds(206, 24, 79, 16);
-										panelDoctor.add(lblNewLabel_5);
-									}
-									
-											cbxEspecialidad = new JComboBox<Object>();
-											cbxEspecialidad.setBounds(284, 22, 116, 22);
-											panelDoctor.add(cbxEspecialidad);
-											cbxEspecialidad.addActionListener(new ActionListener() {
-												public void actionPerformed(ActionEvent e) {
-													habilitarButton();
-												}
-											});
-											cbxEspecialidad.setModel(new DefaultComboBoxModel<Object>(
-													new String[] { "<Seleccione>", "Cardiologo", "Podologo", "Ginecologo" }));
-											cbxEspecialidad.setToolTipText("");
-											{
-												JPanel panel_1 = new JPanel();
-												panel_1.setLayout(null);
-												panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tipo de Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-												panel_1.setBounds(12, 193, 408, 51);
-												contentPanel.add(panel_1);
-												{
-													rbtnDoctor = new JRadioButton("Doctor");
-													rbtnDoctor.addActionListener(new ActionListener() {
-														public void actionPerformed(ActionEvent e) {
-															rbtnDoctor.setSelected(true);
-															rbtnSecretario.setSelected(false);
-															panelDoctor.setVisible(true);
-															txtID.setText("D-"+Hospital.getCodigoDoctor());
-															habilitarButton();
-														}
-													});
-													rbtnDoctor.setSelected(true);
-													rbtnDoctor.setBounds(74, 17, 92, 25);
-													panel_1.add(rbtnDoctor);
-												}
-												{
-													rbtnSecretario = new JRadioButton("Secretario");
-													rbtnSecretario.addActionListener(new ActionListener() {
-														public void actionPerformed(ActionEvent e) {
-															rbtnDoctor.setSelected(false);
-															rbtnSecretario.setSelected(true);
-															panelDoctor.setVisible(false);
-															txtID.setText("S-"+Hospital.getCodigoEmpleado());
-															habilitarButton();
-														}
-													});
-													rbtnSecretario.setBounds(240, 17, 92, 25);
-													panel_1.add(rbtnSecretario);
-												}
-											}
-									txtExequatur.addKeyListener(new KeyAdapter() {
-										@Override
-										public void keyReleased(KeyEvent e) {
-											habilitarButton();
-										}
-									});
+
+					JLabel lblNewLabel_6 = new JLabel("Exequatur: ");
+					lblNewLabel_6.setBounds(12, 25, 67, 14);
+					panelDoctor.add(lblNewLabel_6);
+					txtExequatur = new JFormattedTextField(formatterExequatur);
+					txtExequatur.setBounds(84, 22, 116, 20);
+					panelDoctor.add(txtExequatur);
+					{
+						JLabel lblNewLabel_5 = new JLabel("Especialidad:");
+						lblNewLabel_5.setBounds(206, 24, 79, 16);
+						panelDoctor.add(lblNewLabel_5);
+					}
+
+					cbxEspecialidad = new JComboBox<Object>();
+					cbxEspecialidad.setBounds(284, 22, 116, 22);
+					panelDoctor.add(cbxEspecialidad);
+					cbxEspecialidad.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							habilitarButton();
+						}
+					});
+					cbxEspecialidad.setModel(new DefaultComboBoxModel<Object>(
+							new String[] { "<Seleccione>", "Cardiologo", "Podologo", "Ginecologo" }));
+					cbxEspecialidad.setToolTipText("");
+					{
+						JPanel panel_1 = new JPanel();
+						panel_1.setLayout(null);
+						panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
+								"Tipo de Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+						panel_1.setBounds(12, 193, 408, 51);
+						contentPanel.add(panel_1);
+						{
+							rbtnDoctor = new JRadioButton("Doctor");
+							rbtnDoctor.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									rbtnDoctor.setSelected(true);
+									rbtnSecretario.setSelected(false);
+									panelDoctor.setVisible(true);
+									txtID.setText("D-" + Hospital.getCodigoDoctor());
+									habilitarButton();
+								}
+							});
+							rbtnDoctor.setSelected(true);
+							rbtnDoctor.setBounds(74, 17, 92, 25);
+							panel_1.add(rbtnDoctor);
+						}
+						{
+							rbtnSecretario = new JRadioButton("Secretario");
+							rbtnSecretario.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									rbtnDoctor.setSelected(false);
+									rbtnSecretario.setSelected(true);
+									panelDoctor.setVisible(false);
+									txtID.setText("S-" + Hospital.getCodigoEmpleado());
+									habilitarButton();
+								}
+							});
+							rbtnSecretario.setBounds(240, 17, 92, 25);
+							panel_1.add(rbtnSecretario);
+						}
+					}
+					txtExequatur.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyReleased(KeyEvent e) {
+							habilitarButton();
+						}
+					});
 				}
 				rdbtnF.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -281,22 +295,21 @@ public class RegDoctor extends JDialog {
 				okButton.setEnabled(false);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Persona aux = null;
-						if(rbtnDoctor.isSelected())
-						{
-							aux = new Doctor(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
-								txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Doctor",
-								txtExequatur.getText(), cbxEspecialidad.getSelectedItem().toString());
-						}
-						else
-						{
-							aux = new Empleado(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
-									txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Secretario");
-						}
-						Hospital.getInstance().addPersona(aux);
-						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro",
-								JOptionPane.INFORMATION_MESSAGE);
-						borrarCampos();
+						if (miEmpleado == null) { // Resgitrando
+							if (rbtnDoctor.isSelected()) {
+								miEmpleado = new Doctor(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
+										txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Doctor",
+										txtExequatur.getText(), cbxEspecialidad.getSelectedItem().toString());
+							} else {
+								miEmpleado = new Empleado(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
+										txtTelefono.getText(), txtDireccion.getText(), determinarSexo(), "Secretario");
+							}
+							Hospital.getInstance().addPersona(miEmpleado);
+							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro",
+									JOptionPane.INFORMATION_MESSAGE);
+							borrarCampos();
+						} 
+
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -324,7 +337,7 @@ public class RegDoctor extends JDialog {
 	}
 
 	private void habilitarButton() {
-		if(rbtnDoctor.isSelected())
+		if (rbtnDoctor.isSelected())
 			if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
 					&& cbxEspecialidad.getSelectedIndex() > 0 && txtCedula.getText().charAt(0) != ' '
 					&& txtTelefono.getText().charAt(0) != ' ' && txtExequatur.getText().charAt(0) != ' ') {
@@ -332,27 +345,25 @@ public class RegDoctor extends JDialog {
 			} else {
 				okButton.setEnabled(false);
 			}
-		else
-			if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
-					&& txtCedula.getText().charAt(0) != ' ' && txtTelefono.getText().charAt(0) != ' ') {
-				okButton.setEnabled(true);
-			} else {
-				okButton.setEnabled(false);
-			}
-			
+		else if (!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty()
+				&& txtCedula.getText().charAt(0) != ' ' && txtTelefono.getText().charAt(0) != ' ') {
+			okButton.setEnabled(true);
+		} else {
+			okButton.setEnabled(false);
+		}
 
 	}
+
 	private void borrarCampos() {
 		txtCedula.setText("");
 		txtDireccion.setText("");
 		txtExequatur.setText("");
 		txtTelefono.setText("");
 		txtNombre.setText("");
-		if(rbtnDoctor.isSelected())
-		{
-			txtID.setText("D-"+Hospital.getCodigoDoctor());
-		}else {
-			txtID.setText("S-"+Hospital.getCodigoEmpleado());
+		if (rbtnDoctor.isSelected()) {
+			txtID.setText("D-" + Hospital.getCodigoDoctor());
+		} else {
+			txtID.setText("S-" + Hospital.getCodigoEmpleado());
 		}
 		cbxEspecialidad.setSelectedIndex(0);
 	}

@@ -160,7 +160,7 @@ public class Hospital implements Serializable {
 	public static int getCodigoEmpleado() {
 		return codigoEmpleado;
 	}
-
+	
 	public Doctor buscarDoctorById(String id) {
 		for(Persona aux:misPersonas)
 		{

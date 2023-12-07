@@ -66,8 +66,8 @@ public class ListarUsuarios extends JDialog {
 					model.setColumnIdentifiers(header);
 					table.setModel(model);
 				}
-			}
-		}
+			} 
+		} 
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

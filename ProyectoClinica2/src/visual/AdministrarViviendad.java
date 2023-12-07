@@ -69,7 +69,7 @@ public class AdministrarViviendad extends JDialog {
 		}
 	}
 
-	/**
+	/** 
 	 * Create the dialog.
 	 */
 	public AdministrarViviendad() {

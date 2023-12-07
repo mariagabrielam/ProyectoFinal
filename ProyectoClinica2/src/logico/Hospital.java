@@ -345,5 +345,5 @@ public class Hospital implements Serializable {
 				return aux;
 		}
 		return null;
-	}
+	}  
 }

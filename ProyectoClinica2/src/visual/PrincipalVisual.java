@@ -607,6 +607,8 @@ public class PrincipalVisual extends JFrame {
 	}
 	private void loadSangreStats()
 	{
+		if(Hospital.getCodigoPaciente()!=1)
+		{
 		txtABPlus.setText(String.valueOf(loadTipoSangre("AB+")));
 		txtAPlus.setText(String.valueOf(loadTipoSangre("A+")));
 		txtBPlus.setText(String.valueOf(loadTipoSangre("B+")));
@@ -614,6 +616,8 @@ public class PrincipalVisual extends JFrame {
 		txtABMinus.setText(String.valueOf(loadTipoSangre("AB-")));
 		txtAMinus.setText(String.valueOf(loadTipoSangre("A-")));
 		txtBMinus.setText(String.valueOf(loadTipoSangre("B-")));
-		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));
+		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));	
+		}
+		
 	}
 }

@@ -294,6 +294,7 @@ public class RegCita extends JDialog {
 				if (index >= 0) {
 					selected = Hospital.getInstance().buscarDoctorById(tblDoctores.getValueAt(index, 0).toString());
 				}
+				habilitarBoton();
 			}
 		});
 		tblDoctores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -309,8 +310,10 @@ public class RegCita extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (miPersona == null) {
 							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
+							System.out.println(NHC);
 							miPersona = new Paciente(NHC, txtCedula.getText(), txtNombre.getText(),
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
+							Hospital.getInstance().addPersona(miPersona);
 						}
 						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraFin.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
@@ -422,11 +425,19 @@ public class RegCita extends JDialog {
 	}
 
 	private String formatearNumero(String numero) {
-		while (numero.length() < 6) {
-			numero = "0" + numero;
-		}
-		// Formatear "###-##-##"
-		return numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
+	    // Asegurar que la longitud del número sea al menos 6
+	    while (numero.length() < 6) {
+	        numero = "0" + numero;
+	    }
+
+	    // Formatear "###-##-##"
+	    int length = numero.length();
+	    if (length >= 7) {
+	        return numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
+	    } else {
+	        // Manejar el caso donde el número tiene menos de 7 caracteres
+	        return numero;
+	    }
 	}
 
 	private String determimarSexo() {

@@ -145,7 +145,7 @@ public class AdministrarVivienda extends JDialog {
 		btnBuscar.setBounds(367, 54, 97, 25);
 		panel.add(btnBuscar);
 		
-		btnReg = new JButton("Registrar Nueva Vivienda\r\n");
+		btnReg = new JButton("Registrar Nueva Vivienda");
 		btnReg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(btnReg.getText().equalsIgnoreCase("Registrar Nueva Vivienda")) {
@@ -182,6 +182,7 @@ public class AdministrarVivienda extends JDialog {
 		panTablas.setBounds(12, 112, 495, 283);
 		contentPanel.add(panTablas);
 		panTablas.setLayout(null);
+		panTablas.setVisible(false);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 13, 206, 260);

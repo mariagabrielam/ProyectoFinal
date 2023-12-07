@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,6 +27,7 @@ import com.toedter.calendar.JCalendar;
 import logico.Cita;
 import logico.Doctor;
 import logico.Hospital;
+import java.awt.Toolkit;
 
 public class ListarCita extends JDialog {
 
@@ -60,8 +62,9 @@ public class ListarCita extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCita() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarCita.class.getResource("/Iconos/clipboardIcon.png")));
 		setTitle("Agenda de Citas");
-		setBounds(100, 100, 676, 406);
+		setBounds(100, 100, 897, 406);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -78,9 +81,9 @@ public class ListarCita extends JDialog {
 			loadDoctores();
 			cbxDoctor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (cbxDoctor.getSelectedIndex() > 0) {
-						selectedDoctor = Hospital.getInstance()
-								.buscarDoctorById(cbxDoctor.getSelectedItem().toString());
+					int index = cbxDoctor.getSelectedIndex();
+					if (index > 0) {
+						selectedDoctor = Hospital.getInstance().getMisDoctores().get(index);
 					} else {
 						selectedDoctor = null;
 					}
@@ -113,13 +116,13 @@ public class ListarCita extends JDialog {
 
 		JPanel panel_Horas = new JPanel();
 		panel_Horas.setBorder(new TitledBorder(null, "Agenda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_Horas.setBounds(296, 11, 350, 312);
+		panel_Horas.setBounds(296, 11, 564, 312);
 		contentPanel.add(panel_Horas);
 		panel_Horas.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 21, 328, 280);
+		scrollPane.setBounds(10, 21, 544, 280);
 		panel_Horas.add(scrollPane);
 
 		model = new DefaultTableModel();
@@ -186,6 +189,7 @@ public class ListarCita extends JDialog {
 
 	private void loadCitas(Doctor doctor) {
 		model.setRowCount(0);
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy h:mm aa");
 
 		if (doctor != null) // Tiene doctor
 		{
@@ -195,7 +199,7 @@ public class ListarCita extends JDialog {
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
 				if (aux.getMiDoctor().getId().equalsIgnoreCase(doctor.getId())) {
 					row[0] = aux.getId();
-					row[1] = aux.getFchProgramada().getTime();
+					row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
 					row[2] = aux.getProxPaciente().getNombre();
 					model.addRow(row);
 				}
@@ -207,7 +211,7 @@ public class ListarCita extends JDialog {
 			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
 				row[0] = aux.getId();
-				row[1] = aux.getFchProgramada().getTime();
+				row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
 				row[2] = aux.getMiDoctor().getNombre();
 				row[3] = aux.getProxPaciente().getNombre();
 				model.addRow(row);

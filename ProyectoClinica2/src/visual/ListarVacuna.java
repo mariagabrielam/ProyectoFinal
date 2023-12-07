@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.Enfermedad;
 import logico.Hospital;
 import logico.Vacuna;
 
@@ -32,13 +33,17 @@ public class ListarVacuna extends JDialog {
 	 */
 	private static final long serialVersionUID = 14848950850112453L;
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
+	private JTable tblVacuna;
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private Vacuna selected=null;
+	private static DefaultTableModel model1;
+	private static Object[] row1;
+	private static Vacuna selected=null;
 	private JButton btnUpdate;
 	private JButton btnDelete;
 	private JButton btnCancelar;
+	private JTable tblEnfermedades;
+	private JButton btnSelect;
 
 	/**
 	 * Launch the application.
@@ -59,7 +64,7 @@ public class ListarVacuna extends JDialog {
 	public ListarVacuna() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVacuna.class.getResource("/Iconos/vacunaIcon.png")));
 		setTitle("Listado de Vacunas");
-		setBounds(100, 100, 848, 473);
+		setBounds(100, 100, 760, 473);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -70,35 +75,55 @@ public class ListarVacuna extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
-				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(416, 115, 380, 205);
-				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panel.add(scrollPane);
 				{
-					String[] header= {"Lote","Nombre","Enfermedad","Cantidad"};
+					String[] header= {"Lote","Nombre","Cantidad"};
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(header);
-					table = new JTable();
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index= table.getSelectedRow();
-							if(index>=0){
-							  btnDelete.setEnabled(true);
-							  btnUpdate.setEnabled(true);
-							  selected =Hospital.getInstance().buscarVacunaByNombre(table.getValueAt(index, 0).toString());
-							}
-						}
-					});
-					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-					table.setModel(model);
-					scrollPane.setViewportView(table);
 				}
 			}
 			
 			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(10, 11, 342, 369);
+			panel_1.setBorder(new TitledBorder(null, "Enfermedades de la Vacuna", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_1.setBounds(485, 13, 240, 339);
 			panel.add(panel_1);
+			panel_1.setLayout(null);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(12, 23, 216, 303);
+			panel_1.add(scrollPane);
+			
+			tblEnfermedades = new JTable();
+			String[] header1= {"Nombre"};
+			model1 = new DefaultTableModel();
+			model1.setColumnIdentifiers(header1);
+			scrollPane.setViewportView(tblEnfermedades);
+			tblEnfermedades.setModel(model1);
+			
+			JPanel panel_2 = new JPanel();
+			panel_2.setBorder(new TitledBorder(null, "Vacunas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_2.setBounds(12, 13, 439, 339);
+			panel.add(panel_2);
+			panel_2.setLayout(null);
+			JScrollPane scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBounds(12, 27, 415, 299);
+			panel_2.add(scrollPane_1);
+			scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			tblVacuna = new JTable();
+			tblVacuna.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index= tblVacuna.getSelectedRow();
+					if(index>=0){
+					  btnDelete.setEnabled(true);
+					  btnUpdate.setEnabled(true);
+					  selected =Hospital.getInstance().buscarVacunaByNombre(tblVacuna.getValueAt(index, 0).toString());
+					  btnSelect.setEnabled(true);
+					}
+				}
+			});
+			tblVacuna.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tblVacuna.setModel(model);
+			scrollPane_1.setViewportView(tblVacuna);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -141,6 +166,15 @@ public class ListarVacuna extends JDialog {
 						dispose();
 					}
 				});
+				
+				btnSelect = new JButton("Seleccionar");
+				btnSelect.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						loadEnfermedades();
+					}
+				});
+				btnSelect.setEnabled(false);
+				buttonPane.add(btnSelect);
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);
 			}
@@ -156,6 +190,14 @@ public class ListarVacuna extends JDialog {
 		  row[2] = vacunita.getMisEnfermedad();
 		  row[3]= vacunita.getCant();
 		  model.addRow(row);
+		}
+	}
+	public static void loadEnfermedades() {
+		model1.setRowCount(0);
+		row1 = new Object[model1.getColumnCount()];
+		for (Enfermedad aux : selected.getMisEnfermedad()){
+		  row[1] = aux.getNombre();
+		  model1.addRow(row1);
 		}
 	}
 }

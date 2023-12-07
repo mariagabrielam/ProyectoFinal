@@ -307,6 +307,7 @@ public class PrincipalVisual extends JFrame {
 		JButton btnCerraSesion = new JButton("Cerrar Sesi\u00F3n");
 		btnCerraSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Hospital.setLoginUser(null);
 				dispose();
 				Login login = new Login();
 				login.setModal(true);

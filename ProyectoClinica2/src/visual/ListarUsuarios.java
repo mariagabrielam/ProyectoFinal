@@ -102,6 +102,7 @@ public class ListarUsuarios extends JDialog {
 				row[4] = "Admin";
 			else
 				row[4] = ((Empleado) aux.getPersona()).getCargo();
+			model.addRow(row);
 		}
 	}
 

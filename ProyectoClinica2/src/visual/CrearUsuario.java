@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,18 +21,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logico.Doctor;
+import logico.Empleado;
 import logico.Hospital;
-import logico.Paciente;
 import logico.Persona;
 import logico.Usuario;
-import javax.swing.ScrollPaneConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class CrearUsuario extends JDialog {
 
@@ -55,7 +54,7 @@ public class CrearUsuario extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			CrearUsuario dialog = new CrearUsuario(true);
+			CrearUsuario dialog = new CrearUsuario();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -66,9 +65,7 @@ public class CrearUsuario extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CrearUsuario(boolean adminCreado) {
-		if(!adminCreado)
-			crearAdmin();
+	public CrearUsuario() {
 		panPersona.setVisible(false);
 		setTitle("Crear Usuario");
 		setBounds(100, 100, 450, 485);
@@ -111,7 +108,6 @@ public class CrearUsuario extends JDialog {
 		});
 		txtPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!adminCreado)
 					okButton.setEnabled(true);
 			}
 		});
@@ -134,7 +130,7 @@ public class CrearUsuario extends JDialog {
 			}
 		});
 		cbxTipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxTipo.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Admin", "Doctor", "Secretario"}));
+		cbxTipo.setModel(new DefaultComboBoxModel<Object>(new String[] {"<Seleccione>", "Doctor", "Secretario"}));
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		
@@ -144,7 +140,7 @@ public class CrearUsuario extends JDialog {
 		panPersona.setBounds(12, 152, 408, 250);
 		contentPanel.add(panPersona);
 		
-		String[] header = {"Código","Nombre"};
+		String[] header = {"Código","Nombre","Cédula","Cargo"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
 		tblPersona = new JTable();
@@ -174,17 +170,9 @@ public class CrearUsuario extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(txtUsername.getText()!=null&&txtPassword.getText()!=null)
 						{
-							if(!adminCreado)
-							{
-								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
-								Hospital.getInstance().addUsuario(aux);
-								JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
-							}
-							else {
-								Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
-								Hospital.getInstance().addUsuario(aux);
-								JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
-							}
+							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
+							Hospital.getInstance().addUsuario(aux);
+							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				});
@@ -210,27 +198,16 @@ public class CrearUsuario extends JDialog {
 			okButton.setEnabled(true);
 	}
 
-	private void crearAdmin()
-	{
-		txtUsername.setText("Admin");
-		txtUsername.setEditable(false);
-		cbxTipo.setSelectedIndex(1);
-		cbxTipo.setEnabled(false);
-		
-	}
 	private void loadPersonas()
 	{
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 		for (Persona aux: Hospital.getInstance().getMisPersonas()) {
-		  if(cbxTipo.getSelectedIndex()==2&&aux instanceof Doctor) {
-			  row[0] = ((Doctor) aux).getId();
+		  if(aux instanceof Empleado) {
+			  row[0] = ((Empleado) aux).getId();
 			  row[1] = aux.getNombre();
-			  model.addRow(row);
-		  }
-		  else {
-			  row[0] = ((Paciente) aux).getNhc();
-			  row[1] = aux.getNombre();
+			  row[2] = aux.getCedula();
+			  row[3] = ((Empleado) aux).getCargo();
 			  model.addRow(row);
 		  }
 		}

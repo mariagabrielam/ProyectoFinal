@@ -32,6 +32,8 @@ import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Vacuna;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class PrincipalVisual extends JFrame {
 
@@ -43,7 +45,6 @@ public class PrincipalVisual extends JFrame {
 	 * 
 	 */
 	private JPanel contentPane;
-	private JMenuItem mnitHistorialPaciente;
 	private JMenu mnAdmin;
 	private JMenu mnCita;
 	private JMenuItem mnitHistorialClinica;
@@ -60,6 +61,14 @@ public class PrincipalVisual extends JFrame {
 	private JComboBox<String> cbxEnfermedades;
 	private JMenu mnHistorial;
 	private JMenu mnPaciente;
+	private JTextField txtABPlus;
+	private JTextField txtAPlus;
+	private JTextField txtBPlus;
+	private JTextField txtOPlus;
+	private JTextField txtABMinus;
+	private JTextField txtAMinus;
+	private JTextField txtBMinus;
+	private JTextField txtOMinus;
 
 	/**
 	 * Launch the application.
@@ -112,10 +121,7 @@ public class PrincipalVisual extends JFrame {
 		mnHistorial = new JMenu("Historial Cl\u00EDnico");
 		menuBar.add(mnHistorial);
 		
-		mnitHistorialPaciente = new JMenuItem("Historial Paciente");
-		mnHistorial.add(mnitHistorialPaciente);
-		
-		mnitHistorialClinica = new JMenuItem("Historial Cl\u00EDnica");
+		mnitHistorialClinica = new JMenuItem("Mostrar Historial");
 		mnHistorial.add(mnitHistorialClinica);
 		mnitHistorialClinica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -174,6 +180,13 @@ public class PrincipalVisual extends JFrame {
 		mnAdmin.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Crear Usuario");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CrearUsuario crear = new CrearUsuario();
+				crear.setModal(true);
+				crear.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_7);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar Usuario");
@@ -192,7 +205,7 @@ public class PrincipalVisual extends JFrame {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar Empleado");
 		mnNewMenu_1.add(mntmNewMenuItem_3);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Doctores");
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Empleados");
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -219,6 +232,16 @@ public class PrincipalVisual extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar Vacuna");
 		mnNewMenu_2.add(mntmNewMenuItem_9);
+		
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar Vacunas");
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarVacuna listVac = new ListarVacuna();
+				listVac.setModal(true);
+				listVac.setVisible(true);
+			}
+		});
+		mnNewMenu_2.add(mntmNewMenuItem_10);
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegVacuna regVacuna = new RegVacuna(null);
@@ -227,11 +250,21 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		
-		JMenu mnNewMenu_3 = new JMenu("New menu");
+		JMenu mnNewMenu_3 = new JMenu("Enfermedades");
 		mnAdmin.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Enfermedad");
 		mnNewMenu_3.add(mntmNewMenuItem_8);
+		
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Listar Enfermedades");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarEnfermedades listEnfermedad = new ListarEnfermedades();
+				listEnfermedad.setModal(true);
+				listEnfermedad.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_11);
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
@@ -240,7 +273,21 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		
+		JMenu mnNewMenu_4 = new JMenu("Viviendas");
+		mnAdmin.add(mnNewMenu_4);
+		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");
+		mnNewMenu_4.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Listar Viviendas");
+		mntmNewMenuItem_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarViviendas listViv = new ListarViviendas();
+				listViv.setModal(true);
+				listViv.setVisible(true);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_12);
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AdministrarVivienda adminViv = new AdministrarVivienda();
@@ -248,7 +295,6 @@ public class PrincipalVisual extends JFrame {
 				adminViv.setVisible(true);
 			}
 		});
-		mnAdmin.add(mntmNewMenuItem_2);
 		
 		JButton btnCerraSesion = new JButton("Cerrar Sesi\u00F3n");
 		btnCerraSesion.addActionListener(new ActionListener() {
@@ -349,18 +395,105 @@ public class PrincipalVisual extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Citas de Hoy", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(12, 166, 391, 249);
+		panel_1.setBounds(12, 198, 485, 217);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 27, 367, 209);
+		scrollPane.setBounds(12, 27, 461, 177);
 		panel_1.add(scrollPane);
 		
 		
 		tblCitas = new JTable();
 		tblCitas.setModel(model);
 		scrollPane.setViewportView(tblCitas);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tipos de Sangre de los Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBounds(509, 198, 225, 217);
+		contentPane.add(panel_2);
+		loadSangreStats();
+		
+		JLabel lblNewLabel_3 = new JLabel("AB+:");
+		lblNewLabel_3.setBounds(48, 30, 32, 16);
+		panel_2.add(lblNewLabel_3);
+		
+		txtABPlus = new JTextField();
+		txtABPlus.setEditable(false);
+		txtABPlus.setBounds(80, 26, 26, 22);
+		panel_2.add(txtABPlus);
+		txtABPlus.setColumns(10);
+		
+		txtAPlus = new JTextField();
+		txtAPlus.setEditable(false);
+		txtAPlus.setColumns(10);
+		txtAPlus.setBounds(80, 72, 26, 22);
+		panel_2.add(txtAPlus);
+		
+		JLabel lblA_1 = new JLabel("A+:");
+		lblA_1.setBounds(48, 76, 32, 16);
+		panel_2.add(lblA_1);
+		
+		txtBPlus = new JTextField();
+		txtBPlus.setEditable(false);
+		txtBPlus.setColumns(10);
+		txtBPlus.setBounds(80, 119, 26, 22);
+		panel_2.add(txtBPlus);
+		
+		JLabel lblB_1 = new JLabel("B+:");
+		lblB_1.setBounds(48, 122, 32, 16);
+		panel_2.add(lblB_1);
+		
+		txtOPlus = new JTextField();
+		txtOPlus.setEditable(false);
+		txtOPlus.setColumns(10);
+		txtOPlus.setBounds(80, 166, 26, 22);
+		panel_2.add(txtOPlus);
+		
+		JLabel lblO_1 = new JLabel("O+:");
+		lblO_1.setBounds(48, 168, 32, 16);
+		panel_2.add(lblO_1);
+		
+		txtABMinus = new JTextField();
+		txtABMinus.setEditable(false);
+		txtABMinus.setColumns(10);
+		txtABMinus.setBounds(154, 26, 26, 22);
+		panel_2.add(txtABMinus);
+		
+		JLabel lblAb = new JLabel("AB- :");
+		lblAb.setBounds(122, 30, 38, 16);
+		panel_2.add(lblAb);
+		
+		txtAMinus = new JTextField();
+		txtAMinus.setEditable(false);
+		txtAMinus.setColumns(10);
+		txtAMinus.setBounds(154, 72, 26, 22);
+		panel_2.add(txtAMinus);
+		
+		JLabel lblA = new JLabel("A- :");
+		lblA.setBounds(122, 76, 27, 16);
+		panel_2.add(lblA);
+		
+		txtBMinus = new JTextField();
+		txtBMinus.setEditable(false);
+		txtBMinus.setColumns(10);
+		txtBMinus.setBounds(154, 119, 26, 22);
+		panel_2.add(txtBMinus);
+		
+		JLabel lblB = new JLabel("B- :");
+		lblB.setBounds(122, 122, 27, 16);
+		panel_2.add(lblB);
+		
+		txtOMinus = new JTextField();
+		txtOMinus.setEditable(false);
+		txtOMinus.setColumns(10);
+		txtOMinus.setBounds(154, 166, 26, 22);
+		panel_2.add(txtOMinus);
+		
+		JLabel lblO = new JLabel("O- :");
+		lblO.setBounds(116, 168, 33, 16);
+		panel_2.add(lblO);
 		
 		load();
 		mostrarPrivilegios();
@@ -460,5 +593,26 @@ public class PrincipalVisual extends JFrame {
 	private void selectedEnfermedad()
 	{
 		enfermedad = Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString());
+	}
+	private int loadTipoSangre(String tipo)
+	{
+		int cant = 0;
+		for(Paciente aux:Hospital.getInstance().getMisPacientes())
+		{
+			if(aux.getTipoSangre().equalsIgnoreCase(tipo))
+				cant++;
+		}
+		return cant;
+	}
+	private void loadSangreStats()
+	{
+		txtABPlus.setText(String.valueOf(loadTipoSangre("AB+")));
+		txtAPlus.setText(String.valueOf(loadTipoSangre("A+")));
+		txtBPlus.setText(String.valueOf(loadTipoSangre("B+")));
+		txtOPlus.setText(String.valueOf(loadTipoSangre("O+")));
+		txtABMinus.setText(String.valueOf(loadTipoSangre("AB-")));
+		txtAMinus.setText(String.valueOf(loadTipoSangre("A-")));
+		txtBMinus.setText(String.valueOf(loadTipoSangre("B-")));
+		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));
 	}
 }

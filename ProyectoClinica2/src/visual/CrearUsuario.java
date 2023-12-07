@@ -123,8 +123,8 @@ public class CrearUsuario extends JDialog {
 		cbxTipo = new JComboBox<Object>();
 		cbxTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(cbxTipo.getSelectedIndex()<1) {
-					panelScroll.setVisible(true);
+				if(cbxTipo.getSelectedIndex()>0) {
+					panEmpleado.setVisible(true);
 					loadPersonas();
 				}
 				habilitarButton();
@@ -144,6 +144,7 @@ public class CrearUsuario extends JDialog {
 		panEmpleado.setBounds(12, 154, 408, 236);
 		contentPanel.add(panEmpleado);
 		panEmpleado.setLayout(null);
+		panEmpleado.setVisible(false);
 		
 		panelScroll = new JScrollPane();
 		panelScroll.setBounds(12, 26, 384, 197);
@@ -180,6 +181,7 @@ public class CrearUsuario extends JDialog {
 							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
 							Hospital.getInstance().addUsuario(aux);
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
+							clear();
 						}
 					}
 				});
@@ -218,5 +220,13 @@ public class CrearUsuario extends JDialog {
 			  model.addRow(row);
 		  }
 		}
+	}
+	private void clear()
+	{
+		txtUsername.setText("");
+		txtPassword.setText("");
+		cbxTipo.setSelectedIndex(0);
+		panEmpleado.setVisible(false);
+		okButton.setEnabled(false);
 	}
 }

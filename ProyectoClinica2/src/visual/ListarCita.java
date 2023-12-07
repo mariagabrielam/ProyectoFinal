@@ -83,7 +83,7 @@ public class ListarCita extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					int index = cbxDoctor.getSelectedIndex();
 					if (index > 0) {
-						selectedDoctor = Hospital.getInstance().getMisDoctores().get(index);
+						selectedDoctor = Hospital.getInstance().getMisDoctores().get(index-1);
 					} else {
 						selectedDoctor = null;
 					}

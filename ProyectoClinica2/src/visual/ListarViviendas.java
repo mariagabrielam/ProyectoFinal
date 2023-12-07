@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ListSelectionModel;
+import java.awt.Toolkit;
 
 public class ListarViviendas extends JDialog {
 
@@ -57,6 +58,8 @@ public class ListarViviendas extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarViviendas() {
+		setTitle("Listar Viviendas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarViviendas.class.getResource("/Iconos/casaIcon.png")));
 		setBounds(100, 100, 711, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -30,6 +30,7 @@ import logico.Doctor;
 import logico.Empleado;
 import logico.Hospital;
 import logico.Usuario;
+import java.awt.Toolkit;
 
 public class CrearUsuario extends JDialog {
 
@@ -67,6 +68,7 @@ public class CrearUsuario extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearUsuario() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearUsuario.class.getResource("/Iconos/userIcon.png")));
 		
 		setTitle("Crear Usuario");
 		setBounds(100, 100, 450, 485);
@@ -140,9 +142,7 @@ public class CrearUsuario extends JDialog {
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		
-		String[] header = {"Código","Nombre","Cédula","Cargo"};
 		model = new DefaultTableModel();
-		model.setColumnIdentifiers(header);
 		
 		panEmpleado = new JPanel();
 		panEmpleado.setBorder(new TitledBorder(null, "Seleccione un Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -179,9 +179,12 @@ public class CrearUsuario extends JDialog {
 				okButton = new JButton("Crear");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						String tipo = "Privilegiado";
+						if(cbxTipo.getSelectedIndex()==2)
+							tipo = "Basico";
 						if(txtUsername.getText()!=null&&txtPassword.getText()!=null)
 						{
-							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
+							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, tipo);
 							Hospital.getInstance().addUsuario(aux);
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
 							clear();
@@ -213,13 +216,15 @@ public class CrearUsuario extends JDialog {
 	private void loadDoctor()
 	{
 		model.setRowCount(0);
+		String[] header = {"Código","Nombre","Cédula","Especialidad"};
+		model.setColumnIdentifiers(header);
 		row = new Object[model.getColumnCount()];
 		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
 		  if(aux instanceof Doctor) {
 			  row[0] = aux.getId();
 			  row[1] = aux.getNombre();
 			  row[2] = aux.getCedula();
-			  row[3] = aux.getCargo();
+			  row[3] = ((Doctor) aux).getEspecialidad();
 			  model.addRow(row);
 		  }
 		}	
@@ -227,13 +232,14 @@ public class CrearUsuario extends JDialog {
 	private void loadEmpleado()
 	{
 		model.setRowCount(0);
+		String[] header = {"Código","Nombre","Cédula"};
+		model.setColumnIdentifiers(header);
 		row = new Object[model.getColumnCount()];
 		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
 		  if(!(aux instanceof Doctor)) {
 			  row[0] = aux.getId();
 			  row[1] = aux.getNombre();
 			  row[2] = aux.getCedula();
-			  row[3] = aux.getCargo();
 			  model.addRow(row);
 		  }
 		}

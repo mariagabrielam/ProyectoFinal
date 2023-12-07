@@ -7,7 +7,7 @@ public class Paciente extends Persona {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 47243623357335191L;
 	private HistorialClinico historial;
 	private String tipoSangre;
 	private float peso;

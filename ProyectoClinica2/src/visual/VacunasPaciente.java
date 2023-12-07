@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class VacunasPaciente extends JDialog {
 
@@ -63,6 +64,7 @@ public class VacunasPaciente extends JDialog {
 	 * Create the dialog.
 	 */
 	public VacunasPaciente(Paciente paciente) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VacunasPaciente.class.getResource("/Iconos/vacunaIcon.png")));
 		vacunasHospital = Hospital.getInstance().getMisVacunas();
 		vacunasPaciente = paciente.getMisVacunas();
 		loadVacunasHospital(paciente);

@@ -26,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.awt.Toolkit;
 
 public class ListarDoctor extends JDialog {
 
@@ -60,6 +61,7 @@ public class ListarDoctor extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarDoctor() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarDoctor.class.getResource("/Iconos/estetoscopioIcon.png")));
 		setTitle("Lista de Doctores");
 		setBounds(100, 100, 544, 444);
 		getContentPane().setLayout(new BorderLayout());

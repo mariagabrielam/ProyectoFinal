@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Consulta;
 import logico.Hospital;
 import logico.Paciente;
+import java.awt.Toolkit;
 
 public class MostrarHistorial extends JDialog {
 
@@ -71,6 +72,7 @@ public class MostrarHistorial extends JDialog {
 	 * Create the dialog.
 	 */
 	public MostrarHistorial() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MostrarHistorial.class.getResource("/Iconos/libroIcono.png")));
 		setTitle("Historial Cl\u00EDnico");
 		setBounds(100, 100, 810, 529);
 		getContentPane().setLayout(new BorderLayout());

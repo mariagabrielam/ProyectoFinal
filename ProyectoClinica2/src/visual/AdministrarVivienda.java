@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Vivienda;
+import java.awt.Toolkit;
 
 public class AdministrarVivienda extends JDialog {
 
@@ -40,7 +41,7 @@ public class AdministrarVivienda extends JDialog {
 	private JTable tblHospital;
 	private JTable tblVivienda;
 	private ArrayList<Paciente> pacientesHospital;
-	private ArrayList<Paciente> pacientesVivienda;
+	private ArrayList<Paciente> pacientesVivienda = new ArrayList<Paciente>();
 	private Paciente selected = null;
 	private Vivienda selectedViv = null;
 	private static DefaultTableModel model;
@@ -70,6 +71,7 @@ public class AdministrarVivienda extends JDialog {
 	 * Create the dialog.
 	 */
 	public AdministrarVivienda() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AdministrarVivienda.class.getResource("/Iconos/casaIcon.png")));
 		pacientesHospital = Hospital.getInstance().getMisPacientes();
 		loadPacientesHospital();
 		setTitle("Administrar Viviendas");
@@ -311,10 +313,11 @@ public class AdministrarVivienda extends JDialog {
 		}
 		model1.setRowCount(0);
 		row1 =new Object[model1.getColumnCount()];
-		for(Paciente aux:pacientesVivienda)
-		{
-			row1[0] = aux.getCedula();
-			row1[0] = aux.getNombre();
-		}
+		if(pacientesVivienda!=null)
+			for(Paciente aux:pacientesVivienda)
+			{
+				row1[0] = aux.getCedula();
+				row1[0] = aux.getNombre();
+			}
 	}
 }

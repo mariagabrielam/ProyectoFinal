@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class ListarVacuna extends JDialog {
 
@@ -56,6 +57,7 @@ public class ListarVacuna extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarVacuna() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVacuna.class.getResource("/Iconos/vacunaIcon.png")));
 		setTitle("Listado de Vacunas");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());

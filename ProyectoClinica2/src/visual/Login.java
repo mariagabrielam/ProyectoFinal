@@ -30,6 +30,7 @@ import logico.Hospital;
 import logico.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 
 public class Login extends JDialog {
 
@@ -95,6 +96,7 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/Iconos/hospitalIcon.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -115,7 +117,7 @@ public class Login extends JDialog {
 			}
 		});
 
-		setTitle("Login");
+		setTitle("Hospital CIM");
 		setBounds(100, 100, 395, 261);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

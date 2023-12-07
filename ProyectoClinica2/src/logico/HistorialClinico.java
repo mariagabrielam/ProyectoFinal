@@ -1,10 +1,15 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HistorialClinico {
+public class HistorialClinico implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8101625344138419162L;
 	private String nhc; // Numero de historial clinico
 	private Date fchCreacion;
 	private ArrayList<Consulta> consultasImportantes; //el doctor decide si son importante -CD

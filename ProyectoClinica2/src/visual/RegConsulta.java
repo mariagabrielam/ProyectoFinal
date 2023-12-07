@@ -30,6 +30,7 @@ import logico.Hospital;
 import logico.Paciente;
 import logico.Persona;
 import logico.Vacuna;
+import java.awt.Toolkit;
 
 public class RegConsulta extends JDialog {
 
@@ -73,6 +74,7 @@ public class RegConsulta extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegConsulta(Cita cita) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegConsulta.class.getResource("/Iconos/clipboardIcon.png")));
 		load(cita.getProxPaciente());
 		setTitle("Registrar Consulta");
 		setBounds(100, 100, 456, 562);

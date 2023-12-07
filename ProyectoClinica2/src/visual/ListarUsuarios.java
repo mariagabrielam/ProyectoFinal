@@ -99,8 +99,10 @@ public class ListarUsuarios extends JDialog {
 			row[2] = aux.getTipo();
 			if(aux.getUsername().equalsIgnoreCase("Admin"))
 				row[3] = "Admin";
-			else
+			else if(aux.getEmpleado()!=null)
 				row[3] = aux.getEmpleado().getCargo();
+			else
+				row[3] = "Desconocido";
 			model.addRow(row);
 		}
 	}

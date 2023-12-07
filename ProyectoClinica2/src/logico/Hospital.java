@@ -338,4 +338,12 @@ public class Hospital implements Serializable {
 	public void contarEmpleado() {
 		codigoEmpleado++;
 	}
+
+	public Vivienda buscarViviendaByNumero(String text) {
+		for(Vivienda aux:misViviendas) {
+			if(aux.getNumVivienda().equalsIgnoreCase(text))
+				return aux;
+		}
+		return null;
+	}
 }

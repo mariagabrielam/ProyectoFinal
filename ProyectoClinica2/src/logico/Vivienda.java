@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Vivienda {
 
-	private ArrayList<Persona> misPersonas;
+	private ArrayList<Paciente> misPacientes;
 	private String direccion;
-	private int numVivienda;
+	private String numVivienda;
 
-	public Vivienda(String direccion, int numVivienda) {
+	public Vivienda(String direccion, String numVivienda) {
 		super();
-		this.misPersonas = new ArrayList<Persona>();
+		this.misPacientes = new ArrayList<Paciente>();
 		this.direccion = direccion;
 		this.numVivienda = numVivienda;
 	}
@@ -23,29 +23,29 @@ public class Vivienda {
 		this.direccion = direccion;
 	}
 
-	public int getNumVivienda() {
+	public String getNumVivienda() {
 		return numVivienda;
 	}
 
-	public void setNumVivienda(int numVivienda) {
+	public void setNumVivienda(String numVivienda) {
 		this.numVivienda = numVivienda;
 	}
 
-	public ArrayList<Persona> getMisPersonas() {
-		return misPersonas;
+	public ArrayList<Paciente> getMisPersonas() {
+		return misPacientes;
 	}
 
-	public void setMisPersonas(ArrayList<Persona> misPersonas) {
-		this.misPersonas = misPersonas;
+	public void setMisPersonas(ArrayList<Paciente> pacientesVivienda) {
+		this.misPacientes = pacientesVivienda;
 	}
 
-	public void insertarPersona(Persona miPersona) {
-		misPersonas.add(miPersona);
+	public void insertarPersona(Paciente miPersona) {
+		misPacientes.add(miPersona);
 	}
 
 	public ArrayList<Persona> getLosHombres() {
 		ArrayList<Persona> losHombres = new ArrayList<>();
-		for (Persona miPersona : misPersonas) {
+		for (Persona miPersona : misPacientes) {
 			if(miPersona.esMasculino()) {
 				losHombres.add(miPersona);
 			}
@@ -55,7 +55,7 @@ public class Vivienda {
 
 	public ArrayList<Persona> getLasMujeres() {
 		ArrayList<Persona> lasMujeres = new ArrayList<>();
-		for (Persona miPersona : misPersonas) {
+		for (Persona miPersona : misPacientes) {
 			if(miPersona.esFemenino()) {
 				lasMujeres.add(miPersona);
 			}

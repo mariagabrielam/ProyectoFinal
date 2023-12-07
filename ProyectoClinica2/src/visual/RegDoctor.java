@@ -344,8 +344,14 @@ public class RegDoctor extends JDialog {
 		txtCedula.setText("");
 		txtDireccion.setText("");
 		txtExequatur.setText("");
-		txtID.setText("D-"+Hospital.getCodigoDoctor());
 		txtTelefono.setText("");
 		txtNombre.setText("");
+		if(rbtnDoctor.isSelected())
+		{
+			txtID.setText("D-"+Hospital.getCodigoDoctor());
+		}else {
+			txtID.setText("S-"+Hospital.getCodigoEmpleado());
+		}
+		cbxEspecialidad.setSelectedIndex(0);
 	}
 }

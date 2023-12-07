@@ -318,6 +318,7 @@ public class RegCita extends JDialog {
 						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraFin.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
 						Hospital.getInstance().addCita(nuevaCita);
+						borrarCampos();
 					}
 				});
 				okButton.setEnabled(false);

@@ -40,7 +40,7 @@ public class AdministrarVivienda extends JDialog {
 	private JTable tblHospital;
 	private JTable tblVivienda;
 	private ArrayList<Paciente> pacientesHospital;
-	private ArrayList<Paciente> pacientesVivienda;
+	private ArrayList<Paciente> pacientesVivienda = new ArrayList<Paciente>();
 	private Paciente selected = null;
 	private Vivienda selectedViv = null;
 	private static DefaultTableModel model;
@@ -311,10 +311,11 @@ public class AdministrarVivienda extends JDialog {
 		}
 		model1.setRowCount(0);
 		row1 =new Object[model1.getColumnCount()];
-		for(Paciente aux:pacientesVivienda)
-		{
-			row1[0] = aux.getCedula();
-			row1[0] = aux.getNombre();
-		}
+		if(pacientesVivienda!=null)
+			for(Paciente aux:pacientesVivienda)
+			{
+				row1[0] = aux.getCedula();
+				row1[0] = aux.getNombre();
+			}
 	}
 }

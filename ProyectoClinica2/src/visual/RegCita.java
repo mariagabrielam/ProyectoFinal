@@ -310,7 +310,6 @@ public class RegCita extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (miPersona == null) {
 							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
-							System.out.println(NHC);
 							miPersona = new Paciente(NHC, txtCedula.getText(), txtNombre.getText(),
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
 							Hospital.getInstance().addPersona(miPersona);
@@ -426,19 +425,12 @@ public class RegCita extends JDialog {
 	}
 
 	private String formatearNumero(String numero) {
-	    // Asegurar que la longitud del número sea al menos 6
-	    while (numero.length() < 6) {
+		while (numero.length() < 7) {
 	        numero = "0" + numero;
 	    }
-
-	    // Formatear "###-##-##"
-	    int length = numero.length();
-	    if (length >= 7) {
-	        return numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
-	    } else {
-	        // Manejar el caso donde el número tiene menos de 7 caracteres
-	        return numero;
-	    }
+		// Formatear "###-##-##"
+		numero = numero.substring(0, 3) + "-" + numero.substring(3, 5) + "-" + numero.substring(5, 7);
+	    return numero;
 	}
 
 	private String determimarSexo() {

@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -105,7 +106,7 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				txtNombre = new JTextField();
-				txtNombre.setEnabled(false);
+				txtNombre.setEditable(false);
 				txtNombre.setColumns(10);
 				txtNombre.setBounds(235, 32, 176, 22);
 				panel.add(txtNombre);
@@ -200,6 +201,12 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				txtMotivo = new JTextField();
+				txtMotivo.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						habilitarButton();
+					}
+				});
 				txtMotivo.setColumns(10);
 				txtMotivo.setBounds(146, 73, 267, 22);
 				panel.add(txtMotivo);
@@ -274,6 +281,13 @@ public class RegConsulta extends JDialog {
 			panel.add(rbtnVerde);
 
 			txtDescripcion = new JTextArea();
+			txtDescripcion.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					habilitarButton();
+				}
+				
+			});
 			txtDescripcion.setBounds(29, 195, 384, 80);
 			panel.add(txtDescripcion);
 			{
@@ -283,6 +297,11 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				cbxVacuna = new JComboBox<Object>();
+				cbxVacuna.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						habilitarButton();
+					}
+				});
 				loadVacunas();
 				cbxVacuna.setBounds(88, 100, 116, 22);
 				panel.add(cbxVacuna);
@@ -294,6 +313,11 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				cbxEnfermedades = new JComboBox<Object>();
+				cbxEnfermedades.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						habilitarButton();
+					}
+				});
 				loadEnfermedades();
 				cbxEnfermedades.setBounds(110, 126, 116, 22);
 				panel.add(cbxEnfermedades);
@@ -324,19 +348,23 @@ public class RegConsulta extends JDialog {
 							prio = 2;
 						Consulta consulta = new Consulta(txtId.getText(),cita.getMiDoctor(),txtDescripcion.getText(),Hospital.getInstance().buscarEnfermedadByNombre(cbxEnfermedades.getSelectedItem().toString()),Hospital.getInstance().buscarVacunaByNombre(cbxVacuna.getSelectedItem().toString()),txtMotivo.getText(),prio);
 						Hospital.getInstance().addConsulta(consulta);
-						if(((Paciente) cita.getProxPaciente()).getNhc()!=null)
+						if(!(Hospital.getInstance().buscarPacienteByCedula(cita.getProxPaciente().getCedula())))
 						{
 							Paciente paciente = new Paciente(cita.getProxPaciente(),txtNHC.getText(),cbxSangre.getSelectedItem().toString(),Float.valueOf(txtPeso.getText()),Float.valueOf(txtEstatura.getText()));
 							if(rbtnYes.isEnabled())
 								paciente.getHistorial().getMisConsultas().add(consulta);
+							Hospital.getInstance().addPersona(paciente);
 						}
 						else 
 						{
-							((Paciente) cita.getProxPaciente()).setPeso(Float.valueOf(txtPeso.getText()));
-							((Paciente) cita.getProxPaciente()).setEstatura(Float.valueOf(txtEstatura.getText()));
+							cita.getProxPaciente().setPeso(Float.valueOf(txtPeso.getText()));
+							cita.getProxPaciente().setEstatura(Float.valueOf(txtEstatura.getText()));
 							if(rbtnYes.isEnabled())
-								((Paciente)cita.getProxPaciente()).getHistorial().getMisConsultas().add(consulta);
+								cita.getProxPaciente().getHistorial().getMisConsultas().add(consulta);
 						}
+						cita.setEstado(true);
+						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
 							
 					}
 				});
@@ -385,7 +413,7 @@ public class RegConsulta extends JDialog {
 	private void load(Paciente paciente) {
 		txtId.setText("Con-"+Hospital.getCodigoConsulta());
 		txtNombre.setText(paciente.getNombre());
-		if(paciente.getNhc()!="1") {
+		if(Hospital.getInstance().buscarPacienteByCedula(paciente.getCedula())) {
 			txtNHC.setText(paciente.getNhc());
 			txtPeso.setText(String.valueOf(paciente.getPeso()));
 			txtEstatura.setText(String.valueOf((paciente.getEstatura())));

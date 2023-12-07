@@ -193,7 +193,7 @@ public class PrincipalVisual extends JFrame {
 				CrearUsuario crear = new CrearUsuario();
 				crear.setModal(true);
 				crear.setVisible(true);
-			}
+			} 
 		});
 		mnNewMenu.add(mntmNewMenuItem_7);
 		

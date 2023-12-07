@@ -200,7 +200,7 @@ public class ListarPaciente extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					int index = tblPacientes.getSelectedRow();
-					if(index>0)
+					if(index>=0)
 					{
 						selected = Hospital.getInstance().buscarPacienteByNHC(tblPacientes.getValueAt(index, 0).toString());
 						btnSelect.setEnabled(true);
@@ -220,7 +220,7 @@ public class ListarPaciente extends JDialog {
 				btnSelect.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int index = tblPacientes.getSelectedRow();
-						if(index>0)
+						if(index>=0)
 						{
 							loadDatosPaciente();
 							btnSelect.setEnabled(false);

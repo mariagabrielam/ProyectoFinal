@@ -225,7 +225,7 @@ public class MostrarHistorial extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblConsulta.getSelectedRow();
-				if(index >0)
+				if(index >=0)
 				{
 					btnSelect.setEnabled(true);
 				}
@@ -249,7 +249,7 @@ public class MostrarHistorial extends JDialog {
 				btnSelect.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int index = tblConsulta.getSelectedRow();
-						if(index >0)
+						if(index >=0)
 						{
 							selectedCon = Hospital.getInstance().buscarConsultaById(tblConsulta.getValueAt(index, 0).toString());
 							loadHistorial();

@@ -363,6 +363,7 @@ public class RegConsulta extends JDialog {
 								cita.getProxPaciente().getHistorial().getMisConsultas().add(consulta);
 						}
 						cita.setEstado(true);
+						Hospital.getInstance().getMisConsultas().add(consulta);
 						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 							

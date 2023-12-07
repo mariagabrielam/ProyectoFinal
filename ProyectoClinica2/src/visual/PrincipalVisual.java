@@ -38,6 +38,7 @@ import logico.Vacuna;
 import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class PrincipalVisual extends JFrame {
 
@@ -334,6 +335,7 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -521,6 +523,11 @@ public class PrincipalVisual extends JFrame {
 		JLabel lblO = new JLabel("O- :");
 		lblO.setBounds(116, 168, 33, 16);
 		panel_2.add(lblO);
+		
+		JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setBounds(33, 15, 403, 156);
+		contentPane.add(lblNewLabel_4);
+		lblNewLabel_4.setIcon(new ImageIcon(PrincipalVisual.class.getResource("/Iconos/elLogo.png")));
 		
 		load();
 		mostrarPrivilegios();

@@ -72,6 +72,7 @@ public class RegVacuna extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegVacuna(Vacuna laVacuna) {
+		
 		miVacuna=laVacuna;
 		setResizable(false);
 		if(miVacuna==null) {
@@ -151,7 +152,6 @@ public class RegVacuna extends JDialog {
 		scrollPane.setViewportView(table_allEnfermedades);
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		{
-		
 			String[] header= {"Nombre"};
 			modelAllEnferm= new DefaultTableModel();
 			modelAllEnferm.setColumnIdentifiers(header);
@@ -182,7 +182,6 @@ public class RegVacuna extends JDialog {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_3.add(scrollPane_1, BorderLayout.CENTER);
 		{
-		
 			table_enfermedadesVacuna = new JTable();
 			String[] header= {"Nombre"};
 			modelEnfermVacuna = new DefaultTableModel();
@@ -260,7 +259,10 @@ public class RegVacuna extends JDialog {
 							miVacuna.setCant(new Integer(spnCantVacuna.getValue().toString()));
 							miVacuna.setMisEnfermedad(enfermVacuna);
 						}
-						
+						enfermVacuna = new ArrayList<>();
+						clonarEnfermedades();
+						loadAllEnfermedades();
+						loadEnfermedadVacuna();
 					}
 				});
 				btnRegistrar.setEnabled(false);
@@ -279,6 +281,7 @@ public class RegVacuna extends JDialog {
 				buttonPane.add(btnCancel);
 			}
 		}
+		clonarEnfermedades();
 		loadAllEnfermedades();
 		loadEnfermedadVacuna();
 	}
@@ -289,7 +292,6 @@ public class RegVacuna extends JDialog {
 		  rowAllEnferm[0] = enferm.getNombre();
 		  modelAllEnferm.addRow(rowAllEnferm);
 		}
-		
 	}
 	
 	private static void loadEnfermedadVacuna() {

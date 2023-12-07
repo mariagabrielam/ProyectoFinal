@@ -29,6 +29,7 @@ import logico.Hospital;
 import logico.Vacuna;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 public class RegVacuna extends JDialog {
 
@@ -196,6 +197,7 @@ public class RegVacuna extends JDialog {
 						btnMove.setText("<<");
 						btnMove.setEnabled(true);
 					}
+					habilitarBoton();
 				}
 			});
 			table_enfermedadesVacuna.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -203,7 +205,9 @@ public class RegVacuna extends JDialog {
 			scrollPane_1.setViewportView(table_enfermedadesVacuna);
 		}
 		
-		btnMove = new JButton(">>");
+		btnMove = new JButton("");
+		btnMove.setEnabled(false);
+		btnMove.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/arrowChange.png")));
 		btnMove.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -225,7 +229,6 @@ public class RegVacuna extends JDialog {
 				loadEnfermedadVacuna();
 			}
 		});
-		btnMove.setEnabled(false);
 		btnMove.setBounds(196, 114, 83, 23);
 		panel_1.add(btnMove);
 		{
@@ -243,6 +246,7 @@ public class RegVacuna extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
+				btnRegistrar.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/plus.png")));
 				if(miVacuna!=null) {
 					btnRegistrar.setText("Modificar");
 				}
@@ -272,6 +276,7 @@ public class RegVacuna extends JDialog {
 			}
 			{
 				btnCancel = new JButton("Cancelar");
+				btnCancel.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/removeIcon.png")));
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

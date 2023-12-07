@@ -322,32 +322,6 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		menuBar.add(btnCerraSesion);
-
-		JButton btnNewButton = new JButton("Generar");
-		menuBar.add(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (Hospital.getCodigoDoctor() == 1 && Hospital.getCodigoEmpleado() == 1) {
-					Persona Doc1 = new Doctor("D-" + Hospital.getCodigoDoctor(), "402-1341389-7", "Isaac",
-							"829-393-1603", "La Vega", "Masculino", "Doctor", "10-5000", "Cardiologo");
-					Hospital.getInstance().addPersona(Doc1);
-					Persona Doc2 = new Doctor("D-" + Hospital.getCodigoDoctor(), "402-5866688-7", "Juan",
-							"829-393-2020", "La Vega", "Masculino", "Doctor", "10-5888", "Podologo");
-					Hospital.getInstance().addPersona(Doc2);
-
-					Persona Sec1 = new Empleado("S-" + Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana",
-							"829-555-6666", "La Vega", "Femenino", "Secretario");
-					Hospital.getInstance().addPersona(Sec1);
-
-					Paciente p1 = new Paciente("1", "402-15325546-8", "Esteban", "809-555-65445", "Santiago",
-							"Masculino");
-					Date dia = new Date();
-					Cita nuevaCita = new Cita("C-1", p1, (Doctor) Doc2, dia);
-					Hospital.getInstance().addCita(nuevaCita);
-				}
-
-			}
-		});
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

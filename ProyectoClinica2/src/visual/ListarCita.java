@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -83,7 +84,7 @@ public class ListarCita extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					int index = cbxDoctor.getSelectedIndex();
 					if (index > 0) {
-						selectedDoctor = Hospital.getInstance().getMisDoctores().get(index-1);
+						selectedDoctor = Hospital.getInstance().getMisDoctores().get(index - 1);
 					} else {
 						selectedDoctor = null;
 					}
@@ -106,9 +107,7 @@ public class ListarCita extends JDialog {
 		calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				selectedCita = null;
-				habilitarBoton();
-
+				loadCitas(selectedDoctor);
 			}
 		});
 		calendar.setBounds(10, 25, 256, 189);
@@ -133,7 +132,7 @@ public class ListarCita extends JDialog {
 				int index = tblAgenda.getSelectedRow();
 				if (index >= 0) {
 					selectedCita = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
-					if(!selectedCita.isEstado())
+					if (!selectedCita.isEstado())
 						btnOk.setEnabled(true);
 				}
 
@@ -188,42 +187,52 @@ public class ListarCita extends JDialog {
 		}
 	}
 
+	private static boolean esParaHoy(Date cita, Date fechaHoy) {
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+		return formatoFecha.format(cita).equals(formatoFecha.format(fechaHoy));
+	}
+
 	private void loadCitas(Doctor doctor) {
 		model.setRowCount(0);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy h:mm aa");
 
 		if (doctor != null) // Tiene doctor
 		{
-			String[] header = { "Código", "Hora de Inicio", "Paciente","Estado" };
+			String[] header = { "Código", "Hora de Inicio", "Paciente", "Estado" };
 			model.setColumnIdentifiers(header);
 			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
 				if (aux.getMiDoctor().getId().equalsIgnoreCase(doctor.getId())) {
-					row[0] = aux.getId();
-					row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
-					row[2] = aux.getProxPaciente().getNombre();
-					if(aux.isEstado())
-						row[3]="Realizado";
-					else
-						row[3]="Pendiente";
-					model.addRow(row);
+					if (esParaHoy(aux.getFchProgramada(), calendar.getDate())) {
+						row[0] = aux.getId();
+						row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
+						row[2] = aux.getProxPaciente().getNombre();
+						if (aux.isEstado())
+							row[3] = "Realizado";
+						else
+							row[3] = "Pendiente";
+						model.addRow(row);
+					}
+
 				}
 			}
 		} else // No tiene
 		{
-			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente","Estado" };
+			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente", "Estado" };
 			model.setColumnIdentifiers(header);
 			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
+				if (esParaHoy(aux.getFchProgramada(), calendar.getDate())) {
 				row[0] = aux.getId();
 				row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
 				row[2] = aux.getMiDoctor().getNombre();
 				row[3] = aux.getProxPaciente().getNombre();
-				if(aux.isEstado())
-					row[4]="Realizado";
+				if (aux.isEstado())
+					row[4] = "Realizado";
 				else
-					row[4]="Pendiente";
+					row[4] = "Pendiente";
 				model.addRow(row);
+				}
 			}
 
 		}

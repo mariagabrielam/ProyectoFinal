@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -301,6 +302,7 @@ public class RegCita extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton = new JButton("OK");
+				okButton.setIcon(new ImageIcon(RegCita.class.getResource("/Iconos/plus.png")));
 				okButton.setSelectedIcon(new ImageIcon(RegCita.class.getResource("/Iconos/plus.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -312,6 +314,8 @@ public class RegCita extends JDialog {
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
 						System.out.println("NOMBRE "+miPersona.getNombre()+" Fecha "+fchProgramada);
 						Hospital.getInstance().addCita(nuevaCita);
+						JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro",
+								JOptionPane.INFORMATION_MESSAGE);
 						txtCedula.setText("");
 						borrarCampos();
 					}
@@ -323,6 +327,7 @@ public class RegCita extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setIcon(new ImageIcon(RegCita.class.getResource("/Iconos/removeIcon.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

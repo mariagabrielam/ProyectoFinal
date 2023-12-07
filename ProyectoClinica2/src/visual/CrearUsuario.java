@@ -46,8 +46,9 @@ public class CrearUsuario extends JDialog {
 	private static Object[] row;
 	private Persona selected = null;
 	private JButton okButton;
-	private JScrollPane panPersona;
+	private JScrollPane panelScroll;
 	private JTable tblPersona;
+	private JPanel panEmpleado;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,7 @@ public class CrearUsuario extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearUsuario() {
-		panPersona.setVisible(false);
+		
 		setTitle("Crear Usuario");
 		setBounds(100, 100, 450, 485);
 		getContentPane().setLayout(new BorderLayout());
@@ -123,7 +124,7 @@ public class CrearUsuario extends JDialog {
 		cbxTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(cbxTipo.getSelectedIndex()<1) {
-					panPersona.setVisible(true);
+					panelScroll.setVisible(true);
 					loadPersonas();
 				}
 				habilitarButton();
@@ -134,16 +135,22 @@ public class CrearUsuario extends JDialog {
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		
-		panPersona = new JScrollPane();
-		panPersona.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panPersona.setViewportBorder(new TitledBorder(null, "Seleccione Persona", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panPersona.setBounds(12, 152, 408, 250);
-		contentPanel.add(panPersona);
-		
 		String[] header = {"Código","Nombre","Cédula","Cargo"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
+		
+		panEmpleado = new JPanel();
+		panEmpleado.setBorder(new TitledBorder(null, "Seleccione un Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panEmpleado.setBounds(12, 154, 408, 236);
+		contentPanel.add(panEmpleado);
+		panEmpleado.setLayout(null);
+		
+		panelScroll = new JScrollPane();
+		panelScroll.setBounds(12, 26, 384, 197);
+		panEmpleado.add(panelScroll);
+		panelScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		tblPersona = new JTable();
+		tblPersona.setModel(model);
 		tblPersona.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -159,7 +166,7 @@ public class CrearUsuario extends JDialog {
 			}
 		});
 		tblPersona.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panPersona.setViewportView(tblPersona);
+		panelScroll.setViewportView(tblPersona);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -194,7 +201,7 @@ public class CrearUsuario extends JDialog {
 		}
 	}
 	private void habilitarButton() {
-		if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty() && cbxTipo.getSelectedIndex()!=0 && selected!=null)
+		if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty() && cbxTipo.getSelectedIndex()!=0 && selected!=null&&tblPersona.getSelectedRow()>0)
 			okButton.setEnabled(true);
 	}
 

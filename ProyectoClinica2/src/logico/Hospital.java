@@ -36,6 +36,7 @@ public class Hospital implements Serializable {
 		this.misCitas = new ArrayList<>();
 		this.misVacunas = new ArrayList<>();
 		this.misConsultas = new ArrayList<>();
+		this.misViviendas = new ArrayList<>();
 	}
 	
 	public static Hospital getInstance() {

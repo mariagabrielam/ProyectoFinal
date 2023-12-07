@@ -36,6 +36,7 @@ public class Hospital implements Serializable {
 		this.misCitas = new ArrayList<>();
 		this.misVacunas = new ArrayList<>();
 		this.misConsultas = new ArrayList<>();
+		this.misViviendas = new ArrayList<>();
 	}
 	
 	public static Hospital getInstance() {
@@ -345,5 +346,17 @@ public class Hospital implements Serializable {
 				return aux;
 		}
 		return null;
+	}
+
+	public ArrayList<Empleado> getMisEmpleados() {
+		ArrayList<Empleado> misEmpleados = new ArrayList<>();
+		for (Persona aux : misPersonas) {
+			if(aux instanceof Empleado)
+			{
+				misEmpleados.add((Empleado)aux);
+			}
+		}
+	return misEmpleados;
+
 	}  
 }

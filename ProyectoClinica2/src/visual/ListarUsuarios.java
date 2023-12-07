@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,11 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logico.Empleado;
 import logico.Hospital;
 import logico.Usuario;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ListarUsuarios extends JDialog {
 
@@ -97,11 +96,11 @@ public class ListarUsuarios extends JDialog {
 		{
 			row[0] = aux.getUsername();
 			row[1] = aux.getPassword();
-			row[3] = aux.getTipo();
+			row[2] = aux.getTipo();
 			if(aux.getUsername().equalsIgnoreCase("Admin"))
-				row[4] = "Admin";
+				row[3] = "Admin";
 			else
-				row[4] = ((Empleado) aux.getPersona()).getCargo();
+				row[3] = aux.getEmpleado().getCargo();
 			model.addRow(row);
 		}
 	}

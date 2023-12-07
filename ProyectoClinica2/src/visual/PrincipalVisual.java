@@ -413,7 +413,8 @@ public class PrincipalVisual extends JFrame {
 		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tipos de Sangre de los Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_2.setBounds(509, 198, 225, 217);
 		contentPane.add(panel_2);
-		//loadSangreStats();
+		if(Hospital.getInstance().getMisPacientes()!=null)
+			loadSangreStats();
 		
 		JLabel lblNewLabel_3 = new JLabel("AB+:");
 		lblNewLabel_3.setBounds(48, 30, 32, 16);
@@ -606,6 +607,8 @@ public class PrincipalVisual extends JFrame {
 	}
 	private void loadSangreStats()
 	{
+		if(Hospital.getCodigoPaciente()!=1)
+		{
 		txtABPlus.setText(String.valueOf(loadTipoSangre("AB+")));
 		txtAPlus.setText(String.valueOf(loadTipoSangre("A+")));
 		txtBPlus.setText(String.valueOf(loadTipoSangre("B+")));
@@ -613,6 +616,8 @@ public class PrincipalVisual extends JFrame {
 		txtABMinus.setText(String.valueOf(loadTipoSangre("AB-")));
 		txtAMinus.setText(String.valueOf(loadTipoSangre("A-")));
 		txtBMinus.setText(String.valueOf(loadTipoSangre("B-")));
-		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));
+		txtOMinus.setText(String.valueOf(loadTipoSangre("O-")));	
+		}
+		
 	}
 }

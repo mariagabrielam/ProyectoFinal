@@ -10,14 +10,14 @@ public class Usuario implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
-	private Persona persona;
+	private Empleado empleado;
 	private String tipo;
 	
-	public Usuario(String username, String password, Persona persona, String tipo) {
+	public Usuario(String username, String password, Empleado empleado, String tipo) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.persona = persona;
+		this.empleado = empleado;
 		this.setTipo(tipo);
 	}
 
@@ -37,13 +37,6 @@ public class Usuario implements Serializable{
 		this.password = password;
 	}
 
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
 
 	public String getTipo() {
 		return tipo;
@@ -65,6 +58,14 @@ public class Usuario implements Serializable{
 		this.tipo = "Privilegiado";
 	}
 	
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+
 	public boolean esAdmin() {
 		if(this.tipo == "Administrador")
 		{

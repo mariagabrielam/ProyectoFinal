@@ -26,9 +26,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.Doctor;
 import logico.Empleado;
 import logico.Hospital;
-import logico.Persona;
 import logico.Usuario;
 
 public class CrearUsuario extends JDialog {
@@ -44,10 +44,11 @@ public class CrearUsuario extends JDialog {
 	private JComboBox<Object> cbxTipo;
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private Persona selected = null;
+	private Empleado selected = null;
 	private JButton okButton;
-	private JScrollPane panPersona;
+	private JScrollPane panelScroll;
 	private JTable tblPersona;
+	private JPanel panEmpleado;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,7 @@ public class CrearUsuario extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearUsuario() {
-		panPersona.setVisible(false);
+		
 		setTitle("Crear Usuario");
 		setBounds(100, 100, 450, 485);
 		getContentPane().setLayout(new BorderLayout());
@@ -122,9 +123,14 @@ public class CrearUsuario extends JDialog {
 		cbxTipo = new JComboBox<Object>();
 		cbxTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(cbxTipo.getSelectedIndex()<1) {
-					panPersona.setVisible(true);
-					loadPersonas();
+				if(cbxTipo.getSelectedIndex()==1) {
+					loadDoctor();
+					panEmpleado.setVisible(true);
+				}
+				else if(cbxTipo.getSelectedIndex()==2)
+				{
+					loadEmpleado();
+					panEmpleado.setVisible(true);
 				}
 				habilitarButton();
 			}
@@ -134,32 +140,37 @@ public class CrearUsuario extends JDialog {
 		cbxTipo.setBounds(58, 90, 106, 22);
 		panel.add(cbxTipo);
 		
-		panPersona = new JScrollPane();
-		panPersona.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panPersona.setViewportBorder(new TitledBorder(null, "Seleccione Persona", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panPersona.setBounds(12, 152, 408, 250);
-		contentPanel.add(panPersona);
-		
 		String[] header = {"Código","Nombre","Cédula","Cargo"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
+		
+		panEmpleado = new JPanel();
+		panEmpleado.setBorder(new TitledBorder(null, "Seleccione un Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panEmpleado.setBounds(12, 154, 408, 236);
+		contentPanel.add(panEmpleado);
+		panEmpleado.setLayout(null);
+		panEmpleado.setVisible(false);
+		
+		panelScroll = new JScrollPane();
+		panelScroll.setBounds(12, 26, 384, 197);
+		panEmpleado.add(panelScroll);
+		panelScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		tblPersona = new JTable();
+		tblPersona.setModel(model);
 		tblPersona.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblPersona.getSelectedRow();
 				   if(index>=0){
 					   okButton.setEnabled(true);
-					   if(cbxTipo.getSelectedIndex()==2)
+					   if(cbxTipo.getSelectedIndex()>0)
 						   selected = Hospital.getInstance().buscarDoctorById(tblPersona.getValueAt(index, 0).toString());
-					   else
-						   selected = Hospital.getInstance().buscarPacienteByNHC(tblPersona.getValueAt(index, 0).toString());
 				   }
 				   habilitarButton();
 			}
 		});
 		tblPersona.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panPersona.setViewportView(tblPersona);
+		panelScroll.setViewportView(tblPersona);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -173,6 +184,7 @@ public class CrearUsuario extends JDialog {
 							Usuario aux = new Usuario(txtUsername.getText(),txtPassword.getText(), selected, "FALTA TIPO");
 							Hospital.getInstance().addUsuario(aux);
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Resgistro", JOptionPane.INFORMATION_MESSAGE);
+							clear();
 						}
 					}
 				});
@@ -194,22 +206,44 @@ public class CrearUsuario extends JDialog {
 		}
 	}
 	private void habilitarButton() {
-		if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty() && cbxTipo.getSelectedIndex()!=0 && selected!=null)
+		if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty() && cbxTipo.getSelectedIndex()!=0 && selected!=null&&tblPersona.getSelectedRow()>0)
 			okButton.setEnabled(true);
 	}
 
-	private void loadPersonas()
+	private void loadDoctor()
 	{
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
-		for (Persona aux: Hospital.getInstance().getMisPersonas()) {
-		  if(aux instanceof Empleado) {
-			  row[0] = ((Empleado) aux).getId();
+		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
+		  if(aux instanceof Doctor) {
+			  row[0] = aux.getId();
 			  row[1] = aux.getNombre();
 			  row[2] = aux.getCedula();
-			  row[3] = ((Empleado) aux).getCargo();
+			  row[3] = aux.getCargo();
+			  model.addRow(row);
+		  }
+		}	
+	}
+	private void loadEmpleado()
+	{
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
+		  if(!(aux instanceof Doctor)) {
+			  row[0] = aux.getId();
+			  row[1] = aux.getNombre();
+			  row[2] = aux.getCedula();
+			  row[3] = aux.getCargo();
 			  model.addRow(row);
 		  }
 		}
+	}
+	private void clear()
+	{
+		txtUsername.setText("");
+		txtPassword.setText("");
+		cbxTipo.setSelectedIndex(0);
+		panEmpleado.setVisible(false);
+		okButton.setEnabled(false);
 	}
 }

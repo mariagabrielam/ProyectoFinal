@@ -133,7 +133,8 @@ public class ListarCita extends JDialog {
 				int index = tblAgenda.getSelectedRow();
 				if (index > 0) {
 					selectedCita = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
-					btnOk.setEnabled(true);
+					if(!selectedCita.isEstado())
+						btnOk.setEnabled(true);
 				}
 
 			}
@@ -193,7 +194,7 @@ public class ListarCita extends JDialog {
 
 		if (doctor != null) // Tiene doctor
 		{
-			String[] header = { "Código", "Hora de Inicio", "Paciente" };
+			String[] header = { "Código", "Hora de Inicio", "Paciente","Estado" };
 			model.setColumnIdentifiers(header);
 			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
@@ -201,12 +202,16 @@ public class ListarCita extends JDialog {
 					row[0] = aux.getId();
 					row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
 					row[2] = aux.getProxPaciente().getNombre();
+					if(aux.isEstado())
+						row[3]="Realizado";
+					else
+						row[3]="Pendiente";
 					model.addRow(row);
 				}
 			}
 		} else // No tiene
 		{
-			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente" };
+			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente","Estado" };
 			model.setColumnIdentifiers(header);
 			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
@@ -214,6 +219,10 @@ public class ListarCita extends JDialog {
 				row[1] = String.valueOf(formatoFecha.format(aux.getFchProgramada()));
 				row[2] = aux.getMiDoctor().getNombre();
 				row[3] = aux.getProxPaciente().getNombre();
+				if(aux.isEstado())
+					row[4]="Realizado";
+				else
+					row[4]="Pendiente";
 				model.addRow(row);
 			}
 

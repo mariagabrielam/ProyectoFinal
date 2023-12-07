@@ -345,7 +345,7 @@ public class PrincipalVisual extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente"};
+		String[] header = {"Código","Hora de Inicio", "Doctor", "Paciente","Estado"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(header);
 		loadCitasHoy();
@@ -595,6 +595,10 @@ public class PrincipalVisual extends JFrame {
 				row[1] = aux.getFchProgramada().getTime();
 				row[2] = aux.getMiDoctor().getNombre();
 				row[3] = aux.getProxPaciente().getNombre();
+				if(aux.isEstado())
+					row[4]="Realizado";
+				else
+					row[4]="Pendiente";
 				model.addRow(row);
 			}
 		}

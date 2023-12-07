@@ -2,6 +2,7 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -28,9 +29,7 @@ import logico.Consulta;
 import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
-import logico.Persona;
 import logico.Vacuna;
-import java.awt.Toolkit;
 
 public class RegConsulta extends JDialog {
 
@@ -383,14 +382,14 @@ public class RegConsulta extends JDialog {
 			okButton.setEnabled(true);
 		
 	}
-	private void load(Persona paciente) {
+	private void load(Paciente paciente) {
 		txtId.setText("Con-"+Hospital.getCodigoConsulta());
 		txtNombre.setText(paciente.getNombre());
-		if(((Paciente) paciente).getNhc()!=null) {
-			txtNHC.setText(((Paciente) paciente).getNhc());
-			txtPeso.setText(String.valueOf(((Paciente) paciente).getPeso()));
-			txtEstatura.setText(String.valueOf(((Paciente) paciente).getEstatura()));
-			cbxSangre.setSelectedIndex(sangreIndex((Paciente)paciente));
+		if(paciente.getNhc()!="1") {
+			txtNHC.setText(paciente.getNhc());
+			txtPeso.setText(String.valueOf(paciente.getPeso()));
+			txtEstatura.setText(String.valueOf((paciente.getEstatura())));
+			cbxSangre.setSelectedIndex(sangreIndex(paciente));
 		}
 		else {
 			cbxSangre.setEnabled(true);

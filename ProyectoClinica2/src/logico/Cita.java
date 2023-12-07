@@ -10,12 +10,12 @@ public class Cita implements Serializable {
 	 */
 	private static final long serialVersionUID = -2540490196035370563L;
 	private String id;
-	private Persona proxPaciente;
+	private Paciente proxPaciente;
 	private Doctor miDoctor;
 	private Date fchProgramada;
 	private boolean estado;
 
-	public Cita(String id, Persona proxPaciente, Doctor miDoctor, Date fchProgramada) {
+	public Cita(String id, Paciente proxPaciente, Doctor miDoctor, Date fchProgramada) {
 		super();
 		this.id = id;
 		this.proxPaciente = proxPaciente;
@@ -32,11 +32,11 @@ public class Cita implements Serializable {
 		this.id = id;
 	}
 
-	public Persona getProxPaciente() {
+	public Paciente getProxPaciente() {
 		return proxPaciente;
 	}
 
-	public void setProxPaciente(Persona proxPaciente) {
+	public void setProxPaciente(Paciente proxPaciente) {
 		this.proxPaciente = proxPaciente;
 	}
 

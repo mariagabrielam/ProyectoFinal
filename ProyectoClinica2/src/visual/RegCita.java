@@ -61,7 +61,7 @@ public class RegCita extends JDialog {
 	private JCalendar calendario;
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtTelefono;
-	private Persona miPersona = null;
+	private Paciente miPersona = null;
 	private Doctor selected = null;
 	private static ArrayList<Cita> misCitas = Hospital.getInstance().getMisCitas();
 	private static ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
@@ -182,14 +182,6 @@ public class RegCita extends JDialog {
 				@Override
 				public void keyReleased(KeyEvent e) {
 
-					if (txtCedula.getText().length() == 13) {
-						miPersona = Hospital.getInstance().buscarPersonaByCedula(txtCedula.getText());
-						if (miPersona != null) {
-							cargarPersona(miPersona);
-						}
-					} else {
-						borrarCampos();
-					}
 					habilitarBoton();
 				}
 			});
@@ -311,7 +303,7 @@ public class RegCita extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (miPersona == null) {
-							miPersona = new Paciente(null, txtCedula.getText(), txtNombre.getText(),
+							miPersona = new Paciente("1", txtCedula.getText(), txtNombre.getText(),
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
 						}
 						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraInicio.getValue());

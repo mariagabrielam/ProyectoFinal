@@ -331,7 +331,7 @@ public class PrincipalVisual extends JFrame {
 				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
 				Hospital.getInstance().addPersona(Sec1);
 				
-				Persona p1 = new Paciente("10-55-5555", "402-15325546.8", "Esteban", "809-555-65445", "Santiago", "Masculino");
+				Paciente p1 = new Paciente("1", "402-15325546-8", "Esteban", "809-555-65445", "Santiago", "Masculino");
 				Date dia = new Date();
 				Cita nuevaCita =  new Cita("C-1", p1, (Doctor)Doc2, dia);
 				Hospital.getInstance().addCita(nuevaCita);

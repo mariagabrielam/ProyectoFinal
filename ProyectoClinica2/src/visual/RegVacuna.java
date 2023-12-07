@@ -207,7 +207,6 @@ public class RegVacuna extends JDialog {
 		
 		btnMove = new JButton("");
 		btnMove.setEnabled(false);
-		btnMove.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/arrowChange.png")));
 		btnMove.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -246,7 +245,6 @@ public class RegVacuna extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
-				btnRegistrar.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/plus.png")));
 				if(miVacuna!=null) {
 					btnRegistrar.setText("Modificar");
 				}
@@ -276,7 +274,6 @@ public class RegVacuna extends JDialog {
 			}
 			{
 				btnCancel = new JButton("Cancelar");
-				btnCancel.setIcon(new ImageIcon(RegVacuna.class.getResource("/Iconos/removeIcon.png")));
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

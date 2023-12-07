@@ -26,6 +26,10 @@ import javax.swing.ListSelectionModel;
 
 public class ListarViviendas extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3136361799830269635L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;

@@ -360,7 +360,7 @@ public class PrincipalVisual extends JFrame {
 		cbxEnfermedades = new JComboBox<String>();
 		cbxEnfermedades.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectedEnfermedad();
+				selectedEnfermedad(); 
 				txtCasos.setText(String.valueOf(getCasos(enfermedad)));
 				txtContagiados.setText(String.valueOf(getContagiados(enfermedad)));
 				loadEnfermedades();

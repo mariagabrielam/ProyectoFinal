@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.Enfermedad;
+import logico.Hospital;
 
 public class RegEnfermedad extends JDialog {
 
@@ -240,6 +241,7 @@ public class RegEnfermedad extends JDialog {
 								prioridadTriaje=3;
 							
 							Enfermedad laEnfermedad= new Enfermedad(txtNombre.getText(),cargarSintomas(), txtPrecauciones.getText(), txtProcedimientos.getText(),rdbtnVigilancia.isSelected(), prioridadTriaje);
+							Hospital.getInstance().addEnfermedad(laEnfermedad);
 						}
 					}
 				});

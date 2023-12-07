@@ -2,11 +2,39 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
+
 import com.toedter.calendar.JCalendar;
 
 import logico.Cita;
@@ -14,34 +42,6 @@ import logico.Doctor;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Persona;
-
-import javax.swing.border.TitledBorder;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.awt.event.ActionEvent;
-import javax.swing.JFormattedTextField;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class RegCita extends JDialog {
 
@@ -94,6 +94,9 @@ public class RegCita extends JDialog {
 		setTitle("Cita No." + Hospital.getCodigoCita());
 		Calendar calenda = Calendar.getInstance();
 		Date fchActual = calenda.getTime();
+		Calendar fchActualMas30 = Calendar.getInstance();
+		fchActualMas30.setTime(fchActual);
+		fchActualMas30.add(Calendar.MINUTE, 30);
 
 		setBounds(100, 100, 564, 523);
 		getContentPane().setLayout(new BorderLayout());
@@ -216,8 +219,9 @@ public class RegCita extends JDialog {
 		calendario.getDayChooser().setWeekOfYearVisible(false);
 		calendario.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
+				doctoresDisponibles = cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
 						(Date) spnHoraFin.getValue());
+				imprimirDoctores(doctoresDisponibles);
 			}
 		});
 		calendario.setBounds(10, 28, 366, 219);
@@ -233,8 +237,9 @@ public class RegCita extends JDialog {
 		spnHoraInicio = new JSpinner();
 		spnHoraInicio.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
+				doctoresDisponibles = cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
 						(Date) spnHoraFin.getValue());
+				imprimirDoctores(doctoresDisponibles);
 			}
 		});
 		spnHoraInicio.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
@@ -254,11 +259,12 @@ public class RegCita extends JDialog {
 		spnHoraFin = new JSpinner();
 		spnHoraFin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
+				doctoresDisponibles = cargarDoctoresDisponibles(calendario.getDate(), (Date) spnHoraInicio.getValue(),
 						(Date) spnHoraFin.getValue());
+				imprimirDoctores(doctoresDisponibles);
 			}
 		});
-		spnHoraFin.setModel(new SpinnerDateModel(fchActual, null, null, Calendar.HOUR_OF_DAY));
+		spnHoraFin.setModel(new SpinnerDateModel(fchActualMas30.getTime(), null, null, Calendar.HOUR_OF_DAY));
 		JSpinner.DateEditor de_spnHoraFin = new JSpinner.DateEditor(spnHoraFin, "h:mm a");
 		spnHoraFin.setEditor(de_spnHoraFin);
 

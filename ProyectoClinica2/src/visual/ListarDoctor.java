@@ -37,7 +37,6 @@ public class ListarDoctor extends JDialog {
 	private JTable tblDoctores;
 	private JComboBox<Object> cbxEspecialidad;
 	private JComboBox<Object> cbxSexo;
-	private JButton okButton;
 	private ArrayList<Doctor> misDoctores = Hospital.getInstance().getMisDoctores();
 	private ArrayList<Doctor> doctoresFiltrado = new ArrayList<>();
 	private Doctor selectedDoctor = null;
@@ -113,7 +112,7 @@ public class ListarDoctor extends JDialog {
 		cbxEspecialidad = new JComboBox<Object>(especialidades);
 		cbxEspecialidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doctoresFiltrado = filtrarByEspecialidad(doctoresFiltrado, cbxEspecialidad.getSelectedItem().toString());
+				doctoresFiltrado = filtrarDoctores(misDoctores, cbxEspecialidad.getSelectedItem().toString(), cbxSexo.getSelectedItem().toString());
 				imprimirDoctores(doctoresFiltrado);
 			}
 		});
@@ -127,7 +126,7 @@ public class ListarDoctor extends JDialog {
 		cbxSexo = new JComboBox<Object>();
 		cbxSexo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doctoresFiltrado = filtrarBySexo(doctoresFiltrado, cbxSexo.getSelectedItem().toString());
+				doctoresFiltrado = filtrarDoctores(misDoctores, cbxEspecialidad.getSelectedItem().toString(), cbxSexo.getSelectedItem().toString());
 				imprimirDoctores(doctoresFiltrado);
 			}
 		});
@@ -141,7 +140,6 @@ public class ListarDoctor extends JDialog {
 				cbxEspecialidad.setSelectedIndex(0);
 				cbxSexo.setSelectedIndex(0);
 				imprimirDoctores(misDoctores);
-				doctoresFiltrado = misDoctores;
 			}
 		});
 		btnBorrarFiltros.setBounds(346, 43, 134, 23);
@@ -150,17 +148,6 @@ public class ListarDoctor extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				okButton = new JButton("Modificar");
-				okButton.setEnabled(false);
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
@@ -189,55 +176,42 @@ public class ListarDoctor extends JDialog {
 	}
 	
 	private void habilitarBoton()
-	{
+	{/*
 		if(selectedDoctor!= null)
 		{
 			okButton.setEnabled(true);
 		}else {
 			okButton.setEnabled(false);
 		}
+		*/
 	}
 	private String[] buscarEspecialidades()
 	{
 		HashSet<String> especialidadSinRepetir = new HashSet<>();
-		especialidadSinRepetir.add("<Selecione>");
 			for (Doctor aux : misDoctores) {
 				especialidadSinRepetir.add(aux.getEspecialidad());
 			}
-		String[] especialidades = new String [especialidadSinRepetir.size()];
-		especialidadSinRepetir.toArray(especialidades);
+		ArrayList<String> tempList = new ArrayList<>();
+		tempList.add("<Selecione>");
+		tempList.addAll(especialidadSinRepetir);
+		
+		String[] especialidades = tempList.toArray(new String[0]);
 		return especialidades;
 	}
-	private ArrayList<Doctor> filtrarByEspecialidad(ArrayList<Doctor> doctores, String especialidad)
+	private ArrayList<Doctor> filtrarDoctores(ArrayList<Doctor> doctores, String especialidad , String sexo)
 	{
-		ArrayList<Doctor> doctoresEspecialidad = new ArrayList<>();
+		ArrayList<Doctor> doctoresFiltrados = new ArrayList<>();
 		for (Doctor aux : doctores) {
-			if(especialidad.equalsIgnoreCase("<Selecione>"))
-			{
-				doctoresEspecialidad = doctores;
-				break;
-			}else if(aux.getEspecialidad().equalsIgnoreCase(especialidad))
-			{
-				doctoresEspecialidad.add(aux);
+			boolean cumpleEspecialidad = aux.getEspecialidad().equalsIgnoreCase(especialidad);
+			boolean cumpleSexo = aux.getSexo().equals(sexo);
+			
+			if ("<Selecione>".equalsIgnoreCase(especialidad) || cumpleEspecialidad) {
+				if ("<Selecione>".equalsIgnoreCase(sexo) || cumpleSexo) {
+					doctoresFiltrados.add(aux);
+				}
 			}
 		}
-		return doctoresEspecialidad;
+		return doctoresFiltrados;
 	}
 	
-	private ArrayList<Doctor> filtrarBySexo(ArrayList<Doctor> doctores, String sexo)
-	{
-		ArrayList<Doctor> doctoresSexo = new ArrayList<>();
-		for (Doctor aux : doctores) {
-			if(sexo.equalsIgnoreCase("<Selecione>"))
-			{
-				doctoresSexo = doctores;
-				break;
-			}else if(aux.getEspecialidad().equalsIgnoreCase(sexo))
-			{
-				doctoresSexo.add(aux);
-			}
-		}
-		return doctoresSexo;
-	}
-
 }

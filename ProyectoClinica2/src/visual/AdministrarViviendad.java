@@ -1,35 +1,32 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Hospital;
 import logico.Paciente;
-import logico.Persona;
-import logico.Vacuna;
 import logico.Vivienda;
-
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class AdministrarViviendad extends JDialog {
 
@@ -157,7 +154,7 @@ public class AdministrarViviendad extends JDialog {
 				}
 				else
 				{
-					Vivienda vivienda = new Vivienda(txtDireccion.getText(),txtNum.getText());
+					selectedViv = new Vivienda(txtDireccion.getText(),txtNum.getText());
 					JOptionPane.showMessageDialog(null, "Vivienda Creada", "Registro", JOptionPane.INFORMATION_MESSAGE);
 					panTablas.setVisible(true);
 					txtDireccion.setEditable(false);

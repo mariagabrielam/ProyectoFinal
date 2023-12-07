@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -13,14 +15,15 @@ import javax.swing.table.DefaultTableModel;
 import logico.Empleado;
 import logico.Hospital;
 import logico.Usuario;
-import logico.Vacuna;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ListarUsuarios extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1102109312479378439L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;
@@ -74,10 +77,16 @@ public class ListarUsuarios extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadUsuarios();
 	}
 	
 	private void loadUsuarios()

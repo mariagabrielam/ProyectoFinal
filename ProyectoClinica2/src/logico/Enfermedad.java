@@ -8,6 +8,7 @@ public class Enfermedad implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 553318085963856512L;
+	private String id;
 	private String nombre;
 	private String[] sintomas;
 	private String precauciones;
@@ -15,9 +16,9 @@ public class Enfermedad implements Serializable {
 	private boolean vigilancia;
 	private int prioridadTriaje;
 
-	public Enfermedad(String nombre, String[] sintomas, String precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
+	public Enfermedad(String id, String nombre, String[] sintomas, String precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
 		super();
-		
+		this.id = id;
 		this.nombre = nombre;
 		this.sintomas = sintomas;
 		this.precauciones = precauciones;
@@ -65,6 +66,14 @@ public class Enfermedad implements Serializable {
 
 	public void setProcedimientos(String procedimientos) {
 		this.procedimientos = procedimientos;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

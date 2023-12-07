@@ -24,8 +24,10 @@ public class Hospital implements Serializable {
 	private static int codigoConsulta = 1;
 	private static int codigoVacuna = 1;
 	private static int codigoVivienda = 1;
-	private static Usuario loginUser;
 	private static int codigoEmpleado = 1;
+	private static int codigoEnfermedad = 1;
+	private static Usuario loginUser;
+	
 	
 	public Hospital() {
 		super();
@@ -213,6 +215,7 @@ public class Hospital implements Serializable {
 	
 	public void addEnfermedad(Enfermedad enfermedad) {
 		misEnfermedades.add(enfermedad);
+		codigoEnfermedad++;
 	}
 	
 	public void addVivienda(Vivienda vivienda) {
@@ -356,5 +359,42 @@ public class Hospital implements Serializable {
 		}
 	return misEmpleados;
 
+	}
+
+	public void ActualizarEnfermedad(Enfermedad miEnfermedad) {
+		int index = buscarIndexbyCode(miEnfermedad.getId());
+		misEnfermedades.set(index, miEnfermedad);
+	}
+
+	private int buscarIndexbyCode(String id) {
+		int index = -1;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && i < misEnfermedades.size()) {
+			if (misEnfermedades.get(i).getId().equalsIgnoreCase(id)) {
+				encontrado = true;
+				index = i;
+			}
+			i++;
+		}
+		return index;
+	}
+
+	public static int getCodigoEnfermedad() {
+		return codigoEnfermedad;
+	}
+
+	public static void setCodigoEnfermedad(int codigoEnfermedad) {
+		Hospital.codigoEnfermedad = codigoEnfermedad;
+	}
+
+	public Enfermedad buscarEnfermedadById(String id) {
+		for (Enfermedad aux : misEnfermedades) {
+			if(aux.getId().equalsIgnoreCase(id))
+			{
+				return aux;
+			}
+		}
+		return null;
 	}  
 }

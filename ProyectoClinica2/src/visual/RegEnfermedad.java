@@ -234,7 +234,7 @@ public class RegEnfermedad extends JDialog {
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(miEnfermedad==null) {
-							Enfermedad laEnfermedad= new Enfermedad(txtNombre.getText(),cargarSintomas(), txtPrecauciones.getText(), txtProcedimientos.getText(),rdbtnVigilancia.isSelected(), determinarPrioridadTriaje());
+							Enfermedad laEnfermedad = new Enfermedad("E"+Hospital.getCodigoEnfermedad(), txtNombre.getText(), cargarSintomas(), txtPrecauciones.getText(), txtProcedimientos.getText(), rdbtnVigilancia.isSelected(), determinarPrioridadTriaje());
 							Hospital.getInstance().addEnfermedad(laEnfermedad);
 							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
 							clean();
@@ -245,6 +245,9 @@ public class RegEnfermedad extends JDialog {
 							miEnfermedad.setPrecauciones(txtPrecauciones.getText());
 							miEnfermedad.setProcedimientos(txtProcedimientos.getText());
 							miEnfermedad.setPrioridadTriaje(determinarPrioridadTriaje());
+							Hospital.getInstance().ActualizarEnfermedad(miEnfermedad);
+							ListarEnfermedades.loadEnfermedades();
+							dispose();
 						}
 					}
 				});
@@ -271,7 +274,6 @@ public class RegEnfermedad extends JDialog {
 		}else {
 			contSintomas--;
 		}
-		
 	}
 
 	private void habilitarBoton() {
@@ -346,7 +348,9 @@ public class RegEnfermedad extends JDialog {
 		txtProcedimientos.setText("");
 		rdbtnRojo.setSelected(true);
 		desactivarAllCheckBoxes();
-		
+		rdbtnAmarillo.setSelected(false);
+		rdbtnRojo.setSelected(false);
+		rdbtnVerde.setSelected(true);
 	}
 	
 	private void desactivarAllCheckBoxes() {

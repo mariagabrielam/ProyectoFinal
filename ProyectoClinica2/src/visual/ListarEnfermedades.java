@@ -34,7 +34,7 @@ public class ListarEnfermedades extends JDialog {
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private Enfermedad selected = null;
+	private Enfermedad selectedEnfermedad = null;
 	private JButton btnUpdate_1;
 	private JButton btnDelete_1;
 	private JButton btnCancel_1;
@@ -56,7 +56,8 @@ public class ListarEnfermedades extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarEnfermedades() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarEnfermedades.class.getResource("/Iconos/virusIcon.png")));
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(ListarEnfermedades.class.getResource("/Iconos/virusIcon.png")));
 		setTitle("Listado de Enfermedades");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -73,19 +74,20 @@ public class ListarEnfermedades extends JDialog {
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
-					String[] header = {"Nombre","Enfermedad en Vigilacia","Prioridad de Triaje"};
+					String[] header = { "Id", "Nombre", "Vigilacia", "Prioridad de Triaje" };
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(header);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						   int index = table.getSelectedRow();
-						   if(index>=0){
-							  btnDelete_1.setEnabled(true);
-							  btnUpdate_1.setEnabled(true);
-							  selected =Hospital.getInstance().buscarEnfermedadByNombre(table.getValueAt(index, 0).toString());
-						   }
+							int index = table.getSelectedRow();
+							if (index >= 0) {
+								btnDelete_1.setEnabled(true);
+								btnUpdate_1.setEnabled(true);
+								selectedEnfermedad = Hospital.getInstance()
+										.buscarEnfermedadById(table.getValueAt(index, 0).toString());
+							}
 						}
 					});
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -103,7 +105,7 @@ public class ListarEnfermedades extends JDialog {
 				btnUpdate_1 = new JButton("Actualizar");
 				btnUpdate_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						RegEnfermedad update= new RegEnfermedad(selected);
+						RegEnfermedad update = new RegEnfermedad(selectedEnfermedad);
 						update.setModal(true);
 						update.setVisible(true);
 					}
@@ -117,16 +119,19 @@ public class ListarEnfermedades extends JDialog {
 				btnDelete_1 = new JButton("Eliminar");
 				btnDelete_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int Option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el queso con código: "+selected.getNombre(), "Eliminar", JOptionPane.OK_CANCEL_OPTION);
-						if(Option == JOptionPane.OK_OPTION){
-					    	Hospital.getInstance().eliminarEnfermedad(selected);
-					    	loadEnfermedades();
-					    	btnDelete_1.setEnabled(false);
-					    	btnUpdate_1.setEnabled(false);	    	
-					    }
+						int Option = JOptionPane.showConfirmDialog(null,
+								"Seguro desea eliminar el queso con código: " + selectedEnfermedad.getNombre(),
+								"Eliminar", JOptionPane.OK_CANCEL_OPTION);
+						if (Option == JOptionPane.OK_OPTION) {
+							Hospital.getInstance().eliminarEnfermedad(selectedEnfermedad);
+							loadEnfermedades();
+							btnDelete_1.setEnabled(false);
+							btnUpdate_1.setEnabled(false);
+						}
 					}
 				});
-				btnDelete_1.setEnabled(false);;
+				btnDelete_1.setEnabled(false);
+				;
 				buttonPane.add(btnDelete_1);
 			}
 			{
@@ -142,16 +147,18 @@ public class ListarEnfermedades extends JDialog {
 		}
 		loadEnfermedades();
 	}
+
 	public static void loadEnfermedades() {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
-		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()){
-		  row[0] = enferm.getNombre();
-		  row[1] = enferm.isVigilancia();
-		  row[2] = enferm.getPrioridadTriaje();
-		  model.addRow(row);
+		for (Enfermedad enferm : Hospital.getInstance().getMisEnfermedades()) {
+			row[0] = enferm.getId();
+			row[1] = enferm.getNombre();
+			row[2] = enferm.isVigilancia() ? "Si" : "No";
+			row[3] = enferm.getPrioridadTriaje();
+			model.addRow(row);
 		}
-		
+
 	}
 
 }

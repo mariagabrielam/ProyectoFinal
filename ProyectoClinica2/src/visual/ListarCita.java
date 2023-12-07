@@ -133,6 +133,7 @@ public class ListarCita extends JDialog {
 				int index = tblAgenda.getSelectedRow();
 				if (index > 0) {
 					selectedCita = Hospital.getInstance().buscarCitaById(tblAgenda.getValueAt(index, 0).toString());
+					btnOk.setEnabled(true);
 				}
 
 			}

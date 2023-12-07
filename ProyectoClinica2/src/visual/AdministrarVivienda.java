@@ -163,6 +163,8 @@ public class AdministrarVivienda extends JDialog {
 					btnReg.setEnabled(false);
 					btnBuscar.setEnabled(false);
 					pacientesVivienda = selectedViv.getMisPersonas();
+					Hospital.getInstance().addVivienda(selectedViv);
+					btnReg.setText("Registrar Nueva Vivienda");
 					loadTablas();
 				}
 			}

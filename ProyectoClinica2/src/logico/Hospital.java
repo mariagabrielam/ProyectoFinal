@@ -217,7 +217,7 @@ public class Hospital implements Serializable {
 	
 	public void addVivienda(Vivienda vivienda) {
 		misViviendas.add(vivienda);
-		codigoVivienda = getCodigoVivienda() + 1;
+		codigoVivienda++;
 	}
 	
 	public void addCita(Cita cita) {
@@ -227,7 +227,7 @@ public class Hospital implements Serializable {
 	
 	public void addVacuna(Vacuna vacuna) {
 		misVacunas.add(vacuna);
-		codigoVacuna = getCodigoVacuna() + 1;
+		codigoVacuna++;
 	}
 	
 	public void addConsulta(Consulta aux) {

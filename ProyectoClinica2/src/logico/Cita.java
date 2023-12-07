@@ -13,6 +13,7 @@ public class Cita implements Serializable {
 	private Persona proxPaciente;
 	private Doctor miDoctor;
 	private Date fchProgramada;
+	private boolean estado;
 
 	public Cita(String id, Persona proxPaciente, Doctor miDoctor, Date fchProgramada) {
 		super();
@@ -20,6 +21,7 @@ public class Cita implements Serializable {
 		this.proxPaciente = proxPaciente;
 		this.miDoctor = miDoctor;
 		this.fchProgramada = fchProgramada;
+		this.estado = false;
 	}
 
 	public String getId() {
@@ -52,6 +54,14 @@ public class Cita implements Serializable {
 
 	public void setFchProgramada(Date fchProgramada) {
 		this.fchProgramada = fchProgramada;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -97,6 +98,7 @@ public class RegVacuna extends JDialog {
 			panel.add(lblNewLabel);
 			
 			txtLote = new JTextField();
+			txtLote.setEditable(false);
 			txtLote.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -104,6 +106,7 @@ public class RegVacuna extends JDialog {
 				}
 			});
 			txtLote.setBounds(80, 29, 106, 20);
+			txtLote.setText("V-"+Hospital.getCodigoVacuna());
 			panel.add(txtLote);
 			txtLote.setColumns(10);
 			
@@ -225,7 +228,7 @@ public class RegVacuna extends JDialog {
 		btnMove.setBounds(196, 114, 83, 23);
 		panel_1.add(btnMove);
 		{
-			JLabel lblNewLabel_3 = new JLabel("Enfermedades:");
+			JLabel lblNewLabel_3 = new JLabel("Enfermedad/es:");
 			lblNewLabel_3.setBounds(19, 22, 105, 16);
 			panel_1.add(lblNewLabel_3);
 		}
@@ -248,7 +251,12 @@ public class RegVacuna extends JDialog {
 							Vacuna laVacuna= new Vacuna(txtLote.getText(), txtNombre.getText(),allEnferm,new Integer(spnCantVacuna.getValue().toString()));
 							Hospital.getInstance().addVacuna(laVacuna);
 							ListarEnfermedades.loadEnfermedades();
-							dispose();
+							JOptionPane.showMessageDialog(null, "Operación Satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}else {
+							miVacuna.setNombre(txtNombre.getText());
+							miVacuna.setCant(new Integer(spnCantVacuna.getValue().toString()));
+							miVacuna.setMisEnfermedad(enfermVacuna);
 						}
 						
 					}
@@ -302,5 +310,11 @@ public class RegVacuna extends JDialog {
 		}else {
 			btnRegistrar.setEnabled(false);
 		}
+	}
+	
+	private void clean() {
+		txtLote.setText("S-"+Hospital.getCodigoVacuna());
+		spnCantVacuna.setValue(new Integer(1));
+		txtNombre.setText("");
 	}
 }

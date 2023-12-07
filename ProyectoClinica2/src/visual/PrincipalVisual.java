@@ -182,7 +182,7 @@ public class PrincipalVisual extends JFrame {
 		mnPaciente.add(mntmNewMenuItem);
 		
 		mnAdmin = new JMenu("Administraci\u00F3n");
-		menuBar.add(mnAdmin); 
+		menuBar.add(mnAdmin);  
 		
 		JMenu mnNewMenu = new JMenu("Usuarios");
 		mnAdmin.add(mnNewMenu);

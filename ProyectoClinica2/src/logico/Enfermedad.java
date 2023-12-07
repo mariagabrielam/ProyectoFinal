@@ -4,12 +4,12 @@ public class Enfermedad {
 	
 	private String nombre;
 	private String[] sintomas;
-	private String[] precauciones;
+	private String precauciones;
 	private String procedimientos;
 	private boolean vigilancia;
 	private int prioridadTriaje;
 
-	public Enfermedad(String nombre, String[] sintomas, String[] precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
+	public Enfermedad(String nombre, String[] sintomas, String precauciones, String procedimientos, boolean vigilancia, int prioridadTriaje) {
 		super();
 		
 		this.nombre = nombre;
@@ -32,10 +32,10 @@ public class Enfermedad {
 	public void setSintomas(String[] sintomas) {
 		this.sintomas = sintomas;
 	}
-	public String[] getPrecauciones() {
+	public String getPrecauciones() {
 		return precauciones;
 	}
-	public void setPrecauciones(String[] precauciones) {
+	public void setPrecauciones(String precauciones) {
 		this.precauciones = precauciones;
 	}
 	public boolean isVigilancia() {

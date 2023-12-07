@@ -46,27 +46,25 @@ public class RegEnfermedad extends JDialog {
 	private JRadioButton rdbtnRojo;
 	private JRadioButton rdbtnAmarillo;
 	private JRadioButton rdbtnVerde;
+	private Enfermedad miEnfermedad=null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			RegEnfermedad dialog = new RegEnfermedad(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegEnfermedad(Enfermedad enfermedad) {
-		
-		setTitle("Registrar Enfermedad");
+	public RegEnfermedad(Enfermedad laEnfermedad) {
+		miEnfermedad=laEnfermedad;
+		setResizable(false);
+		if(miEnfermedad==null) {
+			setTitle("Registrar Enfermedad");
+		}else {
+			setTitle("Modificar Enfermedad");
+		}
 		setBounds(100, 100, 450, 478);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -176,15 +174,36 @@ public class RegEnfermedad extends JDialog {
 		panel.add(rdbtnVigilancia);
 		
 		rdbtnVerde = new JRadioButton("Verde");
+		rdbtnVerde.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnVerde.setSelected(true);
+				rdbtnAmarillo.setSelected(false);
+				rdbtnRojo.setSelected(false);
+			}
+		});
 		rdbtnVerde.setSelected(true);
 		rdbtnVerde.setBounds(286, 354, 70, 23);
 		panel.add(rdbtnVerde);
 		
 		rdbtnAmarillo = new JRadioButton("Amarillo");
+		rdbtnAmarillo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnVerde.setSelected(false);
+				rdbtnAmarillo.setSelected(true);
+				rdbtnRojo.setSelected(false);
+			}
+		});
 		rdbtnAmarillo.setBounds(187, 354, 84, 23);
 		panel.add(rdbtnAmarillo);
 		
 		rdbtnRojo = new JRadioButton("Rojo");
+		rdbtnRojo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnVerde.setSelected(false);
+				rdbtnAmarillo.setSelected(false);
+				rdbtnRojo.setSelected(true);
+			}
+		});
 		rdbtnRojo.setBounds(112, 354, 56, 23);
 		panel.add(rdbtnRojo);
 		
@@ -197,8 +216,23 @@ public class RegEnfermedad extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
+				if(miEnfermedad!=null) {
+					btnRegistrar.setText("Modificar");
+				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(miEnfermedad==null) {
+							int prioridadTriaje=0;
+							if(rdbtnRojo.isSelected())
+								prioridadTriaje=1;
+
+							if(rdbtnAmarillo.isSelected())
+								prioridadTriaje=2;
+							if(rdbtnVerde.isSelected())
+								prioridadTriaje=3;
+							
+							Enfermedad laEnfermedad= new Enfermedad(txtNombre.getText(),cargarSintomas(), txtPrecauciones.getText(), txtProcedimientos.getText(),rdbtnVigilancia.isSelected(), prioridadTriaje);
+						}
 					}
 				});
 				btnRegistrar.setEnabled(false);
@@ -233,5 +267,42 @@ public class RegEnfermedad extends JDialog {
 		}else {
 			btnRegistrar.setEnabled(false);
 		}
+	}
+	
+	private String[] cargarSintomas() {
+		String[] sintomas=null;
+		if(ckbxTos.isSelected())
+			sintomas[0]=ckbxTos.getText();
+		if(ckbxFiebre.isSelected())
+			sintomas[1]=ckbxFiebre.getText();
+		if(ckbxDolorCor.isSelected())
+			sintomas[2]=ckbxDolorCor.getText();
+		if(ckbxVomitos.isSelected())
+			sintomas[3]=ckbxVomitos.getText();
+		if(ckbxDiarrea.isSelected())
+			sintomas[4]=ckbxDiarrea.getText();
+		if(ckbxDolorCab.isSelected())
+			sintomas[5]=ckbxDolorCab.getText();
+		if(ckbxNauseas.isSelected())
+			sintomas[6]=ckbxNauseas.getText();
+		if(ckbxMareo.isSelected())
+			sintomas[7]=ckbxMareo.getText();
+		if(ckbxFatiga.isSelected())
+			sintomas[8]=ckbxFatiga.getText();
+		
+		return sintomas;
+	}
+	
+	private int determinarPrioridadTriaje(String rdbtnTriaje) {
+		if(rdbtnTriaje.equalsIgnoreCase("Verde")) {
+			return 3;
+		}
+		if(rdbtnTriaje.equalsIgnoreCase("Amarillo")) {
+			return 2;
+		}
+		if(rdbtnTriaje.equalsIgnoreCase("Rojo")) {
+			return 1;
+		}
+		return 0;
 	}
 }

@@ -26,9 +26,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.Doctor;
 import logico.Empleado;
 import logico.Hospital;
-import logico.Persona;
 import logico.Usuario;
 
 public class CrearUsuario extends JDialog {
@@ -44,7 +44,7 @@ public class CrearUsuario extends JDialog {
 	private JComboBox<Object> cbxTipo;
 	private static DefaultTableModel model;
 	private static Object[] row;
-	private Persona selected = null;
+	private Empleado selected = null;
 	private JButton okButton;
 	private JScrollPane panelScroll;
 	private JTable tblPersona;
@@ -123,9 +123,14 @@ public class CrearUsuario extends JDialog {
 		cbxTipo = new JComboBox<Object>();
 		cbxTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(cbxTipo.getSelectedIndex()>0) {
+				if(cbxTipo.getSelectedIndex()==1) {
+					loadDoctor();
 					panEmpleado.setVisible(true);
-					loadPersonas();
+				}
+				else if(cbxTipo.getSelectedIndex()==2)
+				{
+					loadEmpleado();
+					panEmpleado.setVisible(true);
 				}
 				habilitarButton();
 			}
@@ -158,10 +163,8 @@ public class CrearUsuario extends JDialog {
 				int index = tblPersona.getSelectedRow();
 				   if(index>=0){
 					   okButton.setEnabled(true);
-					   if(cbxTipo.getSelectedIndex()==2)
+					   if(cbxTipo.getSelectedIndex()>0)
 						   selected = Hospital.getInstance().buscarDoctorById(tblPersona.getValueAt(index, 0).toString());
-					   else
-						   selected = Hospital.getInstance().buscarPacienteByNHC(tblPersona.getValueAt(index, 0).toString());
 				   }
 				   habilitarButton();
 			}
@@ -207,16 +210,30 @@ public class CrearUsuario extends JDialog {
 			okButton.setEnabled(true);
 	}
 
-	private void loadPersonas()
+	private void loadDoctor()
 	{
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
-		for (Persona aux: Hospital.getInstance().getMisPersonas()) {
-		  if(aux instanceof Empleado) {
-			  row[0] = ((Empleado) aux).getId();
+		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
+		  if(aux instanceof Doctor) {
+			  row[0] = aux.getId();
 			  row[1] = aux.getNombre();
 			  row[2] = aux.getCedula();
-			  row[3] = ((Empleado) aux).getCargo();
+			  row[3] = aux.getCargo();
+			  model.addRow(row);
+		  }
+		}	
+	}
+	private void loadEmpleado()
+	{
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		for (Empleado aux: Hospital.getInstance().getMisEmpleados()) {
+		  if(!(aux instanceof Doctor)) {
+			  row[0] = aux.getId();
+			  row[1] = aux.getNombre();
+			  row[2] = aux.getCedula();
+			  row[3] = aux.getCargo();
 			  model.addRow(row);
 		  }
 		}

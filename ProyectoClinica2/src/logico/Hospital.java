@@ -346,5 +346,17 @@ public class Hospital implements Serializable {
 				return aux;
 		}
 		return null;
+	}
+
+	public ArrayList<Empleado> getMisEmpleados() {
+		ArrayList<Empleado> misEmpleados = new ArrayList<>();
+		for (Persona aux : misPersonas) {
+			if(aux instanceof Empleado)
+			{
+				misEmpleados.add((Empleado)aux);
+			}
+		}
+	return misEmpleados;
+
 	}  
 }

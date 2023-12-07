@@ -158,24 +158,49 @@ public class PrincipalVisual extends JFrame {
 		menuBar.add(mnPaciente);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar Pacientes");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarPaciente listPaciente = new ListarPaciente();
+				listPaciente.setModal(true);
+				listPaciente.setVisible(true);
+			}
+		});
 		mnPaciente.add(mntmNewMenuItem);
 		
 		mnAdmin = new JMenu("Administraci\u00F3n");
 		menuBar.add(mnAdmin);
 		
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Crear Usuario");
-		mnAdmin.add(mntmNewMenuItem_7);
+		JMenu mnNewMenu = new JMenu("Usuarios");
+		mnAdmin.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Enfermedad");
-		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Crear Usuario");
+		mnNewMenu.add(mntmNewMenuItem_7);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar Usuario");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
-				regEnfermedad.setModal(true);
-				regEnfermedad.setVisible(true);
+				ListarUsuarios listUser = new ListarUsuarios();
+				listUser.setModal(true);
+				listUser.setVisible(true);
 			}
 		});
+		mnNewMenu.add(mntmNewMenuItem_5);
+		
+		JMenu mnNewMenu_1 = new JMenu("Empleados");
+		mnAdmin.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar Empleado");
+		mnNewMenu_1.add(mntmNewMenuItem_3);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Doctores");
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarDoctor doc = new ListarDoctor();
+				doc.setModal(true);
+				doc.setVisible(true);
+			}
+		});
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -188,10 +213,12 @@ public class PrincipalVisual extends JFrame {
 				}
 			}
 		});
-		mnAdmin.add(mntmNewMenuItem_3);
-		mnAdmin.add(mntmNewMenuItem_8);
+		
+		JMenu mnNewMenu_2 = new JMenu("Vacunas");
+		mnAdmin.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar Vacuna");
+		mnNewMenu_2.add(mntmNewMenuItem_9);
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegVacuna regVacuna = new RegVacuna(null);
@@ -199,19 +226,28 @@ public class PrincipalVisual extends JFrame {
 				regVacuna.setVisible(true);
 			}
 		});
-		mnAdmin.add(mntmNewMenuItem_9);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Doctores");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		JMenu mnNewMenu_3 = new JMenu("New menu");
+		mnAdmin.add(mnNewMenu_3);
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Enfermedad");
+		mnNewMenu_3.add(mntmNewMenuItem_8);
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarDoctor doc = new ListarDoctor();
-				doc.setModal(true);
-				doc.setVisible(true);
+				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
+				regEnfermedad.setModal(true);
+				regEnfermedad.setVisible(true);
 			}
 		});
-		mnAdmin.add(mntmNewMenuItem_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Administrar Viviendas");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AdministrarVivienda adminViv = new AdministrarVivienda();
+				adminViv.setModal(true);
+				adminViv.setVisible(true);
+			}
+		});
 		mnAdmin.add(mntmNewMenuItem_2);
 		
 		JButton btnCerraSesion = new JButton("Cerrar Sesi\u00F3n");

@@ -314,7 +314,6 @@ public class RegCita extends JDialog {
 							String NHC = formatearNumero(String.valueOf(Hospital.getCodigoPaciente()));
 							miPersona = new Paciente(NHC, txtCedula.getText(), txtNombre.getText(),
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
-							Hospital.getInstance().addPersona(miPersona);
 						}
 						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraInicio.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);

@@ -205,8 +205,6 @@ public class Hospital implements Serializable {
 		}else {
 			codigoPaciente++;
 		}
-			
-		
 	}
 
 	public void addUsuario(Usuario aux) {

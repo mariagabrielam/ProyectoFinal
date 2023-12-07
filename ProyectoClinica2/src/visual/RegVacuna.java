@@ -305,7 +305,7 @@ public class RegVacuna extends JDialog {
 	}
 	
 	private void habilitarBoton() {
-		if(!txtLote.getText().isEmpty() && !txtNombre.getText().isEmpty()&&enfermVacuna.size()>0) {
+		if(!txtLote.getText().isEmpty() && !txtNombre.getText().isEmpty( )&& enfermVacuna.size()>0) {
 			btnRegistrar.setEnabled(true);
 		}else {
 			btnRegistrar.setEnabled(false);

@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Vivienda;
+import java.awt.Toolkit;
 
 public class AdministrarVivienda extends JDialog {
 
@@ -70,6 +71,7 @@ public class AdministrarVivienda extends JDialog {
 	 * Create the dialog.
 	 */
 	public AdministrarVivienda() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AdministrarVivienda.class.getResource("/Iconos/casaIcon.png")));
 		pacientesHospital = Hospital.getInstance().getMisPacientes();
 		loadPacientesHospital();
 		setTitle("Administrar Viviendas");

@@ -42,6 +42,7 @@ import logico.Doctor;
 import logico.Hospital;
 import logico.Paciente;
 import logico.Persona;
+import java.awt.Toolkit;
 
 public class RegCita extends JDialog {
 
@@ -88,6 +89,7 @@ public class RegCita extends JDialog {
 	 * @throws ParseException
 	 */
 	public RegCita() throws ParseException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegCita.class.getResource("/Iconos/clipboardIcon.png")));
 
 		setResizable(false);
 		setLocationRelativeTo(null); // Pantalla en el centro

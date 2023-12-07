@@ -29,6 +29,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class RegDoctor extends JDialog {
 
@@ -71,7 +72,8 @@ public class RegDoctor extends JDialog {
 	 * @throws ParseException
 	 */
 	public RegDoctor() throws ParseException {
-		setTitle("Registrar Doctor");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegDoctor.class.getResource("/Iconos/estetoscopioIcon.png")));
+		setTitle("Registrar Empleado");
 		setBounds(100, 100, 445, 392);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

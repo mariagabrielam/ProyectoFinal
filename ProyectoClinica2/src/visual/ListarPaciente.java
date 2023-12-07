@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class ListarPaciente extends JDialog {
 
@@ -67,7 +68,8 @@ public class ListarPaciente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarPaciente() {
-		setTitle("Lista de Pacientes");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarPaciente.class.getResource("/Iconos/pacienteIcon.png")));
+		setTitle("Listado de Pacientes");
 		setBounds(100, 100, 605, 529);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

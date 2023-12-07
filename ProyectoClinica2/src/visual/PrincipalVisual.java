@@ -37,6 +37,7 @@ import logico.Persona;
 import logico.Vacuna;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class PrincipalVisual extends JFrame {
 
@@ -93,6 +94,8 @@ public class PrincipalVisual extends JFrame {
 	 * Create the frame.
 	 */
 	public PrincipalVisual() {
+		setTitle("Hospital CIM");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalVisual.class.getResource("/Iconos/hospitalIcon.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

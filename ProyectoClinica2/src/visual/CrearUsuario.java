@@ -30,6 +30,7 @@ import logico.Doctor;
 import logico.Empleado;
 import logico.Hospital;
 import logico.Usuario;
+import java.awt.Toolkit;
 
 public class CrearUsuario extends JDialog {
 
@@ -67,6 +68,7 @@ public class CrearUsuario extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearUsuario() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearUsuario.class.getResource("/Iconos/userIcon.png")));
 		
 		setTitle("Crear Usuario");
 		setBounds(100, 100, 450, 485);

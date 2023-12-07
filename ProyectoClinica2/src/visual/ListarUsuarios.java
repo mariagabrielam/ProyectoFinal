@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Hospital;
 import logico.Usuario;
+import java.awt.Toolkit;
 
 public class ListarUsuarios extends JDialog {
 
@@ -45,6 +46,8 @@ public class ListarUsuarios extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarUsuarios() {
+		setTitle("Listado de Usuarios");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarUsuarios.class.getResource("/Iconos/userIcon.png")));
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

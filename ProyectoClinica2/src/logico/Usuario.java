@@ -7,7 +7,7 @@ public class Usuario implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -817185747685472215L;
 	private String username;
 	private String password;
 	private Empleado empleado;

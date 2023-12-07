@@ -84,8 +84,6 @@ public class ListarCita extends JDialog {
 					} else {
 						selectedDoctor = null;
 					}
-
-					imprimirTituloTabla();
 					loadCitas(selectedDoctor);
 					habilitarBoton();
 				}
@@ -125,7 +123,6 @@ public class ListarCita extends JDialog {
 		panel_Horas.add(scrollPane);
 
 		model = new DefaultTableModel();
-		imprimirTituloTabla();
 		tblAgenda = new JTable();
 		tblAgenda.addMouseListener(new MouseAdapter() {
 			@Override
@@ -172,16 +169,6 @@ public class ListarCita extends JDialog {
 		loadCitas(selectedDoctor);
 	}
 
-	private void imprimirTituloTabla() {
-		if (cbxDoctor.getSelectedIndex() > 0) {
-			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente" };
-			model.setColumnIdentifiers(header);
-		} else {
-			String[] header = { "Código", "Hora de Inicio", "Paciente" };
-			model.setColumnIdentifiers(header);
-		}
-	}
-
 	private void habilitarBoton() {
 		if (cbxDoctor.getSelectedIndex() > 0 && selectedCita != null) {
 			btnOk.setEnabled(true);
@@ -199,9 +186,12 @@ public class ListarCita extends JDialog {
 
 	private void loadCitas(Doctor doctor) {
 		model.setRowCount(0);
-		row = new Object[model.getColumnCount()];
+
 		if (doctor != null) // Tiene doctor
 		{
+			String[] header = { "Código", "Hora de Inicio", "Paciente" };
+			model.setColumnIdentifiers(header);
+			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
 				if (aux.getMiDoctor().getId().equalsIgnoreCase(doctor.getId())) {
 					row[0] = aux.getId();
@@ -211,6 +201,10 @@ public class ListarCita extends JDialog {
 				}
 			}
 		} else // No tiene
+		{
+			String[] header = { "Código", "Hora de Inicio", "Doctor", "Paciente" };
+			model.setColumnIdentifiers(header);
+			row = new Object[model.getColumnCount()];
 			for (Cita aux : Hospital.getInstance().getMisCitas()) {
 				row[0] = aux.getId();
 				row[1] = aux.getFchProgramada().getTime();
@@ -219,5 +213,6 @@ public class ListarCita extends JDialog {
 				model.addRow(row);
 			}
 
+		}
 	}
 }

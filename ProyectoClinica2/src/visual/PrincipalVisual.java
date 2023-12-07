@@ -28,9 +28,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Cita;
+import logico.Doctor;
+import logico.Empleado;
 import logico.Enfermedad;
 import logico.Hospital;
 import logico.Paciente;
+import logico.Persona;
 import logico.Vacuna;
 import javax.swing.UIManager;
 import java.awt.Color;
@@ -495,6 +498,26 @@ public class PrincipalVisual extends JFrame {
 		JLabel lblO = new JLabel("O- :");
 		lblO.setBounds(116, 168, 33, 16);
 		panel_2.add(lblO);
+		
+		JButton btnNewButton = new JButton("Generar Doctores");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Hospital.getCodigoDoctor() == 1 && Hospital.getCodigoEmpleado() == 1)
+				{
+					Persona Doc1 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-1341389-7", "Isaac", "829-393-1603", "La Vega", "Masculino", "Doctor", "10-5000", "Cardiologo");
+				Hospital.getInstance().addPersona(Doc1);
+				Persona Doc2 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-5866688-7", "Juan", "829-393-2020", "La Vega", "Masculino", "Doctor", "10-5888", "Podologo");
+				Hospital.getInstance().addPersona(Doc2);
+				
+				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
+				Hospital.getInstance().addPersona(Sec1);
+				}
+				
+				
+			}
+		});
+		btnNewButton.setBounds(12, 13, 159, 23);
+		contentPane.add(btnNewButton);
 		
 		load();
 		mostrarPrivilegios();

@@ -314,9 +314,11 @@ public class RegCita extends JDialog {
 									txtTelefono.getText(), txtDireccion.getText(), determimarSexo());
 							Hospital.getInstance().addPersona(miPersona);
 						}
-						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraFin.getValue());
+						Date fchProgramada = determinarFecha(calendario.getDate(), (Date) spnHoraInicio.getValue());
 						Cita nuevaCita = new Cita("C-" + Hospital.getCodigoCita(), miPersona, selected, fchProgramada);
+						System.out.println("NOMBRE "+miPersona.getNombre()+" Fecha "+fchProgramada);
 						Hospital.getInstance().addCita(nuevaCita);
+						txtCedula.setText("");
 						borrarCampos();
 					}
 				});

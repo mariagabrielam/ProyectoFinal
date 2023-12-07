@@ -94,6 +94,7 @@ public class PrincipalVisual extends JFrame {
 	 * Create the frame.
 	 */
 	public PrincipalVisual() {
+		setResizable(false);
 		setTitle("Hospital CIM");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalVisual.class.getResource("/Iconos/hospitalIcon.png")));
 		addWindowListener(new WindowAdapter() {
@@ -313,6 +314,25 @@ public class PrincipalVisual extends JFrame {
 			}
 		});
 		menuBar.add(btnCerraSesion);
+		
+		JButton btnNewButton = new JButton("Generar Doctores");
+		menuBar.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Hospital.getCodigoDoctor() == 1 && Hospital.getCodigoEmpleado() == 1)
+				{
+					Persona Doc1 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-1341389-7", "Isaac", "829-393-1603", "La Vega", "Masculino", "Doctor", "10-5000", "Cardiologo");
+				Hospital.getInstance().addPersona(Doc1);
+				Persona Doc2 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-5866688-7", "Juan", "829-393-2020", "La Vega", "Masculino", "Doctor", "10-5888", "Podologo");
+				Hospital.getInstance().addPersona(Doc2);
+				
+				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
+				Hospital.getInstance().addPersona(Sec1);
+				}
+				
+				
+			}
+		});
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -324,7 +344,7 @@ public class PrincipalVisual extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(417, 13, 317, 182);
+		panel.setBounds(437, 13, 297, 182);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -401,12 +421,12 @@ public class PrincipalVisual extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Citas de Hoy", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(12, 198, 485, 217);
+		panel_1.setBounds(12, 198, 487, 217);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 27, 461, 177);
+		scrollPane.setBounds(10, 21, 467, 185);
 		panel_1.add(scrollPane);
 		
 		
@@ -501,26 +521,6 @@ public class PrincipalVisual extends JFrame {
 		JLabel lblO = new JLabel("O- :");
 		lblO.setBounds(116, 168, 33, 16);
 		panel_2.add(lblO);
-		
-		JButton btnNewButton = new JButton("Generar Doctores");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Hospital.getCodigoDoctor() == 1 && Hospital.getCodigoEmpleado() == 1)
-				{
-					Persona Doc1 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-1341389-7", "Isaac", "829-393-1603", "La Vega", "Masculino", "Doctor", "10-5000", "Cardiologo");
-				Hospital.getInstance().addPersona(Doc1);
-				Persona Doc2 = new Doctor("D-"+Hospital.getCodigoDoctor(), "402-5866688-7", "Juan", "829-393-2020", "La Vega", "Masculino", "Doctor", "10-5888", "Podologo");
-				Hospital.getInstance().addPersona(Doc2);
-				
-				Persona Sec1 = new Empleado("S-"+Hospital.getCodigoEmpleado(), "131-5404855-1", "Juana", "829-555-6666", "La Vega", "Femenino", "Secretario");
-				Hospital.getInstance().addPersona(Sec1);
-				}
-				
-				
-			}
-		});
-		btnNewButton.setBounds(12, 13, 159, 23);
-		contentPane.add(btnNewButton);
 		
 		load();
 		mostrarPrivilegios();

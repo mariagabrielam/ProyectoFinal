@@ -129,7 +129,7 @@ public class MostrarHistorial extends JDialog {
 				prioButtons(3);
 			}
 		});
-		rbtnVerde.setBounds(268, 112, 127, 25);
+		rbtnVerde.setBounds(289, 112, 69, 25);
 		panel_2.add(rbtnVerde);
 		
 		rbtnAmarillo = new JRadioButton("Amarillo");
@@ -138,7 +138,7 @@ public class MostrarHistorial extends JDialog {
 				prioButtons(2);
 			}
 		});
-		rbtnAmarillo.setBounds(187, 112, 127, 25);
+		rbtnAmarillo.setBounds(203, 112, 84, 25);
 		panel_2.add(rbtnAmarillo);
 		
 		JLabel lblNewLabel_2 = new JLabel("Fecha Realizada:");
@@ -201,7 +201,7 @@ public class MostrarHistorial extends JDialog {
 				prioButtons(1);
 			}
 		});
-		rbtnRojo.setBounds(126, 112, 127, 25);
+		rbtnRojo.setBounds(126, 112, 56, 25);
 		panel_2.add(rbtnRojo);
 		String[] header = {"Código","Fecha","Doctor"};
 		model = new DefaultTableModel();

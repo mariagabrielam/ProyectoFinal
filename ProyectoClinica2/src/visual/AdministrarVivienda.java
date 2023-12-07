@@ -200,7 +200,7 @@ public class AdministrarVivienda extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblHospital.getSelectedRow();
-				if(index>0)
+				if(index>=0)
 				{
 					btnMove.setEnabled(true);
 					btnMove.setText(">>");
@@ -226,7 +226,7 @@ public class AdministrarVivienda extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int index = tblVivienda.getSelectedRow();
-				if(index>0)
+				if(index>=0)
 				{
 					btnMove.setEnabled(true);
 					btnMove.setText("<<");
@@ -242,7 +242,7 @@ public class AdministrarVivienda extends JDialog {
 		panTablas.add(btnMove);
 		btnMove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(btnMove.getText()==">>")
+				if(btnMove.getText().equalsIgnoreCase(">>"))
 				{
 					pacientesHospital.remove(selected);
 					pacientesVivienda.add(selected);
@@ -252,6 +252,7 @@ public class AdministrarVivienda extends JDialog {
 					pacientesHospital.add(selected);
 					pacientesVivienda.remove(selected);
 				}
+				loadTablas();
 			}
 		});
 		btnMove.setEnabled(false);
@@ -313,6 +314,7 @@ public class AdministrarVivienda extends JDialog {
 		{
 			row[0] = aux.getCedula();
 			row[1] = aux.getNombre();
+			model.addRow(row);
 		}
 		model1.setRowCount(0);
 		row1 =new Object[model1.getColumnCount()];
@@ -320,7 +322,8 @@ public class AdministrarVivienda extends JDialog {
 			for(Paciente aux:pacientesVivienda)
 			{
 				row1[0] = aux.getCedula();
-				row1[0] = aux.getNombre();
+				row1[1] = aux.getNombre();
+				model1.addRow(row1);
 			}
 	}
 }

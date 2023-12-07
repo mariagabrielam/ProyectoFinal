@@ -315,7 +315,7 @@ public class RegVacuna extends JDialog {
 	}
 	
 	private void clean() {
-		txtLote.setText("S-"+Hospital.getCodigoVacuna());
+		txtLote.setText("V-"+Hospital.getCodigoVacuna());
 		spnCantVacuna.setValue(new Integer(1));
 		txtNombre.setText("");
 	}

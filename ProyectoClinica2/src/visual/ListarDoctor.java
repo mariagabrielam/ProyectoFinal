@@ -113,7 +113,7 @@ public class ListarDoctor extends JDialog {
 		cbxEspecialidad = new JComboBox<Object>(especialidades);
 		cbxEspecialidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doctoresFiltrado = filtrarByEspecialidad(misDoctores, cbxEspecialidad.getSelectedItem().toString());
+				doctoresFiltrado = filtrarByEspecialidad(doctoresFiltrado, cbxEspecialidad.getSelectedItem().toString());
 				imprimirDoctores(doctoresFiltrado);
 			}
 		});
@@ -127,7 +127,7 @@ public class ListarDoctor extends JDialog {
 		cbxSexo = new JComboBox<Object>();
 		cbxSexo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doctoresFiltrado = filtrarBySexo(misDoctores, cbxEspecialidad.getSelectedItem().toString());
+				doctoresFiltrado = filtrarBySexo(doctoresFiltrado, cbxSexo.getSelectedItem().toString());
 				imprimirDoctores(doctoresFiltrado);
 			}
 		});
@@ -141,6 +141,7 @@ public class ListarDoctor extends JDialog {
 				cbxEspecialidad.setSelectedIndex(0);
 				cbxSexo.setSelectedIndex(0);
 				imprimirDoctores(misDoctores);
+				doctoresFiltrado = misDoctores;
 			}
 		});
 		btnBorrarFiltros.setBounds(346, 43, 134, 23);

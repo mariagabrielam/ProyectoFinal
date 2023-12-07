@@ -244,8 +244,10 @@ public class Hospital implements Serializable {
 	public boolean verificarUsuario(String username, String password) {
 		for(Usuario aux:misUsuarios) {
 			if(aux.getUsername().equals(username) && aux.getPassword().equals(password))
+			{
 				setLoginUser(aux);
 				return true;
+			}	
 		}
 		return false;
 		

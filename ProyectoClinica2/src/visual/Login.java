@@ -41,7 +41,7 @@ public class Login extends JDialog {
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
 	private JButton btnLogin;
-	
+
 	/**
 	 * Launch the application.
 	 * 
@@ -71,7 +71,7 @@ public class Login extends JDialog {
 						hospital2.close();
 						hospitalWrite.close();
 					} catch (FileNotFoundException e1) {
-						
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -145,7 +145,7 @@ public class Login extends JDialog {
 				txtUser.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {
-						
+
 					}
 				});
 				txtUser.addKeyListener(new KeyAdapter() {
@@ -179,15 +179,17 @@ public class Login extends JDialog {
 				btnLogin.setEnabled(false);
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//System.out.println("USER ["+txtUser.getText()+"] PASS ["+String.valueOf(txtPassword.getPassword())+"]");
+						// System.out.println("USER ["+txtUser.getText()+"] PASS
+						// ["+String.valueOf(txtPassword.getPassword())+"]");
 						if (Hospital.getInstance().verificarUsuario(txtUser.getText(),
 								String.valueOf(txtPassword.getPassword()))) {
-							
 							PrincipalVisual frame = new PrincipalVisual();
 							frame.setVisible(true);
 							dispose();
 						} else
 							JOptionPane.showMessageDialog(null, "Datos Erroneos", "Login", JOptionPane.ERROR_MESSAGE);
+							txtUser.setText("");
+							txtPassword.setText("");
 					}
 				});
 				btnLogin.setActionCommand("OK");
